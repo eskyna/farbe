@@ -1,8 +1,10 @@
-const CACHE_NAME = "eskyna-farben-v4";
+const APP_VERSION = "__ESKYNA_APP_VERSION__";
+const CACHE_NAME = `eskyna-farben-${APP_VERSION}`;
 const FALLBACK_URL = "/farbe/";
 const APP_SHELL = [
   "/farbe/",
   "/farbe/index.html",
+  "/farbe/version.json",
   "/farbe/manifest.webmanifest",
   "/farbe/styles.css",
   "/farbe/palettes.js",
@@ -193,7 +195,7 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))))
+    caches.keys().then((keys) => Promise.all(keys.filter((key) => key.startsWith('eskyna-farben-') && key !== CACHE_NAME).map((key) => caches.delete(key))))
   );
   self.clients.claim();
 });
@@ -206,16 +208,51 @@ self.addEventListener('message', (event) => {
 
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) return cached;
-      return fetch(event.request).then((response) => {
-        const copy = response.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy)).catch(() => {});
-        return response;
-      }).catch(() => {
-        if (event.request.mode === 'navigate') return caches.match(FALLBACK_URL);
-      });
-    })
-  );
+
+  const url = new URL(event.request.url);
+  if (url.origin !== self.location.origin) return;
+
+  if (shouldPreferNetwork(event.request, url)) {
+    event.respondWith(networkFirst(event.request));
+    return;
+  }
+
+  event.respondWith(staleWhileRevalidate(event.request));
 });
+
+function shouldPreferNetwork(request, url) {
+  return request.mode === 'navigate'
+    || request.destination === 'document'
+    || request.destination === 'script'
+    || request.destination === 'style'
+    || request.destination === 'manifest'
+    || url.pathname.endsWith('/version.json')
+    || url.pathname.endsWith('.html')
+    || url.pathname.endsWith('.js')
+    || url.pathname.endsWith('.css')
+    || url.pathname.endsWith('.webmanifest');
+}
+
+async function networkFirst(request) {
+  try {
+    const response = await fetch(request);
+    const cache = await caches.open(CACHE_NAME);
+    cache.put(request, response.clone()).catch(() => {});
+    return response;
+  } catch (error) {
+    const cached = await caches.match(request);
+    if (cached) return cached;
+    if (request.mode === 'navigate') return caches.match(FALLBACK_URL);
+    throw error;
+  }
+}
+
+async function staleWhileRevalidate(request) {
+  const cached = await caches.match(request);
+  const update = fetch(request).then(async (response) => {
+    const cache = await caches.open(CACHE_NAME);
+    cache.put(request, response.clone()).catch(() => {});
+    return response;
+  }).catch(() => null);
+  return cached || update;
+}

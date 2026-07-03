@@ -1880,8 +1880,8 @@ def overview_js() -> str:
   return read_repo_text(ROOT_DIR / "overview.js")
 
 
-def palette_app_js() -> str:
-  return read_repo_text(ROOT_DIR / "palette-app.js")
+def palette_app_js(build_version: str) -> str:
+  return read_repo_text(ROOT_DIR / "palette-app.js").replace("__ESKYNA_APP_VERSION__", build_version)
 
 
 def overview_html(base_path: str) -> str:
@@ -1944,14 +1944,18 @@ def manifest_json(palette: dict[str, Any], base_path: str) -> str:
     return json.dumps(manifest, ensure_ascii=False, indent=2) + "\n"
 
 
-def service_worker_js(palettes: list[dict[str, Any]], base_path: str) -> str:
+def service_worker_js(palettes: list[dict[str, Any]], base_path: str, build_version: str) -> str:
     _ = palettes
     content = rewrite_base_path(read_repo_text(ROOT_DIR / "sw.js"), base_path)
-    build_version = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
-    return content.replace(
-        'const CACHE_NAME = "eskyna-farben-v4";',
-        f'const CACHE_NAME = "eskyna-farben-{build_version}";'
-    )
+    return content.replace("__ESKYNA_APP_VERSION__", build_version)
+
+
+def version_json(build_version: str) -> str:
+    payload = {
+        "version": build_version,
+        "generatedAt": datetime.now(timezone.utc).isoformat()
+    }
+    return json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
 
 
 def readme_md(base_path: str) -> str:
@@ -1965,6 +1969,7 @@ def readme_md(base_path: str) -> str:
 
 def generate(output: Path) -> None:
   palettes = load_palettes()
+  build_version = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
   clean_output(output)
   farbe_dir = output
   farbe_dir.mkdir(parents=True, exist_ok=True)
@@ -1977,10 +1982,11 @@ def generate(output: Path) -> None:
   write_text(farbe_dir / "palettes.js", palettes_js(palettes))
   write_text(farbe_dir / "styles.css", styles_css())
   write_text(farbe_dir / "overview.js", overview_js())
-  write_text(farbe_dir / "palette-app.js", palette_app_js())
+  write_text(farbe_dir / "palette-app.js", palette_app_js(build_version))
   write_text(farbe_dir / "index.html", overview_html(DEFAULT_BASE_PATH))
   write_text(farbe_dir / "manifest.webmanifest", overview_manifest_json(DEFAULT_BASE_PATH))
-  write_text(farbe_dir / "sw.js", service_worker_js(palettes, DEFAULT_BASE_PATH))
+  write_text(farbe_dir / "version.json", version_json(build_version))
+  write_text(farbe_dir / "sw.js", service_worker_js(palettes, DEFAULT_BASE_PATH, build_version))
 
   for palette in palettes:
     palette_dir = farbe_dir / palette["slug"]

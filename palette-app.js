@@ -9,12 +9,17 @@ const installHint = document.getElementById('installHint');
 const splashScreen = document.getElementById('splashScreen');
 const colorFullscreen = document.getElementById('colorFullscreen');
 const ctx = previewCanvas.getContext('2d', { willReadFrequently: true });
+const ESKYNA_APP_VERSION = "__ESKYNA_APP_VERSION__";
+const UPDATE_CHECK_INTERVAL = 15 * 60 * 1000;
 const MATCH_THRESHOLD = 18;
 let deferredInstallPrompt = null;
 let fullscreenColor = null;
 let fullscreenColorIndex = null;
 let refreshingForUpdate = false;
 let waitingServiceWorker = null;
+let forceUpdateReload = false;
+let serviceWorkerRegistration = null;
+let updateCheckTimer = null;
 
 const slugFromPage = window.ESKYNA_PALETTE_SLUG || location.pathname.split('/').filter(Boolean).pop();
 const activePalette = window.ESKYNA_PALETTES.find((p) => p.slug === slugFromPage) || window.ESKYNA_PALETTES[0];
@@ -43,7 +48,7 @@ function renderPalette() {
     tile.style.setProperty('--label', readableTextColor(hex));
     tile.style.setProperty('--text-shadow', readableTextColor(hex) === '#fff' ? '0 1px 2px rgba(0,0,0,.55)' : '0 1px 2px rgba(255,255,255,.35)');
     tile.textContent = '';
-    tile.title = colorName + ' · ' + activePalette.name + ' · Feld ' + (Math.floor(index / 4) + 1) + '/' + ((index % 4) + 1);
+    tile.title = colorName + ' · ' + formatPaletteName(activePalette.name) + ' · Antippen für Farbwissen';
     tile.setAttribute('role', 'button');
     tile.setAttribute('tabindex', '0');
     tile.setAttribute('aria-label', colorName + ' erklären');
@@ -91,8 +96,7 @@ function toggleColorFullscreen(hex, index) {
 function showColorFullscreen(hex, index) {
   const story = getColorStory(hex, index, activePalette);
   const isDark = readableTextColor(hex) === '#fff';
-  const hasFieldIndex = Number.isInteger(index) && index >= 0;
-  const fieldLabel = hasFieldIndex ? 'Feld ' + (Math.floor(index / 4) + 1) + '/' + ((index % 4) + 1) : 'Gemessene Farbe';
+  const contextLabel = Number.isInteger(index) && index >= 0 ? formatPaletteName(activePalette.name) : 'Gemessene Farbe';
 
   fullscreenColor = hex;
   fullscreenColorIndex = index;
@@ -102,15 +106,14 @@ function showColorFullscreen(hex, index) {
   colorFullscreen.innerHTML = `
     <button class="color-fullscreen-close" type="button" aria-label="Farbansicht schließen">×</button>
     <article class="color-fullscreen-card" aria-label="Erklärung zu ${escapeHtml(story.name)}">
-      <div class="color-fullscreen-kicker">Farbwissen · ${escapeHtml(fieldLabel)}</div>
+      <div class="color-fullscreen-kicker">Farbwissen · ${escapeHtml(contextLabel)}</div>
       <div class="color-fullscreen-head">
         <span class="color-fullscreen-dot" style="background:${hex}"></span>
         <div>
           <h2>${escapeHtml(story.name)}</h2>
-          <p class="color-fullscreen-hex">${escapeHtml(hex)}</p>
+          <p class="color-fullscreen-hex">${escapeHtml(story.tone)}</p>
         </div>
       </div>
-      <p class="color-fullscreen-tone">${escapeHtml(story.tone)}</p>
       <div class="color-fullscreen-section">
         <span>Stilwissen</span>
         <p>${escapeHtml(story.fact)}</p>
@@ -153,7 +156,7 @@ function getColorStory(hex, index, palette) {
   const depthNote = getPaletteDepthNote(palette.name);
   return {
     name: color.name,
-    tone: color.tone + ' · ' + formatPaletteName(palette.name),
+    tone: color.tone,
     fact: color.fact,
     combinations: color.combinations + ' ' + paletteNote + ' ' + depthNote
   };
@@ -471,26 +474,74 @@ function drawImageToCanvas(img) {
 function analyzeCanvas() {
   const sampled = sampleCenterColor(previewCanvas, ctx);
   const match = findNearestColor(sampled, activePalette);
-  const isInPalette = match.delta <= MATCH_THRESHOLD;
-  const row = Math.floor(match.index / 4) + 1;
-  const col = (match.index % 4) + 1;
+  const fit = getPaletteFit(match.delta);
 
   const sampledName = describeColor(sampled.hex).name;
   const matchName = describeColor(match.hex).name;
 
-  result.classList.remove('hidden');
+  result.className = `result ${fit.className}`;
   result.innerHTML = `
     <button class="color-chip" type="button" style="background:${sampled.hex}" title="${escapeHtml(sampledName)} erklären" aria-label="Gemessene Farbe ${escapeHtml(sampledName)} erklären" data-fullscreen-color="${sampled.hex}"></button>
     <div class="result-main">
-      <div class="result-title">${isInPalette ? 'Auf dieser Palette' : 'Nicht auf dieser Palette'}</div>
+      <div class="result-eyebrow">Dein Farbcheck</div>
+      <div class="result-title">${escapeHtml(fit.title)}</div>
       <div class="result-meta">
-        Gemessene Farbe: ${escapeHtml(sampledName)}<br>
-        Nächster Ton: ${escapeHtml(matchName)} · Feld ${row}/${col}<br>
-        Abstand: ΔE ${match.delta.toFixed(1)}
+        Deine Farbe: <strong>${escapeHtml(sampledName)}</strong><br>
+        Ähnlichster Palettenton: <strong>${escapeHtml(matchName)}</strong>
       </div>
+      <div class="fit-meter" aria-label="Farbpassung: ${escapeHtml(fit.label)}">
+        <span style="width:${fit.score}%"></span>
+      </div>
+      <div class="result-advice">${escapeHtml(fit.advice)}</div>
     </div>
-    <button class="color-chip" type="button" style="background:${match.hex}" title="${escapeHtml(matchName)} erklären" aria-label="Nächsten Palettenton ${escapeHtml(matchName)} erklären" data-fullscreen-color="${match.hex}"></button>
+    <button class="color-chip" type="button" style="background:${match.hex}" title="${escapeHtml(matchName)} erklären" aria-label="Ähnlichsten Palettenton ${escapeHtml(matchName)} erklären" data-fullscreen-color="${match.hex}"></button>
   `;
+}
+
+function getPaletteFit(delta) {
+  if (delta <= 6) {
+    return {
+      className: 'result-fit-perfect',
+      title: 'Volltreffer für deine Farbkarte',
+      label: 'sehr nah am Palettenton',
+      score: 100,
+      advice: 'Diese Farbe kannst du wie einen Originalton deiner Farbkarte einsetzen. Sie eignet sich auch gut für größere Flächen wie Bluse, Kleid, Jacke oder Strick.'
+    };
+  }
+  if (delta <= 12) {
+    return {
+      className: 'result-fit-strong',
+      title: 'Sehr harmonisch',
+      label: 'stimmig und leicht kombinierbar',
+      score: 86,
+      advice: 'Die Farbe liegt sehr nah an deiner Palette. Sie wirkt besonders schön, wenn du sie mit ruhigen Basisfarben aus deiner Farbkarte kombinierst.'
+    };
+  }
+  if (delta <= MATCH_THRESHOLD) {
+    return {
+      className: 'result-fit-good',
+      title: 'Passt gut zur Farbkarte',
+      label: 'harmonisch, aber nicht ganz identisch',
+      score: 72,
+      advice: 'Die Richtung stimmt. Für ein besonders stimmiges Outfit wiederhole den ähnlichsten Palettenton noch einmal in Schmuck, Schuhen, Tasche oder Make-up.'
+    };
+  }
+  if (delta <= 30) {
+    return {
+      className: 'result-fit-soft',
+      title: 'Kann funktionieren – bewusst kombinieren',
+      label: 'nah dran, aber mit kleiner Abweichung',
+      score: 48,
+      advice: 'Die Farbe ist nicht ganz palette-rein. Trage sie lieber nicht direkt am Gesicht oder kombiniere sie mit starken Lieblingsfarben aus deiner Farbkarte.'
+    };
+  }
+  return {
+    className: 'result-fit-away',
+    title: 'Eher kein Idealton',
+    label: 'deutlich außerhalb der Farbkarte',
+    score: 22,
+    advice: 'Als kleines Detail kann die Farbe noch funktionieren. Für Oberteile, Schals oder Kleider ist ein Ton aus deiner Farbkarte meist schmeichelhafter.'
+  };
 }
 
 function sampleCenterColor(canvas, context) {
@@ -557,14 +608,17 @@ function registerServiceWorker() {
 
   window.addEventListener('load', async () => {
     try {
-      const registration = await navigator.serviceWorker.register('../sw.js', { scope: basePath });
+      serviceWorkerRegistration = await navigator.serviceWorker.register(
+        '../sw.js?v=' + encodeURIComponent(ESKYNA_APP_VERSION),
+        { scope: basePath, updateViaCache: 'none' }
+      );
 
-      if (registration.waiting && navigator.serviceWorker.controller) {
-        showUpdateButton(registration.waiting);
+      if (serviceWorkerRegistration.waiting && navigator.serviceWorker.controller) {
+        showUpdateButton(serviceWorkerRegistration.waiting);
       }
 
-      registration.addEventListener('updatefound', () => {
-        const newWorker = registration.installing;
+      serviceWorkerRegistration.addEventListener('updatefound', () => {
+        const newWorker = serviceWorkerRegistration.installing;
         if (!newWorker) return;
 
         newWorker.addEventListener('statechange', () => {
@@ -580,19 +634,72 @@ function registerServiceWorker() {
         window.location.reload();
       });
 
-      registration.update().catch(() => {});
+      await checkForAppUpdate();
+      startUpdateChecks();
     } catch (error) {
       // Kein sichtbarer Fehler: Die Farbkarte funktioniert auch ohne Service Worker.
     }
   });
 }
 
-function showUpdateButton(worker) {
-  if (!updateButton || !worker) return;
+function startUpdateChecks() {
+  if (updateCheckTimer) return;
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) checkForAppUpdate();
+  });
+  window.addEventListener('focus', checkForAppUpdate);
+  window.addEventListener('online', checkForAppUpdate);
+  updateCheckTimer = window.setInterval(checkForAppUpdate, UPDATE_CHECK_INTERVAL);
+}
 
-  waitingServiceWorker = worker;
+async function checkForAppUpdate() {
+  if (!serviceWorkerRegistration) return;
+
+  try {
+    await serviceWorkerRegistration.update();
+  } catch (error) {
+    // Ein fehlgeschlagener Check soll die Kundin nicht stören.
+  }
+
+  if (serviceWorkerRegistration.waiting && navigator.serviceWorker.controller) {
+    showUpdateButton(serviceWorkerRegistration.waiting);
+    return;
+  }
+
+  await checkRemoteVersion();
+}
+
+async function checkRemoteVersion() {
+  if (!isRealBuildVersion(ESKYNA_APP_VERSION)) return;
+  const basePath = window.ESKYNA_BASE_PATH || '/farbe/';
+
+  try {
+    const response = await fetch(basePath + 'version.json?check=' + Date.now(), {
+      cache: 'no-store',
+      headers: { 'Accept': 'application/json' }
+    });
+    if (!response.ok) return;
+    const data = await response.json();
+    if (data && data.version && data.version !== ESKYNA_APP_VERSION) {
+      showUpdateButton(null, true);
+    }
+  } catch (error) {
+    // Offline oder Server nicht erreichbar: kein sichtbarer Fehler.
+  }
+}
+
+function isRealBuildVersion(version) {
+  return typeof version === 'string' && version && !version.includes('__');
+}
+
+function showUpdateButton(worker, forceReload = false) {
+  if (!updateButton) return;
+
+  waitingServiceWorker = worker || null;
+  forceUpdateReload = Boolean(forceReload);
   hideInstallButton();
   updateButton.disabled = false;
+  updateButton.textContent = 'App aktualisieren';
   updateButton.classList.remove('hidden');
   document.body.classList.add('has-update');
 }
@@ -640,12 +747,29 @@ async function handleInstallClick() {
   showInstallButton();
 }
 
-function handleUpdateClick() {
-  if (!waitingServiceWorker) return;
+async function handleUpdateClick() {
+  if (!waitingServiceWorker && !forceUpdateReload) return;
 
   updateButton.disabled = true;
   updateButton.textContent = 'Aktualisiere ...';
-  waitingServiceWorker.postMessage({ type: 'SKIP_WAITING' });
+
+  if (waitingServiceWorker) {
+    waitingServiceWorker.postMessage({ type: 'SKIP_WAITING' });
+    return;
+  }
+
+  await clearAppCaches();
+  window.location.reload();
+}
+
+async function clearAppCaches() {
+  if (!('caches' in window)) return;
+  try {
+    const keys = await caches.keys();
+    await Promise.all(keys.filter((key) => key.startsWith('eskyna-farben-')).map((key) => caches.delete(key)));
+  } catch (error) {
+    // Cache-Löschung ist nur ein Komfortschritt.
+  }
 }
 
 function showInstallButton() {
