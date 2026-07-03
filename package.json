@@ -1,0 +1,41 @@
+{
+  "name": "eskyna-farbe",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Statischer Generator und PWA-Frontend fuer die ESKYNA Farbkarten.",
+  "type": "module",
+  "engines": {
+    "node": ">=22",
+    "npm": ">=10",
+    "python": ">=3.13"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "generate": "./bin/generate --output ./dist",
+    "build": "npm run clean && npm run generate",
+    "format": "node scripts/format.mjs",
+    "format:check": "node scripts/check-format.mjs",
+    "lint": "npm run lint:js && npm run lint:css && npm run lint:html && npm run lint:python",
+    "lint:js": "node scripts/lint-js.mjs",
+    "lint:css": "node scripts/lint-css.mjs",
+    "lint:html": "node scripts/lint-html.mjs",
+    "lint:python": "python3 -m py_compile bin/generate",
+    "validate": "node scripts/validate-source.mjs",
+    "validate:dist": "node scripts/validate-dist.mjs dist",
+    "check": "npm run format:check && npm run lint && npm run validate && npm run build && npm run validate:dist",
+    "serve": "python3 -m http.server 8080 --directory dist",
+    "lint:eslint": "eslint .",
+    "lint:stylelint": "stylelint \"**/*.css\"",
+    "lint:htmlhint": "htmlhint \"*.html\" \"templates/**/*.html\"",
+    "format:prettier": "prettier --write \"**/*.{js,mjs,cjs,css,html,json,md,yml,yaml}\""
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.18.0",
+    "eslint": "^9.18.0",
+    "globals": "^15.14.0",
+    "htmlhint": "^1.1.4",
+    "prettier": "^3.4.2",
+    "stylelint": "^16.12.0"
+  }
+}
+

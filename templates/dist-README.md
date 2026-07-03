@@ -27,3 +27,4 @@ Jede Farbkarte hat ein eigenes App-Icon. Lege vor dem Generieren die PNG-Dateien
 Pro Farbkarte werden nur `index.html` und `manifest.webmanifest` generiert.
 
 Hinweis: Kamera und PWA-Installation funktionieren auf Mobilgeräten nur zuverlässig mit HTTPS.
+

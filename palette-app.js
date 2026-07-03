@@ -1961,3 +1961,4 @@ function meanHp(C1p, C2p, h1p, h2p) {
 
 function deg2rad(deg) { return deg * Math.PI / 180; }
 function rad2deg(rad) { return rad * 180 / Math.PI; }
+

@@ -257,3 +257,4 @@ async function staleWhileRevalidate(request) {
   }).catch(() => null);
   return cached || update;
 }
+

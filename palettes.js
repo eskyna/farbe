@@ -1681,3 +1681,4 @@ window.ESKYNA_PALETTES = [
     "appName": "ESKYNA Farbe"
   }
 ];
+
