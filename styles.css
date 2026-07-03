@@ -80,6 +80,15 @@ h2 {
   font-weight: 500;
   letter-spacing: -.025em;
 }
+.palette-subtitle {
+  margin: 4px 0 0;
+  font-size: clamp(14px, 3.4vw, 20px);
+  line-height: 1.2;
+  color: var(--muted);
+  font-weight: 700;
+  letter-spacing: .01em;
+  text-transform: lowercase;
+}
 .overview-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -296,6 +305,13 @@ h2 {
 }
 .result-title { font-weight: 950; font-size: 18px; line-height: 1.1; }
 .result-meta { margin-top: 4px; color: var(--muted); font-size: 13px; line-height: 1.4; }
+.color-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  cursor: pointer;
+  touch-action: manipulation;
+}
 .hidden { display: none !important; }
 .palette-page .app {
   height: 100svh;
@@ -315,6 +331,10 @@ h2 {
 }
 .palette-page h1 {
   font-size: clamp(30px, 7vw, 42px);
+}
+.palette-page .palette-subtitle {
+  font-size: clamp(12px, 3vw, 16px);
+  margin-top: 2px;
 }
 .palette-page .palette-panel,
 .palette-page .check-panel {
@@ -398,6 +418,9 @@ h2 {
   .palette-page h1 {
     font-size: clamp(26px, 6vw, 34px);
   }
+  .palette-page .palette-subtitle {
+    font-size: 12px;
+  }
   .palette-page h2 {
     font-size: 21px;
   }
@@ -437,4 +460,5 @@ h2 {
   .palette-page .hero-logo { width: 42px; height: 42px; }
   .palette-page h1 { font-size: 26px; }
   .palette-page h2 { font-size: 19px; }
+  .palette-page .palette-subtitle { font-size: 11px; }
 }

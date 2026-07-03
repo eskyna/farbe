@@ -1744,7 +1744,7 @@ def load_palettes() -> list[dict[str, Any]]:
     grid = palette.get("grid")
     if len(grid) != 6 or any(len(row) != 4 for row in grid):
       raise RuntimeError(f"Palette {palette.get('slug')} hat kein 6x4 Raster")
-    palette["appName"] = "ESKYNA - " + palette["name"]
+    palette["appName"] = "ESKYNA Farbe"
   return palettes
 
 
@@ -1897,15 +1897,15 @@ def palette_html(palette: dict[str, Any], base_path: str) -> str:
 
 def overview_manifest_json(base_path: str) -> str:
   manifest = {
-    "name": "ESKYNA Farben",
-    "short_name": "ESKYNA Farben",
+    "name": "ESKYNA Farbe",
+    "short_name": "ESKYNA Farbe",
     "id": base_path,
     "start_url": base_path,
     "scope": base_path,
     "display": "standalone",
     "background_color": "#f7f2e8",
     "theme_color": "#f7f2e8",
-    "description": "ESKYNA Farben - Übersicht und installierbare Farbkarten",
+    "description": "ESKYNA Farbe - Übersicht und installierbare Farbkarten",
     "icons": [
       {"src": f"{base_path}icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
       {"src": f"{base_path}icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}

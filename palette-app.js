@@ -5,9 +5,11 @@ const previewCanvas = document.getElementById('previewCanvas');
 const result = document.getElementById('result');
 const installButton = document.getElementById('installButton');
 const installHint = document.getElementById('installHint');
+const colorFullscreen = document.getElementById('colorFullscreen');
 const ctx = previewCanvas.getContext('2d', { willReadFrequently: true });
 const MATCH_THRESHOLD = 18;
 let deferredInstallPrompt = null;
+let fullscreenColor = null;
 
 const slugFromPage = window.ESKYNA_PALETTE_SLUG || location.pathname.split('/').filter(Boolean).pop();
 const activePalette = window.ESKYNA_PALETTES.find((p) => p.slug === slugFromPage) || window.ESKYNA_PALETTES[0];
@@ -22,6 +24,7 @@ renderPalette();
 photoInput.addEventListener('change', handlePhoto);
 registerServiceWorker();
 initializeInstallPrompt();
+initializeColorFullscreen();
 
 function renderPalette() {
   paletteGrid.innerHTML = '';
@@ -33,8 +36,35 @@ function renderPalette() {
     tile.style.setProperty('--text-shadow', readableTextColor(hex) === '#fff' ? '0 1px 2px rgba(0,0,0,.55)' : '0 1px 2px rgba(255,255,255,.35)');
     tile.textContent = '';
     tile.title = activePalette.name + ' · Feld ' + (Math.floor(index / 4) + 1) + '/' + ((index % 4) + 1);
+    tile.addEventListener('click', () => toggleColorFullscreen(hex));
     paletteGrid.appendChild(tile);
   });
+}
+
+function initializeColorFullscreen() {
+  if (!colorFullscreen) return;
+  colorFullscreen.addEventListener('click', closeColorFullscreen);
+}
+
+function toggleColorFullscreen(hex) {
+  if (!colorFullscreen) return;
+
+  if (!colorFullscreen.classList.contains('hidden') && fullscreenColor === hex) {
+    closeColorFullscreen();
+    return;
+  }
+
+  fullscreenColor = hex;
+  colorFullscreen.style.background = hex;
+  colorFullscreen.classList.remove('hidden');
+  colorFullscreen.setAttribute('aria-hidden', 'false');
+}
+
+function closeColorFullscreen() {
+  if (!colorFullscreen) return;
+  colorFullscreen.classList.add('hidden');
+  colorFullscreen.setAttribute('aria-hidden', 'true');
+  fullscreenColor = null;
 }
 
 function handlePhoto(event) {
