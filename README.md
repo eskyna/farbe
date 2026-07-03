@@ -85,6 +85,21 @@ https://eskyna.com/farbe/light_warm_soft/
 
 Wichtig fuer PWA-Updates: Immer den kompletten Dist-Inhalt austauschen, besonders `sw.js`, `version.json`, `palette-app.js`, `i18n.js`, `palettes.js`, `styles.css` und alle geaenderten Assets. Browser koennen Service Worker aggressiv cachen; `version.json` und die Build-Version helfen der App, neue Versionen zu erkennen.
 
+
+## Farbe pruefen: Premium-Scan-Flow
+
+Der zentrale Kundinnen-Flow startet ueber **Farbe pruefen**. Auf Geraeten mit Kamera oeffnet die App einen Live-Scanner mit Zielkreis. Wenn die Kamera nicht verfuegbar ist, faellt die App auf die Bildauswahl zurueck. Die Messung nutzt mehrere Punkte innerhalb des Kreises, bewertet die Lichtqualitaet und vergleicht wahrnehmungsnah in Lab/CIEDE2000 statt mit naiver Hex-Distanz.
+
+Das Ergebnis zeigt bewusst kundinnenfreundlich:
+
+- Lichtqualitaet wie Tageslicht gut, zu dunkel, zu gelb oder Schatten erkannt
+- eine ehrliche Passung in Prozent statt Ja/Nein
+- Helligkeit, Waerme und Klarheit als leicht verstaendliche Dimensionen
+- konkrete Styling-Empfehlung bei Grenzfaellen, zum Beispiel klarer, frischer, heller oder weniger warm
+- die drei naechsten Farben aus dem eigenen Farbpass
+
+Bei schlechten Bedingungen zeigt die App lieber `Unsicher` und empfiehlt eine neue Messung bei neutralem Tageslicht. Das ist absichtlich so, weil Kamera, Licht und Stoffstruktur die Farbwahrnehmung beeinflussen.
+
 ## Personalisierte Kundinnen-Links
 
 Eine Farbkarte kann mit Kundinnenname geoeffnet werden:
@@ -120,9 +135,10 @@ Die fachlichen Anforderungen aus der Entwicklung sind als Gherkin-Szenarien unte
 - 24 Farbkarten mit je 24 Farben
 - Portrait-Raster 4 x 6 und Landscape-Raster 6 x 4
 - einzeiligen Landscape-Header und lesbare Aktionsleiste
-- ESKYNA Branding, Splashscreens, Hintergrundbild und klickbares Kleeblatt
+- ESKYNA Branding, Splashscreens inklusive Versionszeile, Hintergrundbild und klickbares Kleeblatt
 - Deutsch, Englisch und Russisch inklusive Palettennamen
 - Farbnamen, Farberklaerungen und keine doppelten Farbnamen innerhalb einer Karte
+- Premium-Scan-Flow mit Live-Kamera, Lichtqualitaet, mehreren Messpunkten, Prozentpassung und drei naechsten Farbpass-Toenen
 - kundinnentaugliche Farbpruefungs-Ergebnisse ohne technische Abstandswerte
 - PWA-Installations- und Update-Logik
 - personalisierte Kundinnen-Links ohne personenbezogene Daten in Manifesten

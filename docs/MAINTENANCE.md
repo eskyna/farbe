@@ -13,6 +13,27 @@ Regeln:
 - Farbcontent-Aenderungen mit den Szenarien in `features/requirements_color_guidance.feature` absichern.
 - Vor Release `npm run test:bdd` oder direkt `npm run check` ausfuehren.
 
+
+## Farbe-pruefen-Flow warten
+
+Der Flow ist ein Kernfeature der App. Er besteht aus:
+
+- Button `Farbe pruefen`
+- Live-Scanner mit Zielkreis und Bildfallback
+- Lichtqualitaetsbewertung
+- Sampling mehrerer Messpunkte im Kreis
+- Lab/CIEDE2000-Vergleich gegen die aktive Farbkarte
+- Prozentpassung, Helligkeit, Waerme, Klarheit
+- drei naechste Farben aus dem Farbpass
+- ehrlicher Unsicherheitsanzeige bei schlechtem Licht
+
+Wartungsregeln:
+
+- Keine sichtbaren technischen Messwerte wie Delta-E oder interne Abstaende anzeigen.
+- Bei schlechten Bedingungen immer Vertrauen vor scheinbarer Praezision stellen: `Unsicher` ist besser als ein falsches Kaufurteil.
+- Neue sichtbare Texte fuer `de`, `en`, `ru` pflegen.
+- Nach Aenderungen `features/requirements_color_guidance.feature` und die Steps pruefen.
+
 ## Paletten bearbeiten
 
 Die Paletten-Rohdaten liegen im Generator `bin/generate`. Jede Palette braucht:

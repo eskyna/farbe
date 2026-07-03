@@ -4,6 +4,9 @@ Alle nennenswerten Aenderungen an diesem Projekt werden hier dokumentiert.
 
 ## Unreleased
 
+- Splashscreen zeigt unten klein die generierte App-Version.
+- `Farbe pruefen` zum Premium-Scan-Flow erweitert: Live-Kamera mit Zielkreis, Bildfallback, Lichtqualitaet, mehrere Messpunkte, Prozentpassung, Helligkeit/Waerme/Klarheit, ehrliche Unsicherheitsanzeige und drei naechste Farbpass-Toene.
+- Behave/Cucumber-Requirements und Validierung fuer den neuen Scan-Flow ergaenzt.
 - Behave/Cucumber-Requirements hinzugefuegt, inklusive Tests fuer Layout, Branding, PWA-Install/Update, Personalisierung, i18n und Farberklaerungen.
 - `npm run test:bdd` und CI-Schritt fuer executable Requirements ergaenzt.
 - Landscape-Header nochmals verdichtet: Logo, `ESKYNA Farbe`, optionaler Kundinnenname und Palettenname bleiben in einer Zeile.

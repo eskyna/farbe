@@ -24,8 +24,11 @@ Interaktive Logik einer einzelnen Farbkarte:
 - aktive Palette anhand des Slugs finden
 - Farbfelder rendern
 - Vollbild-Farbansicht mit Farbnamen und Stilwissen
-- Kamerabild laden und mittlere Farbe pruefen
-- kundinnentaugliche Farbpassung anzeigen
+- Live-Scanner oeffnen oder Bildfallback ausloesen
+- Lichtqualitaet bewerten: Tageslicht, Dunkelheit, Gelbstich, Schatten
+- mehrere Messpunkte im Zielkreis robust mitteln
+- wahrnehmungsnah mit Lab/CIEDE2000 die naechsten Farbpass-Toene finden
+- kundinnentaugliche Farbpassung mit Prozent, Helligkeit, Waerme, Klarheit und Unsicherheitsnotiz anzeigen
 - Kundinnenname aus personalisierten Links lesen, speichern und anzeigen
 - Installationsprompt anzeigen, wenn verfuegbar
 - Update-Button anzeigen, wenn neue Version erkannt wird
@@ -42,7 +45,7 @@ Gesamtes visuelles System:
 - Header
 - Farbgrid
 - Bottom-Action-Bar
-- Splashscreen
+- Splashscreen inklusive Versionszeile
 - Vollbild-Farbkarte
 - Resultatkarte
 - Portrait-/Landscape-Regeln
@@ -79,6 +82,16 @@ Service Worker:
 2. Step Definition in `features/steps/requirements_steps.py` ergaenzen.
 3. Wenn echte Frontend-Logik ausgewertet werden muss, ein kleines Harness unter `features/support/` verwenden.
 4. `npm run test:bdd` und danach `npm run check` ausfuehren.
+
+
+### Den Farbe-pruefen-Flow aendern
+
+1. UI-Markup fuer Scanner in `templates/palette.html` pruefen.
+2. Scan-Logik in `palette-app.js` anpassen: `initializeScanFlow`, `sampleGarmentColor`, `assessLightQuality`, `findNearestColors` und `getPaletteFit`.
+3. Sichtbare Texte in `i18n.js` fuer `de`, `en`, `ru` pflegen.
+4. Resultat- und Scanner-Stile in `styles.css` pruefen.
+5. BDD-Szenarien in `features/requirements_color_guidance.feature` und Steps aktualisieren.
+6. `npm run build && npm run validate:dist` sowie Behave ausfuehren, wenn verfuegbar.
 
 ### Einen Buttontext aendern
 

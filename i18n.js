@@ -76,6 +76,67 @@
           advice: 'Als kleines Detail kann die Farbe noch funktionieren. Für Oberteile, Schals oder Kleider ist ein Ton aus deiner Farbkarte meist schmeichelhafter.'
         }
       },
+      scan: {
+        scannerAria: 'Farbe live prüfen',
+        hint: 'Kleidungsstück glatt in den Kreis halten.',
+        close: 'Scanner schließen',
+        capture: 'Jetzt Farbe prüfen',
+        fileFallback: 'Bild auswählen',
+        cameraFallback: 'Kamera nicht verfügbar. Du kannst ein Bild auswählen.',
+        measuredShort: 'Gemessen',
+        paletteShort: 'Palette',
+        nearestThree: 'Drei nächste Farben aus deinem Farbpass',
+        light: {
+          aria: 'Lichtqualität',
+          checking: 'Licht wird geprüft ...',
+          good: 'Tageslicht gut',
+          uncertain: 'Messung unsicher',
+          tooDark: 'zu dunkel',
+          dim: 'etwas dunkel',
+          tooBright: 'zu hell',
+          tooYellow: 'zu gelb',
+          shadow: 'Schatten erkannt',
+          unstable: 'Kreis nicht ruhig gefüllt'
+        },
+        verdict: {
+          veryGood: 'Passt sehr gut – {score} %',
+          good: 'Passt gut – {score} %',
+          almost: 'Fast passend – {score} %',
+          borderline: 'Grenzfall – {score} %',
+          notIdeal: 'Eher nicht ideal – {score} %',
+          unsure: 'Unsicher – bitte neu prüfen'
+        },
+        label: {
+          veryGood: 'sehr hohe Harmonie',
+          good: 'harmonisch',
+          almost: 'fast passend',
+          borderline: 'bewusst kombinieren',
+          notIdeal: 'außerhalb der Idealrichtung',
+          unsure: 'Bedingungen bitte verbessern'
+        },
+        dimension: {
+          brightness: { ok: 'Helligkeit passt', tooLight: 'etwas zu hell', tooDark: 'etwas zu dunkel' },
+          warmth: { ok: 'Wärme passt', tooWarm: 'etwas zu warm/gelb', tooCool: 'etwas zu kühl' },
+          clarity: { ok: 'Klarheit passt', tooClear: 'etwas zu klar/kräftig', tooMuted: 'etwas zu gedämpft' }
+        },
+        advice: {
+          veryGood: 'Helligkeit, Wärme und Klarheit wirken stimmig. Du kannst diesen Ton sehr gut nah am Gesicht oder als größere Fläche tragen.',
+          good: 'Die Richtung ist schön. Kombiniere dazu einen ruhigen Basis- oder Akzentton aus deinem Farbpass, dann wirkt der Look bewusst.',
+          tooMuted: 'Fast passend – aber etwas zu gedämpft. Nimm lieber eine klarere, frischere Variante.',
+          tooClear: 'Fast passend – aber etwas sehr kräftig. Eine ruhigere oder weniger leuchtende Variante wirkt meist edler.',
+          tooWarm: 'Fast passend – aber etwas zu warm. Suche nach einer weniger gelblichen Variante.',
+          tooCool: 'Fast passend – aber etwas zu kühl. Eine minimal wärmere Variante verbindet sich weicher mit deiner Karte.',
+          tooLight: 'Fast passend – aber etwas zu hell. Etwas mehr Tiefe gibt dem Outfit mehr Kontur.',
+          tooDark: 'Fast passend – aber etwas zu dunkel. Eine hellere Variante wirkt näher an deiner Farbkarte.',
+          checkAgain: 'Die Richtung kann stimmen, aber prüfe bei neutralem Tageslicht noch einmal, bevor du kaufst.',
+          neutral: 'Nutze den Ton eher als Detail und wiederhole einen sicheren Farbpass-Ton in Schmuck, Schuhen, Tasche oder Make-up.',
+          retry: 'Ich bin bei diesem Foto nicht sicher. Prüfe lieber noch einmal bei neutralem Tageslicht, ohne starken Schatten und ohne warmes Kunstlicht.'
+        },
+        confidence: {
+          good: 'Einschätzung aus {points} Messpunkten im Kreis. Kamera und Stoffstruktur können kleine Abweichungen erzeugen.',
+          warning: 'Die Empfehlung ist vorläufig, weil Licht oder Schatten die Kamera beeinflussen können. Bitte bei neutralem Tageslicht erneut prüfen.'
+        }
+      },
       paletteNotes: {
         warm: 'In einer warmen Palette wirken Creme, Gold, Camel, Cognac und warme Naturtöne besonders verbindend.',
         cool: 'In einer kühlen Palette verbinden Weiß, Silber, Taupe, Navy und kühle Rosé- oder Beerentöne den Look besonders sauber.',
@@ -176,6 +237,67 @@
         soft: { title: 'Can work - combine deliberately', label: 'close, but with a small shift', advice: 'This color is not completely palette-pure. Avoid wearing it directly next to the face or combine it with strong favorite colors from your color card.' },
         away: { title: 'Probably not an ideal tone', label: 'clearly outside the color card', advice: 'As a small detail, the color can still work. For tops, scarves or dresses, a tone from your color card will usually be more flattering.' }
       },
+      scan: {
+        scannerAria: 'Live color check',
+        hint: 'Hold the garment flat inside the circle.',
+        close: 'Close scanner',
+        capture: 'Check color now',
+        fileFallback: 'Choose image',
+        cameraFallback: 'Camera is not available. You can choose an image instead.',
+        measuredShort: 'Measured',
+        paletteShort: 'Palette',
+        nearestThree: 'Three closest colors from your color card',
+        light: {
+          aria: 'Light quality',
+          checking: 'Checking light ...',
+          good: 'Daylight good',
+          uncertain: 'Measurement uncertain',
+          tooDark: 'too dark',
+          dim: 'a little dim',
+          tooBright: 'too bright',
+          tooYellow: 'too yellow',
+          shadow: 'shadow detected',
+          unstable: 'circle not filled calmly'
+        },
+        verdict: {
+          veryGood: 'Fits very well – {score} %',
+          good: 'Fits well – {score} %',
+          almost: 'Almost right – {score} %',
+          borderline: 'Borderline – {score} %',
+          notIdeal: 'Probably not ideal – {score} %',
+          unsure: 'Uncertain – please scan again'
+        },
+        label: {
+          veryGood: 'very high harmony',
+          good: 'harmonious',
+          almost: 'almost right',
+          borderline: 'combine deliberately',
+          notIdeal: 'outside the ideal direction',
+          unsure: 'improve the conditions'
+        },
+        dimension: {
+          brightness: { ok: 'Brightness fits', tooLight: 'a little too light', tooDark: 'a little too dark' },
+          warmth: { ok: 'Warmth fits', tooWarm: 'a little too warm/yellow', tooCool: 'a little too cool' },
+          clarity: { ok: 'Clarity fits', tooClear: 'a little too clear/strong', tooMuted: 'a little too muted' }
+        },
+        advice: {
+          veryGood: 'Brightness, warmth and clarity look coherent. You can wear this tone close to the face or in a larger area.',
+          good: 'The direction is beautiful. Add a calm base tone or accent from your color card so the outfit looks intentional.',
+          tooMuted: 'Almost right, but a little too muted. Choose a clearer, fresher version.',
+          tooClear: 'Almost right, but quite intense. A calmer or less bright version will usually look more refined.',
+          tooWarm: 'Almost right, but a little too warm. Look for a less yellow version.',
+          tooCool: 'Almost right, but a little too cool. A slightly warmer version will connect more softly with your card.',
+          tooLight: 'Almost right, but a little too light. Slightly more depth will give the outfit more contour.',
+          tooDark: 'Almost right, but a little too dark. A lighter version will sit closer to your color card.',
+          checkAgain: 'The direction may be right, but check again in neutral daylight before buying.',
+          neutral: 'Use this tone more as a detail and repeat a safe color-card tone in jewelry, shoes, bag or make-up.',
+          retry: 'I am not confident with this photo. Please scan again in neutral daylight, without strong shadow or warm artificial light.'
+        },
+        confidence: {
+          good: 'Estimate based on {points} measuring points inside the circle. Camera and fabric texture can create small shifts.',
+          warning: 'This recommendation is provisional because light or shadow may influence the camera. Please check again in neutral daylight.'
+        }
+      },
       paletteNotes: {
         warm: 'In a warm palette, cream, gold, camel, cognac and warm natural shades pull the look together especially well.',
         cool: 'In a cool palette, white, silver, taupe, navy and cool rose or berry shades make combinations look especially clean.',
@@ -275,6 +397,67 @@
         good: { title: 'Хорошо подходит к карте', label: 'гармонично, но не полностью идентично', advice: 'Направление верное. Чтобы образ выглядел особенно цельно, повторите ближайший тон палитры в украшениях, обуви, сумке или макияже.' },
         soft: { title: 'Может сработать - сочетайте осознанно', label: 'близко, но есть небольшое смещение', advice: 'Цвет не совсем чистый для палитры. Лучше не носить его прямо у лица или сочетать с сильными любимыми цветами из вашей карты.' },
         away: { title: 'Скорее не идеальный тон', label: 'заметно вне цветовой карты', advice: 'Как маленькая деталь цвет ещё может работать. Для топов, шарфов или платьев тон из вашей цветовой карты обычно будет более комплиментарным.' }
+      },
+      scan: {
+        scannerAria: 'Живая проверка цвета',
+        hint: 'Держите вещь ровно внутри круга.',
+        close: 'Закрыть сканер',
+        capture: 'Проверить цвет сейчас',
+        fileFallback: 'Выбрать изображение',
+        cameraFallback: 'Камера недоступна. Можно выбрать изображение.',
+        measuredShort: 'Измерено',
+        paletteShort: 'Палитра',
+        nearestThree: 'Три ближайших цвета из вашей карты',
+        light: {
+          aria: 'Качество света',
+          checking: 'Проверяем свет ...',
+          good: 'Дневной свет хороший',
+          uncertain: 'Измерение неуверенное',
+          tooDark: 'слишком темно',
+          dim: 'немного темно',
+          tooBright: 'слишком светло',
+          tooYellow: 'слишком желтый свет',
+          shadow: 'обнаружена тень',
+          unstable: 'круг заполнен неравномерно'
+        },
+        verdict: {
+          veryGood: 'Очень хорошо подходит – {score} %',
+          good: 'Хорошо подходит – {score} %',
+          almost: 'Почти подходит – {score} %',
+          borderline: 'Пограничный вариант – {score} %',
+          notIdeal: 'Скорее не идеально – {score} %',
+          unsure: 'Неуверенно – проверьте ещё раз'
+        },
+        label: {
+          veryGood: 'очень высокая гармония',
+          good: 'гармонично',
+          almost: 'почти подходит',
+          borderline: 'сочетать осознанно',
+          notIdeal: 'вне идеального направления',
+          unsure: 'улучшите условия'
+        },
+        dimension: {
+          brightness: { ok: 'Светлота подходит', tooLight: 'немного светлее нужного', tooDark: 'немного темнее нужного' },
+          warmth: { ok: 'Теплота подходит', tooWarm: 'немного теплее/желтее', tooCool: 'немного холоднее' },
+          clarity: { ok: 'Чистота подходит', tooClear: 'немного слишком ярко', tooMuted: 'немного приглушенно' }
+        },
+        advice: {
+          veryGood: 'Светлота, теплота и чистота выглядят согласованно. Этот тон можно носить у лица или большой площадью.',
+          good: 'Направление красивое. Добавьте спокойный базовый тон или акцент из вашей карты, чтобы образ выглядел продуманно.',
+          tooMuted: 'Почти подходит, но немного приглушенно. Лучше взять более чистый и свежий вариант.',
+          tooClear: 'Почти подходит, но довольно интенсивно. Более спокойный или менее яркий вариант обычно выглядит благороднее.',
+          tooWarm: 'Почти подходит, но немного слишком тепло. Ищите менее желтоватый вариант.',
+          tooCool: 'Почти подходит, но немного слишком холодно. Чуть более теплый вариант мягче соединится с вашей картой.',
+          tooLight: 'Почти подходит, но немного светло. Чуть больше глубины даст образу контур.',
+          tooDark: 'Почти подходит, но немного темно. Более светлый вариант будет ближе к вашей карте.',
+          checkAgain: 'Направление может быть верным, но перед покупкой проверьте ещё раз при нейтральном дневном свете.',
+          neutral: 'Используйте этот тон скорее как деталь и повторите надежный тон карты в украшениях, обуви, сумке или макияже.',
+          retry: 'По этому фото я не уверена. Проверьте ещё раз при нейтральном дневном свете, без сильной тени и теплого искусственного света.'
+        },
+        confidence: {
+          good: 'Оценка основана на {points} точках измерения внутри круга. Камера и фактура ткани могут немного смещать цвет.',
+          warning: 'Рекомендация предварительная: свет или тень могут влиять на камеру. Проверьте ещё раз при нейтральном дневном свете.'
+        }
       },
       paletteNotes: {
         warm: 'В тёплой палитре особенно хорошо связывают образ кремовый, золото, кэмел, коньячный и тёплые природные оттенки.',

@@ -20,5 +20,6 @@ Feature: PWA-Installation, Update und Branding
   Scenario: ESKYNA Branding und Splashscreen sind verdrahtet
     Then die App nutzt das textile Hintergrundbild
     And der Splashscreen nutzt Hochkant- und Landscape-Bild
+    And der Splashscreen zeigt die App-Version in der untersten Zeile
     And die Buttons verwenden Montserrat und ESKYNA-Stilelemente
 

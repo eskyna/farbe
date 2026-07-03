@@ -47,7 +47,15 @@ const UI_TRANSLATION_KEYS = [
   'ui.colorKnowledge',
   'ui.styleKnowledge',
   'ui.combine',
-  'ui.fitMeter'
+  'ui.fitMeter',
+  'scan.scannerAria',
+  'scan.light.good',
+  'scan.light.tooDark',
+  'scan.light.tooYellow',
+  'scan.light.shadow',
+  'scan.verdict.veryGood',
+  'scan.verdict.unsure',
+  'scan.nearestThree'
 ];
 
 const SUPPORTED_LANGUAGES = ['de', 'en', 'ru'];
@@ -164,6 +172,10 @@ assert(!/Feldnummer|field number/i.test(sourceTexts), 'UI darf keine Feldnummern
 assert(!sourceTexts.includes('Foto wählen'), 'Button-Text "Foto wählen" darf nicht mehr verwendet werden.');
 assert(sourceTexts.includes('customerName'), 'Personalisierter Kundinnenname muss im Template/Frontend verdrahtet sein.');
 assert(sourceTexts.includes('CUSTOMER_NAME_QUERY_KEYS'), 'Personalisierte Links muessen im Frontend dokumentiert verarbeitet werden.');
+assert(sourceTexts.includes('splash-version'), 'Splashscreen muss die App-Version in der unteren Zeile anzeigen.');
+assert(sourceTexts.includes('SCAN_POINT_LAYOUT'), 'Farbe pruefen muss mehrere Messpunkte statt einzelner Pixel auswerten.');
+assert(sourceTexts.includes('findNearestColors(sampled, activePalette, 3)'), 'Farbe pruefen muss die drei naechsten Farbpass-Toene zeigen.');
+assert(sourceTexts.includes('assessLightQuality'), 'Farbe pruefen muss Lichtqualitaet bewerten.');
 
 for (const language of SUPPORTED_LANGUAGES) {
   const i18n = evaluateI18n(language);

@@ -58,6 +58,7 @@ for (const file of requiredFiles) {
 const version = readJson('version.json');
 assert(typeof version.version === 'string' && version.version.length > 0, 'version.json braucht eine version.');
 assert(readText('sw.js').includes(version.version), 'sw.js enthaelt nicht die Build-Version aus version.json.');
+assert(readText('index.html').includes('v' + version.version), 'Uebersicht-Splashscreen zeigt nicht die aktuelle Version.');
 
 const commonText = requiredFiles
   .filter((file) => /\.(html|js|css|json|webmanifest)$/.test(file))
@@ -74,6 +75,8 @@ for (const palette of palettes) {
 
   const paletteHtml = readText(`${palette.slug}/index.html`);
   assert(paletteHtml.includes('customerName'), `Palette ${palette.slug}: Personalisierungsplatz fehlt im HTML.`);
+  assert(paletteHtml.includes('v' + version.version), `Palette ${palette.slug}: Splashscreen zeigt nicht die aktuelle Version.`);
+  assert(paletteHtml.includes('cameraScanner'), `Palette ${palette.slug}: Live-Scanner fehlt im HTML.`);
 
   const manifest = readJson(`${palette.slug}/manifest.webmanifest`);
   assert(manifest.start_url?.includes(`/${palette.slug}/`), `Palette ${palette.slug}: start_url zeigt nicht auf die Palette.`);

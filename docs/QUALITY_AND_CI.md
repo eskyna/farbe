@@ -43,12 +43,13 @@ Die Gherkin-Szenarien liegen unter `features/requirements_*.feature`. Sie dokume
 - responsive Rasterung: Portrait 4 x 6, Landscape 6 x 4
 - kompakter einzeiliger Landscape-Header
 - lesbare Bottom-Buttons bei drei Aktionen
-- ESKYNA Branding, klickbares Kleeblatt, Splashscreen und Hintergrundbild
+- ESKYNA Branding, klickbares Kleeblatt, Splashscreen mit Versionszeile und Hintergrundbild
 - PWA-Installation nur bei Browser-Prompt und Update-Hinweis bei neuer Version
 - Deutsch, Englisch und Russisch inklusive Palettennamen
 - personalisierte Kundinnen-Links ohne personenbezogene Manifestdaten
 - Farberklaerungen fuer alle 576 Farbfelder
 - eindeutige Farbnamen innerhalb jeder Farbkarte
+- Premium-Scan-Flow mit Live-Kamera/Bildfallback, Lichtqualitaet, mehreren Messpunkten, Prozentpassung, Helligkeit/Waerme/Klarheit, drei naechsten Farbpass-Toenen und ehrlicher Unsicherheit
 - kundinnentaugliche Farbpruefung ohne sichtbare technische Abstandswerte
 - CI, Dependabot und Agenten-Dokumentation
 
@@ -89,6 +90,7 @@ Prueft unter anderem:
 - Quell-Icons und Referenzbilder vorhanden
 - keine Feldnummern in der UI
 - Personalisierungs-Hooks fuer Kundinnen-Links
+- Scan-Flow-Hooks fuer Lichtqualitaet, mehrere Messpunkte, drei naechste Farbpass-Toene und Splashscreen-Version
 - Basis-i18n fuer Deutsch, Englisch, Russisch
 - Behave/Cucumber-Teststruktur und `test:bdd`-Skript vorhanden
 
@@ -102,6 +104,7 @@ Prueft unter anderem:
 - keine Template-Platzhalter im Dist
 - je Palette `index.html`, Manifest und Icons vorhanden
 - Personalisierungsplatz im generierten Paletten-HTML vorhanden
+- Splashscreen-Version und Live-Scanner im generierten HTML vorhanden
 
 ## GitHub Actions
 

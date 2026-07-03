@@ -11,9 +11,10 @@ Dieses Projekt soll auch von KI-Agenten sicher wartbar sein. Diese Datei ist der
 5. **PWA-Update beachten.** Runtime-Aenderungen muessen nach dem Build eine neue Version in `version.json` und `sw.js` erzeugen.
 6. **Keine Feldnummern in der UI.** Farben werden ueber Namen und Stilwissen erklaert, nicht ueber Feldnummern.
 7. **Kundinnensprache statt Technik.** Beim Farbcheck keine technischen Delta-E-Werte anzeigen. Verwende klare, freundliche Styling-Einschaetzungen.
-8. **Personalisierung datensparsam halten.** Kundinnennamen nur aus Query-Parametern lesen und lokal speichern; niemals in Manifest, Cache-Namen, Build-Versionen oder Logs schreiben.
-9. **Requirements als Tests pflegen.** Neue Produktregeln gehoeren in `features/*.feature` und passende Steps in `features/steps/`.
-10. **Vor Abgabe pruefen.** Fuehre mindestens `npm run check` aus, sofern Node/Python/verfuegbare Dev-Abhaengigkeiten vorhanden sind.
+8. **Farbe pruefen ehrlich halten.** Live-Scanner, mehrere Messpunkte, Lichtqualitaet, Prozentpassung, Helligkeit/Waerme/Klarheit und drei naechste Farbpass-Toene sind Kernanforderungen. Bei schlechtem Licht lieber `Unsicher` anzeigen.
+9. **Personalisierung datensparsam halten.** Kundinnennamen nur aus Query-Parametern lesen und lokal speichern; niemals in Manifest, Cache-Namen, Build-Versionen oder Logs schreiben.
+10. **Requirements als Tests pflegen.** Neue Produktregeln gehoeren in `features/*.feature` und passende Steps in `features/steps/`.
+11. **Vor Abgabe pruefen.** Fuehre mindestens `npm run check` aus, sofern Node/Python/verfuegbare Dev-Abhaengigkeiten vorhanden sind.
 
 ## Typischer Arbeitsablauf
 
@@ -43,7 +44,7 @@ npm run serve
 | Layout, Buttons, Header, Landscape/Portrait | `styles.css`, `templates/palette.html`, `index.html` |
 | UI-Texte und Uebersetzungen | `i18n.js` |
 | Kundinnen-Personalisierung | `palette-app.js`, `i18n.js`, `templates/palette.html`, `styles.css` |
-| Farbcheck, Kameralogik, Install-/Update-Button | `palette-app.js` |
+| Farbcheck, Live-Scanner, Kameralogik, Lichtqualitaet, Install-/Update-Button | `palette-app.js`, `i18n.js`, `styles.css`, `templates/palette.html` |
 | Service Worker / Cache / Update | `sw.js`, `palette-app.js`, `bin/generate` |
 | Palettenwerte und Manifest-Erzeugung | `bin/generate` |
 | Uebersichtsseite | `overview.js`, `index.html` |
@@ -78,6 +79,15 @@ Siehe auch [`docs/CODE_MAP.md`](docs/CODE_MAP.md).
 - Bottom-Action-Bar darf keine abgeschnittenen Texte zeigen.
 - Header darf im Landscape nicht zu hoch sein.
 - `npm run format:check`, `npm run lint:css` und passende Behave-Szenarien muessen bestehen.
+
+
+### Farbe-pruefen-Scan-Flow
+
+- Der Button `Farbe pruefen` oeffnet nach Moeglichkeit den Live-Scanner mit Zielkreis; sonst wird die Bildauswahl genutzt.
+- Die Messung darf nicht auf einem einzelnen Pixel basieren. `SCAN_POINT_LAYOUT`, Kreis-Sampling und robuste Mittelung muessen erhalten bleiben.
+- Das Ergebnis zeigt Prozent, Lichtqualitaet, Helligkeit, Waerme, Klarheit, ehrliche Confidence-Hinweise und drei naechste Farbpass-Toene.
+- Bei Dunkelheit, Gelbstich, Schatten oder unstabiler Messung lieber unsicher formulieren und erneute Messung empfehlen.
+- Neue sichtbare Scan-Texte immer in Deutsch, Englisch und Russisch pflegen.
 
 ### Neue UI-Texte
 

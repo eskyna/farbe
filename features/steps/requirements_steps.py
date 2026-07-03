@@ -558,3 +558,75 @@ def step_quality_docs_document_bdd(context):
     assert_contains(quality, "Cucumber", "docs/QUALITY_AND_CI.md")
     assert_contains(quality, "Anforderungen", "docs/QUALITY_AND_CI.md")
 
+
+
+@then("der Scan-Flow nutzt Live-Kamera oder Bildfallback")
+def step_scan_flow_has_camera_and_fallback(context):
+    source = get_project(context).read_text("palette-app.js")
+    template = get_project(context).read_text("templates/palette.html")
+    assert_contains(template, 'id="scanButton"', "templates/palette.html")
+    assert_contains(template, 'id="cameraScanner"', "templates/palette.html")
+    assert_contains(source, "navigator.mediaDevices.getUserMedia", "palette-app.js")
+    assert_contains(source, "triggerPhotoInput", "palette-app.js")
+    assert_contains(source, "scannerFileFallback", "palette-app.js")
+
+
+@then("die App bewertet Tageslicht, Dunkelheit, Gelbstich und Schatten")
+def step_scan_flow_assesses_light(context):
+    source = get_project(context).read_text("palette-app.js")
+    i18n = get_project(context).read_text("i18n.js")
+    for token in ["assessLightQuality", "tooDark", "tooYellow", "shadow", "Tageslicht gut"]:
+        assert_contains(source + i18n, token, "Scan-Quellen")
+
+
+@then("die Messung nutzt mehrere Messpunkte im Kreis")
+def step_scan_uses_multiple_points(context):
+    source = get_project(context).read_text("palette-app.js")
+    assert_contains(source, "SCAN_POINT_LAYOUT", "palette-app.js")
+    assert_contains(source, "sampleGarmentColor", "palette-app.js")
+    assert_contains(source, "averagePatch", "palette-app.js")
+    assert_contains(source, "pointSamples", "palette-app.js")
+    assert_contains(source, "SCAN_TARGET_RADIUS_RATIO", "palette-app.js")
+
+
+@then("das Ergebnis zeigt Prozent, Helligkeit, Waerme und Klarheit")
+def step_scan_result_has_percent_and_dimensions(context):
+    source = get_project(context).read_text("palette-app.js")
+    i18n = get_project(context).read_text("i18n.js")
+    assert_contains(source, "fitScoreFromDelta", "palette-app.js")
+    assert_contains(source, "${fit.score}%", "palette-app.js")
+    for token in ["Helligkeit passt", "Wärme passt", "Klarheit passt"]:
+        assert_contains(i18n, token, "i18n.js")
+
+
+@then("die App zeigt die drei naechsten Farben aus dem Farbpass")
+def step_scan_shows_three_nearest_palette_colors(context):
+    source = get_project(context).read_text("palette-app.js")
+    assert_contains(source, "findNearestColors(sampled, activePalette, 3)", "palette-app.js")
+    assert_contains(source, "renderNearestPaletteMatches", "palette-app.js")
+    assert_contains(source, "nearest-palette-chip", "palette-app.js")
+    assert_contains(source, "scan.nearestThree", "palette-app.js")
+
+
+@then("schlechte Bedingungen werden als unsicher gekennzeichnet")
+def step_scan_is_honest_when_uncertain(context):
+    source = get_project(context).read_text("palette-app.js")
+    i18n = get_project(context).read_text("i18n.js")
+    assert_contains(source, "result-fit-unsure", "palette-app.js")
+    assert_contains(source, "confidenceMultiplier", "palette-app.js")
+    assert_contains(source, "scan.verdict.unsure", "palette-app.js")
+    assert_contains(i18n, "Unsicher – bitte neu prüfen", "i18n.js")
+    assert_contains(i18n, "Ich bin bei diesem Foto nicht sicher", "i18n.js")
+
+
+@then("der Splashscreen zeigt die App-Version in der untersten Zeile")
+def step_splash_shows_version(context):
+    project = get_project(context)
+    template = project.read_text("templates/palette.html")
+    index = project.read_text("index.html")
+    css = project.read_text("styles.css")
+    assert_contains(template, "splash-version", "templates/palette.html")
+    assert_contains(index, "splash-version", "index.html")
+    assert_contains(template, "__ESKYNA_APP_VERSION__", "templates/palette.html")
+    assert_contains(css, ".splash-version", "styles.css")
+    assert_contains(css, "bottom: calc(10px + env(safe-area-inset-bottom));", "styles.css")

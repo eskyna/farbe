@@ -23,3 +23,11 @@ Feature: Kundinnentaugliche Farberklaerungen
     And die Ergebnisansicht verwendet freundliche Passungsstufen
     And die gemessene Farbe und der naechste Palettenton sind fuer Erklaerungen antippbar
 
+
+  Scenario: Farbe pruefen ist ein ehrlicher Premium-Scan-Flow
+    Then der Scan-Flow nutzt Live-Kamera oder Bildfallback
+    And die App bewertet Tageslicht, Dunkelheit, Gelbstich und Schatten
+    And die Messung nutzt mehrere Messpunkte im Kreis
+    And das Ergebnis zeigt Prozent, Helligkeit, Waerme und Klarheit
+    And die App zeigt die drei naechsten Farben aus dem Farbpass
+    And schlechte Bedingungen werden als unsicher gekennzeichnet

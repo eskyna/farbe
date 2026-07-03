@@ -1888,11 +1888,11 @@ def palette_app_js(build_version: str) -> str:
   return read_repo_text(ROOT_DIR / "palette-app.js").replace("__ESKYNA_APP_VERSION__", build_version)
 
 
-def overview_html(base_path: str) -> str:
-  return rewrite_base_path(read_repo_text(ROOT_DIR / "index.html"), base_path)
+def overview_html(base_path: str, build_version: str) -> str:
+  return rewrite_base_path(read_repo_text(ROOT_DIR / "index.html"), base_path).replace("__ESKYNA_APP_VERSION__", build_version)
 
 
-def palette_html(palette: dict[str, Any], base_path: str) -> str:
+def palette_html(palette: dict[str, Any], base_path: str, build_version: str) -> str:
   name = escape(palette["name"])
   app_name = escape(palette["appName"])
   slug = escape(palette["slug"])
@@ -1904,6 +1904,7 @@ def palette_html(palette: dict[str, Any], base_path: str) -> str:
       "__PALETTE_SLUG__": slug,
       "__BASE_PATH__": base_path,
       "__TELEGRAM_BOT_URL__": DEFAULT_TELEGRAM_BOT_URL,
+      "__ESKYNA_APP_VERSION__": build_version,
     },
   )
 
@@ -1988,7 +1989,7 @@ def generate(output: Path) -> None:
   write_text(farbe_dir / "overview.js", overview_js())
   write_text(farbe_dir / "i18n.js", i18n_js())
   write_text(farbe_dir / "palette-app.js", palette_app_js(build_version))
-  write_text(farbe_dir / "index.html", overview_html(DEFAULT_BASE_PATH))
+  write_text(farbe_dir / "index.html", overview_html(DEFAULT_BASE_PATH, build_version))
   write_text(farbe_dir / "manifest.webmanifest", overview_manifest_json(DEFAULT_BASE_PATH))
   write_text(farbe_dir / "version.json", version_json(build_version))
   write_text(farbe_dir / "sw.js", service_worker_js(palettes, DEFAULT_BASE_PATH, build_version))
@@ -1996,7 +1997,7 @@ def generate(output: Path) -> None:
   for palette in palettes:
     palette_dir = farbe_dir / palette["slug"]
     palette_dir.mkdir(parents=True, exist_ok=True)
-    write_text(palette_dir / "index.html", palette_html(palette, DEFAULT_BASE_PATH))
+    write_text(palette_dir / "index.html", palette_html(palette, DEFAULT_BASE_PATH, build_version))
     write_text(palette_dir / "manifest.webmanifest", manifest_json(palette, DEFAULT_BASE_PATH))
 
   url_map = [

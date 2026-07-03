@@ -162,7 +162,14 @@ function evaluateI18n(activeLanguage) {
       updateApp: i18n.t('ui.updateApp'),
       colorKnowledge: i18n.t('ui.colorKnowledge'),
       styleKnowledge: i18n.t('ui.styleKnowledge'),
-      combine: i18n.t('ui.combine')
+      combine: i18n.t('ui.combine'),
+      scanScanner: i18n.t('scan.scannerAria'),
+      scanLightGood: i18n.t('scan.light.good'),
+      scanLightTooDark: i18n.t('scan.light.tooDark'),
+      scanLightTooYellow: i18n.t('scan.light.tooYellow'),
+      scanLightShadow: i18n.t('scan.light.shadow'),
+      scanVerdict: i18n.t('scan.verdict.veryGood', { score: '91' }),
+      scanNearestThree: i18n.t('scan.nearestThree')
     },
     paletteName: i18n.formatPaletteName('light warm clear'),
     pageTitleFor: i18n.getPageTitle('light warm clear', 'Melissa'),

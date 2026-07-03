@@ -1,5 +1,6 @@
 const paletteGrid = document.getElementById('paletteGrid');
 const photoInput = document.getElementById('photoInput');
+const scanButton = document.getElementById('scanButton');
 const previewWrap = document.getElementById('previewWrap');
 const previewCanvas = document.getElementById('previewCanvas');
 const result = document.getElementById('result');
@@ -8,10 +9,36 @@ const updateButton = document.getElementById('updateButton');
 const installHint = document.getElementById('installHint');
 const splashScreen = document.getElementById('splashScreen');
 const colorFullscreen = document.getElementById('colorFullscreen');
+const cameraScanner = document.getElementById('cameraScanner');
+const scannerVideo = document.getElementById('scannerVideo');
+const scannerCanvas = document.getElementById('scannerCanvas');
+const scannerQuality = document.getElementById('scannerQuality');
+const scannerHint = document.getElementById('scannerHint');
+const scannerClose = document.getElementById('scannerClose');
+const scannerCapture = document.getElementById('scannerCapture');
+const scannerFileFallback = document.getElementById('scannerFileFallback');
 const ctx = previewCanvas.getContext('2d', { willReadFrequently: true });
+const scannerCtx = scannerCanvas ? scannerCanvas.getContext('2d', { willReadFrequently: true }) : null;
 const ESKYNA_APP_VERSION = "__ESKYNA_APP_VERSION__";
 const UPDATE_CHECK_INTERVAL = 15 * 60 * 1000;
 const MATCH_THRESHOLD = 18;
+const SCAN_TARGET_RADIUS_RATIO = 0.18;
+const SCAN_POINT_LAYOUT = [
+  [0, 0],
+  [-0.46, 0],
+  [0.46, 0],
+  [0, -0.46],
+  [0, 0.46],
+  [-0.34, -0.34],
+  [0.34, -0.34],
+  [-0.34, 0.34],
+  [0.34, 0.34],
+  [-0.68, 0],
+  [0.68, 0],
+  [0, -0.68],
+  [0, 0.68]
+];
+const SCANNER_QUALITY_INTERVAL = 520;
 const CUSTOMER_NAME_STORAGE_PREFIX = 'eskyna-farbe-customer-name:';
 const CUSTOMER_NAME_QUERY_KEYS = ['name', 'kundin', 'customer', 'client'];
 let deferredInstallPrompt = null;
@@ -22,6 +49,8 @@ let waitingServiceWorker = null;
 let forceUpdateReload = false;
 let serviceWorkerRegistration = null;
 let updateCheckTimer = null;
+let cameraStream = null;
+let scannerQualityTimer = null;
 
 const slugFromPage = window.ESKYNA_PALETTE_SLUG || location.pathname.split('/').filter(Boolean).pop();
 const activePalette = window.ESKYNA_PALETTES.find((p) => p.slug === slugFromPage) || window.ESKYNA_PALETTES[0];
@@ -1031,7 +1060,8 @@ if (paletteNameNode) paletteNameNode.textContent = formatPaletteName(activePalet
 applyStaticTranslations();
 initializeSplashScreen();
 renderPalette();
-photoInput.addEventListener('change', handlePhoto);
+if (photoInput) photoInput.addEventListener('change', handlePhoto);
+initializeScanFlow();
 registerServiceWorker();
 initializeInstallPrompt();
 initializeColorFullscreen();
@@ -1100,6 +1130,7 @@ function applyStaticTranslations() {
   const actionBar = document.querySelector('.bottom-action-bar');
   const fileButtonText = document.querySelector('.bottom-file-button > span:last-of-type');
   const telegramButton = document.querySelector('.telegram-button');
+  const scannerStage = document.querySelector('.camera-scanner');
 
   if (brandWord) brandWord.textContent = I18N.t('ui.brandWord');
   if (customerName) {
@@ -1119,6 +1150,12 @@ function applyStaticTranslations() {
   if (actionBar) actionBar.setAttribute('aria-label', I18N.t('ui.actions'));
   if (fileButtonText) fileButtonText.textContent = I18N.t('ui.colorCheck');
   if (telegramButton) telegramButton.textContent = I18N.t('ui.styleQuestion');
+  if (scannerStage) scannerStage.setAttribute('aria-label', I18N.t('scan.scannerAria'));
+  if (scannerQuality) scannerQuality.textContent = I18N.t('scan.light.checking');
+  if (scannerHint) scannerHint.textContent = I18N.t('scan.hint');
+  if (scannerClose) scannerClose.setAttribute('aria-label', I18N.t('scan.close'));
+  if (scannerCapture) scannerCapture.textContent = I18N.t('scan.capture');
+  if (scannerFileFallback) scannerFileFallback.textContent = I18N.t('scan.fileFallback');
   if (installButton) installButton.textContent = I18N.t('ui.installApp');
   if (updateButton) updateButton.textContent = I18N.t('ui.updateApp');
   if (colorFullscreen) colorFullscreen.setAttribute('aria-label', I18N.t('ui.fullscreenAria'));
@@ -1160,7 +1197,60 @@ function createFallbackI18n() {
         'ui.updateApp': 'App aktualisieren',
         'ui.updating': 'Aktualisiere ...',
         'ui.pageTitle': 'ESKYNA Farbe - {palette}',
-        'ui.pageTitleFor': 'ESKYNA Farbe für {name} - {palette}'
+        'ui.pageTitleFor': 'ESKYNA Farbe für {name} - {palette}',
+        'scan.scannerAria': 'Farbe live prüfen',
+        'scan.hint': 'Kleidungsstück glatt in den Kreis halten.',
+        'scan.close': 'Scanner schließen',
+        'scan.capture': 'Jetzt Farbe prüfen',
+        'scan.fileFallback': 'Bild auswählen',
+        'scan.cameraFallback': 'Kamera nicht verfügbar. Du kannst ein Bild auswählen.',
+        'scan.measuredShort': 'Gemessen',
+        'scan.paletteShort': 'Palette',
+        'scan.nearestThree': 'Drei nächste Farben aus deinem Farbpass',
+        'scan.light.aria': 'Lichtqualität',
+        'scan.light.checking': 'Licht wird geprüft ...',
+        'scan.light.good': 'Tageslicht gut',
+        'scan.light.uncertain': 'Messung unsicher',
+        'scan.light.tooDark': 'zu dunkel',
+        'scan.light.dim': 'etwas dunkel',
+        'scan.light.tooBright': 'zu hell',
+        'scan.light.tooYellow': 'zu gelb',
+        'scan.light.shadow': 'Schatten erkannt',
+        'scan.light.unstable': 'Kreis nicht ruhig gefüllt',
+        'scan.verdict.veryGood': 'Passt sehr gut – {score} %',
+        'scan.verdict.good': 'Passt gut – {score} %',
+        'scan.verdict.almost': 'Fast passend – {score} %',
+        'scan.verdict.borderline': 'Grenzfall – {score} %',
+        'scan.verdict.notIdeal': 'Eher nicht ideal – {score} %',
+        'scan.verdict.unsure': 'Unsicher – bitte neu prüfen',
+        'scan.label.veryGood': 'sehr hohe Harmonie',
+        'scan.label.good': 'harmonisch',
+        'scan.label.almost': 'fast passend',
+        'scan.label.borderline': 'bewusst kombinieren',
+        'scan.label.notIdeal': 'außerhalb der Idealrichtung',
+        'scan.label.unsure': 'Bedingungen bitte verbessern',
+        'scan.dimension.brightness.ok': 'Helligkeit passt',
+        'scan.dimension.brightness.tooLight': 'etwas zu hell',
+        'scan.dimension.brightness.tooDark': 'etwas zu dunkel',
+        'scan.dimension.warmth.ok': 'Wärme passt',
+        'scan.dimension.warmth.tooWarm': 'etwas zu warm/gelb',
+        'scan.dimension.warmth.tooCool': 'etwas zu kühl',
+        'scan.dimension.clarity.ok': 'Klarheit passt',
+        'scan.dimension.clarity.tooClear': 'etwas zu klar/kräftig',
+        'scan.dimension.clarity.tooMuted': 'etwas zu gedämpft',
+        'scan.advice.veryGood': 'Helligkeit, Wärme und Klarheit wirken stimmig.',
+        'scan.advice.good': 'Die Richtung ist schön. Kombiniere dazu einen ruhigen Basis- oder Akzentton aus deinem Farbpass.',
+        'scan.advice.tooMuted': 'Fast passend – aber etwas zu gedämpft. Nimm lieber eine klarere, frischere Variante.',
+        'scan.advice.tooClear': 'Fast passend – aber etwas sehr kräftig. Eine ruhigere Variante wirkt meist edler.',
+        'scan.advice.tooWarm': 'Fast passend – aber etwas zu warm. Suche nach einer weniger gelblichen Variante.',
+        'scan.advice.tooCool': 'Fast passend – aber etwas zu kühl. Eine minimal wärmere Variante verbindet sich weicher.',
+        'scan.advice.tooLight': 'Fast passend – aber etwas zu hell. Etwas mehr Tiefe gibt dem Outfit mehr Kontur.',
+        'scan.advice.tooDark': 'Fast passend – aber etwas zu dunkel. Eine hellere Variante wirkt näher an deiner Farbkarte.',
+        'scan.advice.checkAgain': 'Prüfe bei neutralem Tageslicht noch einmal, bevor du kaufst.',
+        'scan.advice.neutral': 'Nutze den Ton eher als Detail und wiederhole einen sicheren Farbpass-Ton.',
+        'scan.advice.retry': 'Ich bin bei diesem Foto nicht sicher. Prüfe lieber noch einmal bei neutralem Tageslicht.',
+        'scan.confidence.good': 'Einschätzung aus {points} Messpunkten im Kreis.',
+        'scan.confidence.warning': 'Die Empfehlung ist vorläufig, weil Licht oder Schatten die Kamera beeinflussen können.'
       }[path] || path;
       return String(fallback).replace(/\{([a-zA-Z0-9_]+)\}/g, (match, key) => replacements && key in replacements ? replacements[key] : match);
     },
@@ -1566,6 +1656,156 @@ function escapeHtml(value) {
   }[char]));
 }
 
+function initializeScanFlow() {
+  if (scanButton) scanButton.addEventListener('click', handleScanButtonClick);
+  if (scannerClose) scannerClose.addEventListener('click', closeCameraScanner);
+  if (scannerCapture) scannerCapture.addEventListener('click', captureScannerFrame);
+  if (scannerFileFallback) scannerFileFallback.addEventListener('click', () => {
+    closeCameraScanner();
+    triggerPhotoInput();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && cameraScanner && !cameraScanner.classList.contains('hidden')) {
+      closeCameraScanner();
+    }
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) closeCameraScanner();
+  });
+}
+
+function handleScanButtonClick() {
+  if (canUseLiveScanner()) {
+    openCameraScanner();
+    return;
+  }
+
+  triggerPhotoInput();
+}
+
+function canUseLiveScanner() {
+  return Boolean(
+    cameraScanner &&
+    scannerVideo &&
+    navigator.mediaDevices &&
+    typeof navigator.mediaDevices.getUserMedia === 'function'
+  );
+}
+
+function triggerPhotoInput() {
+  if (!photoInput || typeof photoInput.click !== 'function') return;
+  photoInput.value = '';
+  photoInput.click();
+}
+
+async function openCameraScanner() {
+  if (!canUseLiveScanner()) {
+    triggerPhotoInput();
+    return;
+  }
+
+  closeCameraScanner({ keepHidden: true });
+  cameraScanner.classList.remove('hidden');
+  cameraScanner.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('scanner-open');
+  updateScannerQualityBadge({ label: I18N.t('scan.light.checking'), level: 'neutral' });
+
+  try {
+    cameraStream = await navigator.mediaDevices.getUserMedia({
+      audio: false,
+      video: {
+        facingMode: { ideal: 'environment' },
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      }
+    });
+    scannerVideo.srcObject = cameraStream;
+    await scannerVideo.play();
+    startScannerQualityLoop();
+  } catch (error) {
+    closeCameraScanner();
+    showInstallHint(I18N.t('scan.cameraFallback'));
+    triggerPhotoInput();
+  }
+}
+
+function startScannerQualityLoop() {
+  stopScannerQualityLoop();
+  updateScannerQualityFromVideo();
+  scannerQualityTimer = window.setInterval(updateScannerQualityFromVideo, SCANNER_QUALITY_INTERVAL);
+}
+
+function stopScannerQualityLoop() {
+  if (scannerQualityTimer) {
+    window.clearInterval(scannerQualityTimer);
+    scannerQualityTimer = null;
+  }
+}
+
+function updateScannerQualityFromVideo() {
+  if (!scannerVideo || !scannerCtx || !scannerCanvas || !scannerVideo.videoWidth || !scannerVideo.videoHeight) return;
+  drawMediaToCanvas(scannerVideo, scannerCanvas, scannerCtx, 420);
+  const liveSample = sampleGarmentColor(scannerCanvas, scannerCtx);
+  updateScannerQualityBadge(assessLightQuality(liveSample));
+}
+
+function updateScannerQualityBadge(quality) {
+  if (!scannerQuality || !quality) return;
+  scannerQuality.textContent = quality.label || I18N.t('scan.light.checking');
+  scannerQuality.classList.remove('quality-good', 'quality-warning', 'quality-bad', 'quality-neutral');
+  scannerQuality.classList.add('quality-' + (quality.level || 'neutral'));
+}
+
+function captureScannerFrame() {
+  if (!scannerVideo || !scannerVideo.videoWidth || !scannerVideo.videoHeight) {
+    triggerPhotoInput();
+    return;
+  }
+
+  drawMediaToCanvas(scannerVideo, previewCanvas, ctx, 1200);
+  previewWrap.classList.remove('hidden');
+  analyzeCanvas();
+  closeCameraScanner();
+}
+
+function closeCameraScanner(options = {}) {
+  stopScannerQualityLoop();
+
+  if (cameraStream) {
+    cameraStream.getTracks().forEach((track) => track.stop());
+    cameraStream = null;
+  }
+
+  if (scannerVideo) {
+    try {
+      scannerVideo.pause();
+    } catch (error) {
+      // Manche Browser werfen beim Pausieren eines noch nicht gestarteten Streams.
+    }
+    scannerVideo.srcObject = null;
+  }
+
+  if (!options.keepHidden && cameraScanner) {
+    cameraScanner.classList.add('hidden');
+    cameraScanner.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('scanner-open');
+  }
+}
+
+function drawMediaToCanvas(source, canvas, context, maxSide) {
+  const sourceWidth = source.videoWidth || source.naturalWidth || source.width;
+  const sourceHeight = source.videoHeight || source.naturalHeight || source.height;
+  const scale = Math.min(1, maxSide / Math.max(sourceWidth, sourceHeight));
+  const width = Math.max(1, Math.round(sourceWidth * scale));
+  const height = Math.max(1, Math.round(sourceHeight * scale));
+  canvas.width = width;
+  canvas.height = height;
+  context.clearRect(0, 0, width, height);
+  context.drawImage(source, 0, 0, width, height);
+}
+
 function handlePhoto(event) {
   const file = event.target.files && event.target.files[0];
   if (!file) return;
@@ -1584,30 +1824,37 @@ function handlePhoto(event) {
 }
 
 function drawImageToCanvas(img) {
-  const maxSide = 1200;
-  const scale = Math.min(1, maxSide / Math.max(img.naturalWidth, img.naturalHeight));
-  const width = Math.round(img.naturalWidth * scale);
-  const height = Math.round(img.naturalHeight * scale);
-  previewCanvas.width = width;
-  previewCanvas.height = height;
-  ctx.clearRect(0, 0, width, height);
-  ctx.drawImage(img, 0, 0, width, height);
+  drawMediaToCanvas(img, previewCanvas, ctx, 1200);
 }
 
 function analyzeCanvas() {
-  const sampled = sampleCenterColor(previewCanvas, ctx);
-  const match = findNearestColor(sampled, activePalette);
-  const fit = getPaletteFit(match.delta);
+  const sampled = sampleGarmentColor(previewCanvas, ctx);
+  const nearestColors = findNearestColors(sampled, activePalette, 3);
+  const match = nearestColors[0];
+  if (!match) return;
+
+  const lightQuality = assessLightQuality(sampled);
+  const toneComparison = compareToneFit(sampled, match);
+  const fit = getPaletteFit(match.delta, toneComparison, lightQuality);
 
   const sampledName = describeColor(sampled.hex).name;
   const matchName = describeColor(match.hex, match.index, activePalette).name;
 
   result.className = `result ${fit.className}`;
   result.innerHTML = `
-    <button class="color-chip" type="button" style="background:${sampled.hex}" title="${escapeHtml(I18N.t('ui.resultColorTitle', { color: sampledName }))}" aria-label="${escapeHtml(I18N.t('ui.resultSampleAria', { color: sampledName }))}" data-fullscreen-color="${sampled.hex}" data-fullscreen-index="-1"></button>
+    <div class="result-swatch-stack">
+      <button class="color-chip result-sample-chip" type="button" style="background:${sampled.hex}" title="${escapeHtml(I18N.t('ui.resultColorTitle', { color: sampledName }))}" aria-label="${escapeHtml(I18N.t('ui.resultSampleAria', { color: sampledName }))}" data-fullscreen-color="${sampled.hex}" data-fullscreen-index="-1"></button>
+      <span>${escapeHtml(I18N.t('scan.measuredShort'))}</span>
+    </div>
     <div class="result-main">
+      <div class="scan-quality-row" aria-label="${escapeHtml(I18N.t('scan.light.aria'))}">
+        ${renderQualityPills(lightQuality)}
+      </div>
       <div class="result-eyebrow">${escapeHtml(I18N.t('ui.resultEyebrow'))}</div>
       <div class="result-title">${escapeHtml(fit.title)}</div>
+      <div class="tone-details">
+        ${toneComparison.details.map((detail) => `<span class="tone-detail ${detail.ok ? 'tone-ok' : 'tone-shift'}">${escapeHtml(detail.label)}</span>`).join('')}
+      </div>
       <div class="result-meta">
         ${escapeHtml(I18N.t('ui.yourColor'))}: <strong>${escapeHtml(sampledName)}</strong><br>
         ${escapeHtml(I18N.t('ui.nearestPaletteColor'))}: <strong>${escapeHtml(matchName)}</strong>
@@ -1616,84 +1863,367 @@ function analyzeCanvas() {
         <span style="width:${fit.score}%"></span>
       </div>
       <div class="result-advice">${escapeHtml(fit.advice)}</div>
+      <div class="confidence-note">${escapeHtml(fit.confidenceNote)}</div>
+      <div class="nearest-palette-block">
+        <span>${escapeHtml(I18N.t('scan.nearestThree'))}</span>
+        <div class="nearest-palette-colors">
+          ${renderNearestPaletteMatches(nearestColors)}
+        </div>
+      </div>
     </div>
-    <button class="color-chip" type="button" style="background:${match.hex}" title="${escapeHtml(I18N.t('ui.resultColorTitle', { color: matchName }))}" aria-label="${escapeHtml(I18N.t('ui.resultMatchAria', { color: matchName }))}" data-fullscreen-color="${match.hex}" data-fullscreen-index="${match.index}"></button>
+    <div class="result-swatch-stack">
+      <button class="color-chip result-match-chip" type="button" style="background:${match.hex}" title="${escapeHtml(I18N.t('ui.resultColorTitle', { color: matchName }))}" aria-label="${escapeHtml(I18N.t('ui.resultMatchAria', { color: matchName }))}" data-fullscreen-color="${match.hex}" data-fullscreen-index="${match.index}"></button>
+      <span>${escapeHtml(I18N.t('scan.paletteShort'))}</span>
+    </div>
   `;
+  result.classList.remove('hidden');
 }
 
-function getPaletteFit(delta) {
+function renderQualityPills(lightQuality) {
+  const pills = [{ label: lightQuality.label, level: lightQuality.level }].concat(lightQuality.issues || []);
+  return pills.slice(0, 3).map((pill) => (
+    `<span class="scan-quality-pill quality-${escapeHtml(pill.level || lightQuality.level || 'neutral')}">${escapeHtml(pill.label)}</span>`
+  )).join('');
+}
+
+function renderNearestPaletteMatches(nearestColors) {
+  return nearestColors.map((item, itemIndex) => {
+    const name = describeColor(item.hex, item.index, activePalette).name;
+    return `
+      <button class="nearest-palette-chip" type="button" title="${escapeHtml(I18N.t('ui.resultColorTitle', { color: name }))}" aria-label="${escapeHtml(I18N.t('ui.resultMatchAria', { color: name }))}" data-fullscreen-color="${item.hex}" data-fullscreen-index="${item.index}">
+        <span class="nearest-rank">${itemIndex + 1}</span>
+        <span class="nearest-dot" style="background:${item.hex}"></span>
+        <span class="nearest-name">${escapeHtml(name)}</span>
+      </button>
+    `;
+  }).join('');
+}
+
+function getPaletteFit(delta, toneComparison, lightQuality) {
+  const qualityMultiplier = lightQuality.confidenceMultiplier || 1;
+  const score = Math.max(6, Math.min(98, Math.round(fitScoreFromDelta(delta) * qualityMultiplier)));
+  const hasBadLight = lightQuality.level === 'bad';
+  const hasWarningLight = lightQuality.level === 'warning';
   let key;
   let className;
-  let score;
 
-  if (delta <= 6) {
-    key = 'perfect';
+  if (hasBadLight) {
+    key = 'unsure';
+    className = 'result-fit-unsure';
+  } else if (score >= 88) {
+    key = 'veryGood';
     className = 'result-fit-perfect';
-    score = 100;
-  } else if (delta <= 12) {
-    key = 'strong';
-    className = 'result-fit-strong';
-    score = 86;
-  } else if (delta <= MATCH_THRESHOLD) {
+  } else if (score >= 76) {
     key = 'good';
+    className = 'result-fit-strong';
+  } else if (score >= 62) {
+    key = 'almost';
     className = 'result-fit-good';
-    score = 72;
-  } else if (delta <= 30) {
-    key = 'soft';
+  } else if (score >= 44) {
+    key = 'borderline';
     className = 'result-fit-soft';
-    score = 48;
   } else {
-    key = 'away';
+    key = 'notIdeal';
     className = 'result-fit-away';
-    score = 22;
   }
 
-  return { className, score, ...I18N.getFit(key) };
+  const title = I18N.t('scan.verdict.' + key, { score });
+  const label = I18N.t('scan.label.' + key);
+  const advice = hasBadLight
+    ? I18N.t('scan.advice.retry')
+    : getScanAdvice(toneComparison, key, hasWarningLight);
+  const confidenceNote = I18N.t(hasWarningLight || hasBadLight ? 'scan.confidence.warning' : 'scan.confidence.good', {
+    points: String(toneComparison.pointCount || 0)
+  });
+
+  return { className, score, title, label, advice, confidenceNote };
+}
+
+function getScanAdvice(toneComparison, key, hasWarningLight) {
+  if (key === 'veryGood') return I18N.t('scan.advice.veryGood');
+  if (key === 'good') return I18N.t('scan.advice.good');
+
+  const shift = toneComparison.primaryShift;
+  if (shift) return I18N.t('scan.advice.' + shift);
+  if (hasWarningLight) return I18N.t('scan.advice.checkAgain');
+  return I18N.t('scan.advice.neutral');
+}
+
+function fitScoreFromDelta(delta) {
+  if (delta <= 6) return 96 - delta;
+  if (delta <= 12) return 90 - ((delta - 6) * 2.2);
+  if (delta <= MATCH_THRESHOLD) return 77 - ((delta - 12) * 2.4);
+  if (delta <= 30) return 63 - ((delta - MATCH_THRESHOLD) * 2.1);
+  return Math.max(8, 38 - ((delta - 30) * 0.8));
+}
+
+function compareToneFit(sampled, match) {
+  const matchRgb = hexToRgb(match.hex);
+  const matchLab = rgbToLab(matchRgb.r, matchRgb.g, matchRgb.b);
+  const sampleLab = sampled.lab;
+  const pointCount = sampled.metrics ? sampled.metrics.pointCount : 0;
+  const sampleChroma = labChroma(sampleLab);
+  const matchChroma = labChroma(matchLab);
+  const brightnessDelta = sampleLab.L - matchLab.L;
+  const warmthDelta = warmthScore(sampleLab) - warmthScore(matchLab);
+  const clarityDelta = sampleChroma - matchChroma;
+  const details = [
+    dimensionDetail('brightness', brightnessDelta, 7, 'tooLight', 'tooDark'),
+    dimensionDetail('warmth', warmthDelta, 7, 'tooWarm', 'tooCool'),
+    dimensionDetail('clarity', clarityDelta, 9, 'tooClear', 'tooMuted')
+  ];
+  const primary = details
+    .filter((detail) => !detail.ok)
+    .sort((a, b) => Math.abs(b.delta / b.threshold) - Math.abs(a.delta / a.threshold))[0];
+
+  return {
+    details,
+    primaryShift: primary ? primary.key : '',
+    pointCount
+  };
+}
+
+function dimensionDetail(name, delta, threshold, highKey, lowKey) {
+  if (Math.abs(delta) <= threshold) {
+    return { name, key: name + 'Ok', label: I18N.t('scan.dimension.' + name + '.ok'), ok: true, delta, threshold };
+  }
+  const key = delta > 0 ? highKey : lowKey;
+  return { name, key, label: I18N.t('scan.dimension.' + name + '.' + key), ok: false, delta, threshold };
 }
 
 function sampleCenterColor(canvas, context) {
+  return sampleGarmentColor(canvas, context);
+}
+
+function sampleGarmentColor(canvas, context) {
   const w = canvas.width;
   const h = canvas.height;
-  const size = Math.max(24, Math.round(Math.min(w, h) * 0.16));
+  const size = Math.max(24, Math.round(Math.min(w, h) * SCAN_TARGET_RADIUS_RATIO * 2));
   const x = Math.round((w - size) / 2);
   const y = Math.round((h - size) / 2);
+  const radius = size / 2;
+  const patchRadius = Math.max(3, Math.round(size * 0.055));
+  const skip = Math.max(1, Math.round(size / 180));
   const image = context.getImageData(x, y, size, size).data;
   const pixels = [];
 
-  for (let i = 0; i < image.length; i += 4) {
-    const r = image[i];
-    const g = image[i + 1];
-    const b = image[i + 2];
-    const a = image[i + 3];
-    if (a < 250) continue;
-    const lum = relativeLuminance(r, g, b);
-    pixels.push({ r, g, b, lum });
+  for (let py = 0; py < size; py += skip) {
+    for (let px = 0; px < size; px += skip) {
+      const dx = px - radius;
+      const dy = py - radius;
+      if ((dx * dx) + (dy * dy) > radius * radius) continue;
+      const offset = ((py * size) + px) * 4;
+      const a = image[offset + 3];
+      if (a < 250) continue;
+      const r = image[offset];
+      const g = image[offset + 1];
+      const b = image[offset + 2];
+      pixels.push({
+        r,
+        g,
+        b,
+        lum: relativeLuminance(r, g, b),
+        s: rgbToHsl(r, g, b).s,
+        relX: dx / radius,
+        relY: dy / radius
+      });
+    }
   }
 
-  if (!pixels.length) return { r: 0, g: 0, b: 0, hex: '#000000', lab: rgbToLab(0, 0, 0) };
+  const pointSamples = SCAN_POINT_LAYOUT
+    .map(([rx, ry]) => averagePatch(image, size, radius + (rx * radius), radius + (ry * radius), patchRadius))
+    .filter(Boolean);
+  const usablePixels = trimScanPixels(pixels);
+  const average = averageRgb(usablePixels.length ? usablePixels : pixels);
+  const lab = rgbToLab(average.r, average.g, average.b);
 
-  pixels.sort((a, b) => a.lum - b.lum);
-  const cut = Math.floor(pixels.length * 0.12);
-  const trimmed = pixels.slice(cut, pixels.length - cut);
-  const use = trimmed.length ? trimmed : pixels;
+  return {
+    ...average,
+    hex: rgbToHex(average.r, average.g, average.b),
+    lab,
+    hsl: rgbToHsl(average.r, average.g, average.b),
+    metrics: buildScanMetrics(pixels, usablePixels, pointSamples),
+    pointSamples
+  };
+}
 
-  let r = 0, g = 0, b = 0;
-  use.forEach((p) => { r += p.r; g += p.g; b += p.b; });
-  r = Math.round(r / use.length);
-  g = Math.round(g / use.length);
-  b = Math.round(b / use.length);
-  return { r, g, b, hex: rgbToHex(r, g, b), lab: rgbToLab(r, g, b) };
+function averagePatch(image, size, centerX, centerY, patchRadius) {
+  const pixels = [];
+  const startX = Math.max(0, Math.round(centerX - patchRadius));
+  const endX = Math.min(size - 1, Math.round(centerX + patchRadius));
+  const startY = Math.max(0, Math.round(centerY - patchRadius));
+  const endY = Math.min(size - 1, Math.round(centerY + patchRadius));
+
+  for (let y = startY; y <= endY; y += 1) {
+    for (let x = startX; x <= endX; x += 1) {
+      const offset = ((y * size) + x) * 4;
+      if (image[offset + 3] < 250) continue;
+      const r = image[offset];
+      const g = image[offset + 1];
+      const b = image[offset + 2];
+      pixels.push({ r, g, b, lum: relativeLuminance(r, g, b) });
+    }
+  }
+
+  if (!pixels.length) return null;
+  const average = averageRgb(trimScanPixels(pixels));
+  return {
+    ...average,
+    hex: rgbToHex(average.r, average.g, average.b),
+    lab: rgbToLab(average.r, average.g, average.b)
+  };
+}
+
+function trimScanPixels(pixels) {
+  if (!pixels.length) return [];
+  const sorted = pixels.slice().sort((a, b) => a.lum - b.lum);
+  const cut = Math.floor(sorted.length * 0.12);
+  const trimmed = sorted.slice(cut, sorted.length - cut);
+  return trimmed.length ? trimmed : sorted;
+}
+
+function averageRgb(pixels) {
+  if (!pixels.length) return { r: 0, g: 0, b: 0 };
+  let r = 0;
+  let g = 0;
+  let b = 0;
+  pixels.forEach((p) => {
+    r += p.r;
+    g += p.g;
+    b += p.b;
+  });
+  return {
+    r: Math.round(r / pixels.length),
+    g: Math.round(g / pixels.length),
+    b: Math.round(b / pixels.length)
+  };
+}
+
+function buildScanMetrics(pixels, usablePixels, pointSamples) {
+  const source = pixels.length ? pixels : [{ r: 0, g: 0, b: 0, lum: 0, s: 0, relX: 0, relY: 0 }];
+  const use = usablePixels.length ? usablePixels : source;
+  const avg = averageRgb(use);
+  const meanLuminance = averageNumber(source.map((p) => p.lum));
+  const luminanceStd = standardDeviation(source.map((p) => p.lum), meanLuminance);
+  const darkRatio = source.filter((p) => p.lum < 42).length / source.length;
+  const highlightRatio = source.filter((p) => p.lum > 232).length / source.length;
+  const meanSaturation = averageNumber(source.map((p) => p.s || 0));
+  const regionMeans = [
+    averageRegion(source, (p) => p.relX < -0.25),
+    averageRegion(source, (p) => p.relX > 0.25),
+    averageRegion(source, (p) => p.relY < -0.25),
+    averageRegion(source, (p) => p.relY > 0.25)
+  ].filter((value) => Number.isFinite(value));
+  const shadowContrast = regionMeans.length ? Math.max(...regionMeans) - Math.min(...regionMeans) : 0;
+
+  return {
+    pixelCount: source.length,
+    pointCount: pointSamples.length,
+    meanR: avg.r,
+    meanG: avg.g,
+    meanB: avg.b,
+    meanLuminance,
+    luminanceStd,
+    darkRatio,
+    highlightRatio,
+    meanSaturation,
+    warmCast: ((avg.r + avg.g) / 2) - avg.b,
+    shadowContrast
+  };
+}
+
+function assessLightQuality(sample) {
+  const metrics = sample.metrics || {};
+  const issues = [];
+  let level = 'good';
+  let confidenceMultiplier = 1;
+
+  if ((metrics.pointCount || 0) < 5 || (metrics.pixelCount || 0) < 80) {
+    issues.push(lightIssue('unstable', 'bad'));
+    level = 'bad';
+  }
+
+  if (metrics.meanLuminance < 50 || metrics.darkRatio > 0.34) {
+    issues.push(lightIssue('tooDark', 'bad'));
+    level = 'bad';
+  } else if (metrics.meanLuminance < 72) {
+    issues.push(lightIssue('dim', 'warning'));
+    if (level !== 'bad') level = 'warning';
+  }
+
+  if (metrics.highlightRatio > 0.20) {
+    issues.push(lightIssue('tooBright', 'warning'));
+    if (level !== 'bad') level = 'warning';
+  }
+
+  if (metrics.shadowContrast > 58 || metrics.luminanceStd > 54) {
+    issues.push(lightIssue('shadow', metrics.shadowContrast > 84 ? 'bad' : 'warning'));
+    if (metrics.shadowContrast > 84) level = 'bad';
+    else if (level !== 'bad') level = 'warning';
+  }
+
+  if (metrics.warmCast > 34 && metrics.meanSaturation < 0.52 && metrics.meanLuminance > 60) {
+    issues.push(lightIssue('tooYellow', 'warning'));
+    if (level !== 'bad') level = 'warning';
+  }
+
+  if (level === 'bad') confidenceMultiplier = 0.58;
+  else if (level === 'warning') confidenceMultiplier = 0.78;
+
+  return {
+    label: level === 'good' ? I18N.t('scan.light.good') : I18N.t('scan.light.uncertain'),
+    level,
+    confidenceMultiplier,
+    issues: uniqueLightIssues(issues)
+  };
+}
+
+function lightIssue(key, level) {
+  return { key, level, label: I18N.t('scan.light.' + key) };
+}
+
+function uniqueLightIssues(issues) {
+  const seen = new Set();
+  return issues.filter((issue) => {
+    if (seen.has(issue.key)) return false;
+    seen.add(issue.key);
+    return true;
+  });
+}
+
+function averageRegion(pixels, predicate) {
+  const values = pixels.filter(predicate).map((p) => p.lum);
+  return values.length ? averageNumber(values) : NaN;
+}
+
+function averageNumber(values) {
+  return values.reduce((sum, value) => sum + value, 0) / Math.max(1, values.length);
+}
+
+function standardDeviation(values, mean = averageNumber(values)) {
+  const variance = averageNumber(values.map((value) => Math.pow(value - mean, 2)));
+  return Math.sqrt(variance);
 }
 
 function findNearestColor(sampled, palette) {
-  let best = null;
-  palette.colors.forEach((hex, index) => {
+  return findNearestColors(sampled, palette, 1)[0];
+}
+
+function findNearestColors(sampled, palette, limit = 3) {
+  return palette.colors.map((hex, index) => {
     const rgb = hexToRgb(hex);
     const lab = rgbToLab(rgb.r, rgb.g, rgb.b);
     const delta = ciede2000(sampled.lab, lab);
-    if (!best || delta < best.delta) best = { hex, index, delta };
-  });
-  return best;
+    return { hex, index, delta };
+  }).sort((a, b) => a.delta - b.delta).slice(0, limit);
+}
+
+function labChroma(lab) {
+  return Math.sqrt((lab.a * lab.a) + (lab.b * lab.b));
+}
+
+function warmthScore(lab) {
+  return lab.b + (lab.a * 0.18);
 }
 
 function initializeSplashScreen() {
