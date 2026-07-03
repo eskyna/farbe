@@ -1,0 +1,25 @@
+{
+  "name": "ESKYNA - cool soft deep",
+  "short_name": "ESKYNA - cool soft deep",
+  "id": "/farbe/cool_soft_deep/",
+  "start_url": "/farbe/cool_soft_deep/",
+  "scope": "/farbe/cool_soft_deep/",
+  "display": "standalone",
+  "background_color": "#f7f2e8",
+  "theme_color": "#f7f2e8",
+  "description": "ESKYNA Farben - cool soft deep",
+  "icons": [
+    {
+      "src": "/farbe/icons/cool_soft_deep-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/farbe/icons/cool_soft_deep-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "ESKYNA - clear warm light",
+  "short_name": "ESKYNA - clear warm light",
+  "id": "/farbe/clear_warm_light/",
+  "start_url": "/farbe/clear_warm_light/",
+  "scope": "/farbe/clear_warm_light/",
+  "display": "standalone",
+  "background_color": "#f7f2e8",
+  "theme_color": "#f7f2e8",
+  "description": "ESKYNA Farben - clear warm light",
+  "icons": [
+    {
+      "src": "/farbe/icons/clear_warm_light-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/farbe/icons/clear_warm_light-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

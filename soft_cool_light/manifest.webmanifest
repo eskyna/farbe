@@ -1,0 +1,25 @@
+{
+  "name": "ESKYNA - soft cool light",
+  "short_name": "ESKYNA - soft cool light",
+  "id": "/farbe/soft_cool_light/",
+  "start_url": "/farbe/soft_cool_light/",
+  "scope": "/farbe/soft_cool_light/",
+  "display": "standalone",
+  "background_color": "#f7f2e8",
+  "theme_color": "#f7f2e8",
+  "description": "ESKYNA Farben - soft cool light",
+  "icons": [
+    {
+      "src": "/farbe/icons/soft_cool_light-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/farbe/icons/soft_cool_light-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
