@@ -145,6 +145,33 @@ h2 {
   margin-bottom: 14px;
 }
 .panel-head.simple { display: block; margin-bottom: 8px; }
+.install-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.install-button {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid rgba(29, 27, 24, .92);
+  border-radius: 999px;
+  background: rgba(255, 250, 240, .94);
+  color: var(--ink);
+  font-weight: 850;
+  letter-spacing: .01em;
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(67, 50, 25, .10);
+}
+.install-button:disabled {
+  opacity: .62;
+  cursor: default;
+}
+.install-hint {
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
 .palette-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

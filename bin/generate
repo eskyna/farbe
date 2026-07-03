@@ -1831,6 +1831,28 @@ def create_icons(logo_png: bytes, farbe_dir: Path, palettes: list[dict[str, Any]
   return missing
 
 
+def verify_generated_icons(farbe_dir: Path, palettes: list[dict[str, Any]]) -> None:
+  required_files = [
+    farbe_dir / "icons" / "icon-192.png",
+    farbe_dir / "icons" / "icon-512.png",
+    farbe_dir / "icons" / "apple-touch-icon.png",
+    farbe_dir / "assets" / "sign_gold.png",
+  ]
+
+  for palette in palettes:
+    slug = palette["slug"]
+    required_files.extend([
+      farbe_dir / "icons" / f"{slug}.png",
+      farbe_dir / "icons" / f"{slug}-192.png",
+      farbe_dir / "icons" / f"{slug}-512.png",
+      farbe_dir / "icons" / f"{slug}-apple-touch-icon.png",
+    ])
+
+  missing_files = [str(path.relative_to(farbe_dir)) for path in required_files if not path.exists()]
+  if missing_files:
+    raise FileNotFoundError("Fehlende generierte Icons: " + ", ".join(missing_files))
+
+
 def palettes_js(palettes: list[dict[str, Any]]) -> str:
   return (
     "// Automatisch generiert. Alle Palettenwerte liegen zentral hier.\n"
@@ -1934,6 +1956,7 @@ def generate(output: Path) -> None:
   missing_icons = create_icons(logo_bytes_from_args(None), farbe_dir, palettes, str(DEFAULT_PALETTE_ICONS_DIR))
   if missing_icons:
     raise FileNotFoundError("Fehlende Palette-Icons: " + ", ".join(missing_icons))
+  verify_generated_icons(farbe_dir, palettes)
 
   write_text(farbe_dir / "palettes.js", palettes_js(palettes))
   write_text(farbe_dir / "styles.css", styles_css())

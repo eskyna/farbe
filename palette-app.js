@@ -3,8 +3,11 @@ const photoInput = document.getElementById('photoInput');
 const previewWrap = document.getElementById('previewWrap');
 const previewCanvas = document.getElementById('previewCanvas');
 const result = document.getElementById('result');
+const installButton = document.getElementById('installButton');
+const installHint = document.getElementById('installHint');
 const ctx = previewCanvas.getContext('2d', { willReadFrequently: true });
 const MATCH_THRESHOLD = 18;
+let deferredInstallPrompt = null;
 
 const slugFromPage = window.ESKYNA_PALETTE_SLUG || location.pathname.split('/').filter(Boolean).pop();
 const activePalette = window.ESKYNA_PALETTES.find((p) => p.slug === slugFromPage) || window.ESKYNA_PALETTES[0];
@@ -18,6 +21,7 @@ if (paletteNameNode) paletteNameNode.textContent = activePalette.name;
 renderPalette();
 photoInput.addEventListener('change', handlePhoto);
 registerServiceWorker();
+initializeInstallPrompt();
 
 function renderPalette() {
   paletteGrid.innerHTML = '';
@@ -134,6 +138,71 @@ function registerServiceWorker() {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('../sw.js', { scope: basePath }).catch(() => {});
   });
+}
+
+function initializeInstallPrompt() {
+  if (!installButton) return;
+
+  if (isStandaloneMode()) {
+    showInstallHint('Diese App ist bereits installiert.');
+    return;
+  }
+
+  installButton.addEventListener('click', handleInstallClick);
+
+  window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    installButton.disabled = false;
+    installButton.classList.remove('hidden');
+    showInstallHint('Installieren Sie diese Palette als App auf Ihrem Gerät.');
+  });
+
+  window.addEventListener('appinstalled', () => {
+    deferredInstallPrompt = null;
+    installButton.classList.add('hidden');
+    showInstallHint('Die App wurde installiert.');
+  });
+
+  if (isIosSafari()) {
+    showInstallHint('Auf iPhone oder iPad: Teilen und dann Zum Home-Bildschirm waehlen.');
+  }
+}
+
+async function handleInstallClick() {
+  if (!deferredInstallPrompt) return;
+
+  installButton.disabled = true;
+  await deferredInstallPrompt.prompt();
+  const { outcome } = await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt = null;
+
+  if (outcome === 'accepted') {
+    installButton.classList.add('hidden');
+    showInstallHint('Die Installation wurde gestartet.');
+    return;
+  }
+
+  installButton.disabled = false;
+  showInstallHint('Die Installation wurde abgebrochen. Sie koennen es erneut versuchen.');
+}
+
+function showInstallHint(message) {
+  if (!installHint) return;
+  installHint.textContent = message;
+  installHint.classList.remove('hidden');
+}
+
+function isStandaloneMode() {
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+}
+
+function isIosSafari() {
+  const userAgent = window.navigator.userAgent;
+  const isIos = /iPad|iPhone|iPod/.test(userAgent);
+  const isWebKit = /WebKit/.test(userAgent);
+  const isCriOS = /CriOS/.test(userAgent);
+  return isIos && isWebKit && !isCriOS;
 }
 
 function hexToRgb(hex) {
