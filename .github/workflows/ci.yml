@@ -42,7 +42,7 @@ jobs:
         run: npm run check
 
       - name: Upload dist artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: eskyna-farbe-dist
           path: dist
