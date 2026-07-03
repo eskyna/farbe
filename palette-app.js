@@ -12,6 +12,8 @@ const ctx = previewCanvas.getContext('2d', { willReadFrequently: true });
 const ESKYNA_APP_VERSION = "__ESKYNA_APP_VERSION__";
 const UPDATE_CHECK_INTERVAL = 15 * 60 * 1000;
 const MATCH_THRESHOLD = 18;
+const CUSTOMER_NAME_STORAGE_PREFIX = 'eskyna-farbe-customer-name:';
+const CUSTOMER_NAME_QUERY_KEYS = ['name', 'kundin', 'customer', 'client'];
 let deferredInstallPrompt = null;
 let fullscreenColor = null;
 let fullscreenColorIndex = null;
@@ -24,6 +26,7 @@ let updateCheckTimer = null;
 const slugFromPage = window.ESKYNA_PALETTE_SLUG || location.pathname.split('/').filter(Boolean).pop();
 const activePalette = window.ESKYNA_PALETTES.find((p) => p.slug === slugFromPage) || window.ESKYNA_PALETTES[0];
 const I18N = window.ESKYNA_I18N || createFallbackI18n();
+const activeCustomerName = initializeCustomerName(activePalette.slug || slugFromPage);
 
 const COLOR_NAME_VARIANTS = {
   "de": {
@@ -1019,7 +1022,7 @@ const COLOR_NAME_MODIFIERS = {
 const paletteColorNameCache = new Map();
 
 I18N.applyDocumentLanguage();
-document.title = I18N.getPageTitle(activePalette.name);
+document.title = I18N.getPageTitle(activePalette.name, activeCustomerName);
 const titleNode = document.getElementById('pageTitle');
 const paletteNameNode = document.getElementById('paletteName');
 if (titleNode) titleNode.textContent = formatPaletteName(activePalette.name);
@@ -1034,12 +1037,64 @@ initializeInstallPrompt();
 initializeColorFullscreen();
 initializeResultColorChips();
 
+function initializeCustomerName(paletteSlug) {
+  const fromUrl = readCustomerNameFromUrl();
+  const storageKey = getCustomerNameStorageKey(paletteSlug);
+
+  if (fromUrl) {
+    writeCustomerNameToStorage(storageKey, fromUrl);
+    return fromUrl;
+  }
+
+  return readCustomerNameFromStorage(storageKey);
+}
+
+function readCustomerNameFromUrl() {
+  const params = new URLSearchParams(window.location.search || '');
+  for (const key of CUSTOMER_NAME_QUERY_KEYS) {
+    if (!params.has(key)) continue;
+    const value = sanitizeCustomerName(params.get(key));
+    if (value) return value;
+  }
+  return '';
+}
+
+function sanitizeCustomerName(value) {
+  return String(value || '')
+    .replace(/[\u0000-\u001F\u007F<>]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 36);
+}
+
+function getCustomerNameStorageKey(paletteSlug) {
+  return CUSTOMER_NAME_STORAGE_PREFIX + String(paletteSlug || 'default');
+}
+
+function readCustomerNameFromStorage(storageKey) {
+  try {
+    return sanitizeCustomerName(window.localStorage.getItem(storageKey));
+  } catch (error) {
+    return '';
+  }
+}
+
+function writeCustomerNameToStorage(storageKey, customerName) {
+  try {
+    window.localStorage.setItem(storageKey, customerName);
+  } catch (error) {
+    // Personalisierung ist ein Komfort-Feature; die Farbkarte funktioniert auch ohne localStorage.
+  }
+}
+
 function applyStaticTranslations() {
   const paletteLabel = formatPaletteName(activePalette.name);
   const brandWord = document.querySelector('.brand-farbe');
+  const customerName = document.getElementById('customerName');
   const header = document.querySelector('.hero');
   const logoLink = document.querySelector('.hero-logo-link');
   const logo = document.querySelector('.hero-logo');
+  const appleTitle = document.querySelector('meta[name="apple-mobile-web-app-title"]');
   const palettePanel = document.querySelector('.palette-panel');
   const analysisPanel = document.querySelector('.analysis-panel');
   const actionBar = document.querySelector('.bottom-action-bar');
@@ -1047,7 +1102,16 @@ function applyStaticTranslations() {
   const telegramButton = document.querySelector('.telegram-button');
 
   if (brandWord) brandWord.textContent = I18N.t('ui.brandWord');
-  if (header) header.setAttribute('aria-label', I18N.t('ui.brandAria'));
+  if (customerName) {
+    customerName.textContent = activeCustomerName ? I18N.t('ui.customerFor', { name: activeCustomerName }) : '';
+    customerName.classList.toggle('hidden', !activeCustomerName);
+  }
+  if (header) {
+    header.setAttribute('aria-label', activeCustomerName ? I18N.t('ui.brandAriaFor', { name: activeCustomerName }) : I18N.t('ui.brandAria'));
+  }
+  if (appleTitle) {
+    appleTitle.setAttribute('content', activeCustomerName ? I18N.t('ui.brandAriaFor', { name: activeCustomerName }) : I18N.t('ui.brandAria'));
+  }
   if (logoLink) logoLink.setAttribute('aria-label', I18N.t('ui.openEskyna'));
   if (logo) logo.setAttribute('alt', I18N.t('ui.symbolAlt'));
   if (palettePanel) palettePanel.setAttribute('aria-label', I18N.t('ui.paletteSection', { palette: paletteLabel }));
@@ -1073,7 +1137,9 @@ function createFallbackI18n() {
     t(path, replacements) {
       const fallback = {
         'ui.brandWord': 'Farbe',
+        'ui.customerFor': 'für {name}',
         'ui.brandAria': 'ESKYNA Farbe',
+        'ui.brandAriaFor': 'ESKYNA Farbe für {name}',
         'ui.colorKnowledgeHint': 'Antippen für Farbwissen',
         'ui.explainColor': '{color} erklären',
         'ui.measuredColor': 'Gemessene Farbe',
@@ -1093,14 +1159,18 @@ function createFallbackI18n() {
         'ui.installApp': 'App installieren',
         'ui.updateApp': 'App aktualisieren',
         'ui.updating': 'Aktualisiere ...',
-        'ui.pageTitle': 'ESKYNA Farbe - {palette}'
+        'ui.pageTitle': 'ESKYNA Farbe - {palette}',
+        'ui.pageTitleFor': 'ESKYNA Farbe für {name} - {palette}'
       }[path] || path;
       return String(fallback).replace(/\{([a-zA-Z0-9_]+)\}/g, (match, key) => replacements && key in replacements ? replacements[key] : match);
     },
     formatPaletteName(name) {
       return String(name || '').split(/\s+/).filter(Boolean).map((part) => paletteTerms[part] || part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
     },
-    getPageTitle(name) { return this.t('ui.pageTitle', { palette: this.formatPaletteName(name) }); },
+    getPageTitle(name, customerName = '') {
+      const palette = this.formatPaletteName(name);
+      return customerName ? this.t('ui.pageTitleFor', { palette, name: customerName }) : this.t('ui.pageTitle', { palette });
+    },
     getColorStory() { return genericStory; },
     getPaletteCombinationNote() { return ''; },
     getPaletteDepthNote() { return ''; },

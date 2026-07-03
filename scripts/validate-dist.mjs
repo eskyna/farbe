@@ -72,6 +72,9 @@ for (const palette of palettes) {
   assert(fileExists(`${palette.slug}/index.html`), `Palette ${palette.slug}: index.html fehlt.`);
   assert(fileExists(`${palette.slug}/manifest.webmanifest`), `Palette ${palette.slug}: manifest fehlt.`);
 
+  const paletteHtml = readText(`${palette.slug}/index.html`);
+  assert(paletteHtml.includes('customerName'), `Palette ${palette.slug}: Personalisierungsplatz fehlt im HTML.`);
+
   const manifest = readJson(`${palette.slug}/manifest.webmanifest`);
   assert(manifest.start_url?.includes(`/${palette.slug}/`), `Palette ${palette.slug}: start_url zeigt nicht auf die Palette.`);
   assert(Array.isArray(manifest.icons) && manifest.icons.length >= 2, `Palette ${palette.slug}: Manifest braucht mindestens 192px- und 512px-Icons.`);

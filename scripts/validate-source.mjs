@@ -25,6 +25,9 @@ const REQUIRED_FILES = [
 
 const UI_TRANSLATION_KEYS = [
   'ui.brandWord',
+  'ui.customerFor',
+  'ui.brandAriaFor',
+  'ui.pageTitleFor',
   'ui.colorCheck',
   'ui.styleQuestion',
   'ui.installApp',
@@ -137,6 +140,8 @@ for (const palette of palettes) {
 const sourceTexts = ['palette-app.js', 'overview.js', 'i18n.js', 'templates/palette.html', 'index.html'].map(readText).join('\n');
 assert(!/Feldnummer|field number/i.test(sourceTexts), 'UI darf keine Feldnummern erwaehnen.');
 assert(!sourceTexts.includes('Foto wählen'), 'Button-Text "Foto wählen" darf nicht mehr verwendet werden.');
+assert(sourceTexts.includes('customerName'), 'Personalisierter Kundinnenname muss im Template/Frontend verdrahtet sein.');
+assert(sourceTexts.includes('CUSTOMER_NAME_QUERY_KEYS'), 'Personalisierte Links muessen im Frontend dokumentiert verarbeitet werden.');
 
 for (const language of SUPPORTED_LANGUAGES) {
   const i18n = evaluateI18n(language);

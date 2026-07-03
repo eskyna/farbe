@@ -11,7 +11,8 @@ Dieses Projekt soll auch von KI-Agenten sicher wartbar sein. Diese Datei ist der
 5. **PWA-Update beachten.** Runtime-Aenderungen muessen nach dem Build eine neue Version in `version.json` und `sw.js` erzeugen.
 6. **Keine Feldnummern in der UI.** Farben werden ueber Namen und Stilwissen erklaert, nicht ueber Feldnummern.
 7. **Kundinnensprache statt Technik.** Beim Farbcheck keine technischen Delta-E-Werte anzeigen. Verwende klare, freundliche Styling-Einschaetzungen.
-8. **Vor Abgabe pruefen.** Fuehre mindestens `npm run check` aus, sofern Node/Python verfuegbar sind.
+8. **Personalisierung datensparsam halten.** Kundinnennamen nur aus Query-Parametern lesen und lokal speichern; niemals in Manifest, Cache-Namen, Build-Versionen oder Logs schreiben.
+9. **Vor Abgabe pruefen.** Fuehre mindestens `npm run check` aus, sofern Node/Python verfuegbar sind.
 
 ## Typischer Arbeitsablauf
 
@@ -39,6 +40,7 @@ npm run serve
 | --- | --- |
 | Layout, Buttons, Header, Landscape/Portrait | `styles.css`, `templates/palette.html`, `index.html` |
 | UI-Texte und Uebersetzungen | `i18n.js` |
+| Kundinnen-Personalisierung | `palette-app.js`, `i18n.js`, `templates/palette.html`, `styles.css` |
 | Farbcheck, Kameralogik, Install-/Update-Button | `palette-app.js` |
 | Service Worker / Cache / Update | `sw.js`, `palette-app.js`, `bin/generate` |
 | Palettenwerte und Manifest-Erzeugung | `bin/generate` |
@@ -75,6 +77,15 @@ Siehe auch [`docs/CODE_MAP.md`](docs/CODE_MAP.md).
 - Nicht nur `sw.js` aendern; auch den Update-Pfad in `palette-app.js` verstehen.
 - Nach Build pruefen, dass `version.json` und `sw.js` dieselbe Version enthalten.
 - Kein hartes Update ausloesen, solange Kundinnen mitten in einer Interaktion sein koennten, ausser der Update-Button wurde geklickt.
+
+
+### Personalisierte Kundinnen-Links
+
+- Unterstuetzte Parameter sind `name`, `kundin`, `customer` und `client`.
+- Der Name wird in `palette-app.js` bereinigt und pro Farbkarte in `localStorage` gespeichert.
+- Sichtbare Formulierungen gehoeren in `i18n.js`, nicht hart in das HTML.
+- Im Landscape-Header muessen Logo, Marke, Kundinnenname und Palettenname einzeilig bleiben; lange Namen duerfen gekuerzt werden.
+- Keine personenbezogenen Daten in Manifest, Service Worker, Cache-Schluessel oder statische Build-Dateien schreiben.
 
 ## Dateien, die Agenten nicht erzeugen sollen
 

@@ -26,6 +26,7 @@ Interaktive Logik einer einzelnen Farbkarte:
 - Vollbild-Farbansicht mit Farbnamen und Stilwissen
 - Kamerabild laden und mittlere Farbe pruefen
 - kundinnentaugliche Farbpassung anzeigen
+- Kundinnenname aus personalisierten Links lesen, speichern und anzeigen
 - Installationsprompt anzeigen, wenn verfuegbar
 - Update-Button anzeigen, wenn neue Version erkannt wird
 
@@ -59,8 +60,8 @@ Service Worker:
 
 | Datei | Prueft |
 | --- | --- |
-| `scripts/validate-source.mjs` | Quellstruktur, 24 Paletten, 24 Farben je Palette, Pflichtassets, i18n-Basics |
-| `scripts/validate-dist.mjs` | erzeugten Build, Manifest-Dateien, Icons, Version, Platzhalterfreiheit |
+| `scripts/validate-source.mjs` | Quellstruktur, 24 Paletten, 24 Farben je Palette, Pflichtassets, i18n-Basics, Personalisierungs-Hooks |
+| `scripts/validate-dist.mjs` | erzeugten Build, Manifest-Dateien, Icons, Version, Platzhalterfreiheit, Personalisierungsplatz im HTML |
 
 ## Aenderungsmuster
 
@@ -83,4 +84,13 @@ Service Worker:
 2. Header, Grid und Bottom-Bar zusammen betrachten.
 3. Auf kleinen Hoehen testen, besonders `max-height: 430px`.
 4. `npm run lint:css` und Sichtpruefung.
+
+
+### Personalisierte Kundinnen-Links aendern
+
+1. Query-Parameter und Speicherung in `palette-app.js` pruefen (`CUSTOMER_NAME_QUERY_KEYS`).
+2. Sichtbare Texte in `i18n.js` fuer `de`, `en`, `ru` pflegen.
+3. Header-Markup in `templates/palette.html` und CSS-Regeln fuer `.customer-title` beachten.
+4. Keine Namen in Manifest, Cache-Schluessel oder Build-Dateien schreiben.
+5. Mit `/farbe/light_warm_clear/?name=Melissa`, Landscape und installierter PWA testen.
 

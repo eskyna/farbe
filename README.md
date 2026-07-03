@@ -80,12 +80,25 @@ https://eskyna.com/farbe/light_warm_soft/
 
 Wichtig fuer PWA-Updates: Immer den kompletten Dist-Inhalt austauschen, besonders `sw.js`, `version.json`, `palette-app.js`, `i18n.js`, `palettes.js`, `styles.css` und alle geaenderten Assets. Browser koennen Service Worker aggressiv cachen; `version.json` und die Build-Version helfen der App, neue Versionen zu erkennen.
 
+## Personalisierte Kundinnen-Links
+
+Eine Farbkarte kann mit Kundinnenname geoeffnet werden:
+
+```text
+https://eskyna.com/farbe/light_warm_clear/?name=Melissa
+```
+
+Alternativ werden auch `?kundin=Melissa`, `?customer=Melissa` und `?client=Melissa` akzeptiert. Die App zeigt dann im Header zum Beispiel `ESKYNA Farbe fuer Melissa` und speichert den Namen lokal fuer diese Farbkarte. Wenn die Kundin die PWA von diesem Link aus installiert, bleibt der Name innerhalb der installierten App sichtbar, auch wenn Android/Chrome die PWA spaeter ueber die normale `start_url` ohne Query-Parameter startet.
+
+Datenschutz: Keine Kundinnennamen in `manifest.webmanifest` oder `version.json` schreiben. Die Personalisierung ist nur clientseitig ueber URL-Parameter plus `localStorage` umgesetzt. Je nach Browser kann der Name der App auf dem Homescreen weiter generisch bleiben; in der App selbst ist der Kundinnenname sichtbar.
+
 ## Inhalte bearbeiten
 
 - **Farben und Paletten:** `bin/generate` enthaelt die Rohdaten, `palettes.js` wird im Build daraus erzeugt.
 - **Texte und Uebersetzungen:** `i18n.js` pflegt Deutsch, Englisch und Russisch zentral.
 - **Farbnamen und Farberklaerungen:** `palette-app.js` enthaelt die Nuancierung der Farbnamen und die Zuordnung zu Erklaertexten aus `i18n.js`.
 - **Layout und Branding:** `styles.css`, `assets/` und `templates/palette.html`.
+- **Personalisierte Kundinnen-Links:** `palette-app.js`, `i18n.js`, `templates/palette.html` und die Hinweise in `docs/MAINTENANCE.md`.
 - **PWA-Update-Logik:** `palette-app.js`, `sw.js`, `version.json` im Dist.
 
 Nach jeder inhaltlichen Aenderung:

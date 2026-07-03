@@ -47,6 +47,7 @@ Prueft unter anderem:
 - gueltige Hex-Farben
 - Quell-Icons und Referenzbilder vorhanden
 - keine Feldnummern in der UI
+- Personalisierungs-Hooks fuer Kundinnen-Links
 - Basis-i18n fuer Deutsch, Englisch, Russisch
 
 ### `scripts/validate-dist.mjs`
@@ -58,6 +59,7 @@ Prueft unter anderem:
 - `sw.js` enthaelt Build-Version
 - keine Template-Platzhalter im Dist
 - je Palette `index.html`, Manifest und Icons vorhanden
+- Personalisierungsplatz im generierten Paletten-HTML vorhanden
 
 ## GitHub Actions
 

@@ -1161,3 +1161,129 @@ button.color-chip:focus-visible,
   }
 }
 
+
+/* Personalisiertes Kundinnen-Label im Header */
+.customer-title {
+  color: #6f5736;
+  font-weight: 400;
+  letter-spacing: .018em;
+  text-transform: none;
+  white-space: nowrap;
+}
+.brand-title {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  column-gap: .28em;
+  row-gap: .04em;
+}
+.brand-title .customer-title {
+  margin-left: .08em;
+  font-size: .48em;
+  line-height: 1;
+}
+
+/* Landscape v2: Logo, ESKYNA Farbe und Palettenname werden strikt eine Zeile. */
+@media (orientation: landscape) {
+  body.palette-page .app {
+    grid-template-rows: 30px minmax(0, 1fr) auto;
+    gap: 5px;
+    padding-top: max(4px, env(safe-area-inset-top));
+  }
+  body.palette-page .hero {
+    min-height: 30px;
+    height: 30px;
+    margin: 0;
+    padding: 0 2px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 8px;
+    overflow: hidden;
+  }
+  body.palette-page .hero-logo-link {
+    width: 30px;
+    height: 30px;
+  }
+  body.palette-page .hero-logo {
+    width: 30px;
+    height: 30px;
+  }
+  body.palette-page .hero-copy {
+    display: contents;
+  }
+  body.palette-page .brand-title {
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: 72%;
+    display: inline-flex;
+    flex-wrap: nowrap;
+    align-items: baseline;
+    gap: .26em;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: clamp(15px, 2.15vw, 22px);
+    line-height: 1;
+    letter-spacing: .036em;
+  }
+  body.palette-page .brand-title > span {
+    flex: 0 0 auto;
+  }
+  body.palette-page .brand-title .customer-title {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: min(30vw, 150px);
+    margin-left: .02em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: .58em;
+    letter-spacing: .012em;
+  }
+  body.palette-page .brand-farbe {
+    letter-spacing: .03em;
+  }
+  body.palette-page .palette-subtitle {
+    flex: 1 1 auto;
+    min-width: 72px;
+    margin: 0;
+    padding-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: clamp(10px, 1.25vw, 13px);
+    line-height: 1;
+    letter-spacing: .03em;
+  }
+  body.palette-page .palette-subtitle::before {
+    top: 0;
+    bottom: 0;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 430px) {
+  body.palette-page .app {
+    grid-template-rows: 28px minmax(0, 1fr) auto;
+    gap: 4px;
+  }
+  body.palette-page .hero {
+    min-height: 28px;
+    height: 28px;
+  }
+  body.palette-page .hero-logo-link,
+  body.palette-page .hero-logo {
+    width: 28px;
+    height: 28px;
+  }
+  body.palette-page .brand-title {
+    max-width: 76%;
+    font-size: clamp(14px, 2vw, 19px);
+    letter-spacing: .03em;
+  }
+  body.palette-page .brand-title .customer-title {
+    max-width: min(28vw, 126px);
+    font-size: .56em;
+  }
+  body.palette-page .palette-subtitle {
+    font-size: clamp(9px, 1.16vw, 12px);
+  }
+}

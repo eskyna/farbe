@@ -9,6 +9,9 @@ Upload: Den Inhalt dieses Verzeichnisses ins Webroot oder GitHub-Pages-Artefakt 
 Beispiel-Kundinnenlink:
 
 - https://eskyna.com__BASE_PATH__light_warm_soft/
+- https://eskyna.com__BASE_PATH__light_warm_soft/?name=Melissa
+
+Personalisierte Links koennen `?name=Melissa` oder `?kundin=Melissa` nutzen. Der Name bleibt innerhalb der installierten Farbkarte sichtbar, sofern die Kundin die Website-Daten nicht loescht.
 
 Auf der Übersichtsseite stehen nur die 24 Farbkarten zur Auswahl. Jede Unterseite zeigt genau eine Farbkarte ohne Umschalten und ist durch ihr eigenes Manifest installierbar.
 

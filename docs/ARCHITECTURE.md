@@ -27,7 +27,7 @@ Browser
 | `i18n.js` | Sprachwahl nach `?lang=`, Browser-/Handysprache, Fallback Deutsch |
 | `palettes.js` | zentrale Palette-Daten fuer Uebersicht und einzelne PWA |
 | `overview.js` | rendert die Auswahlseite der 24 Farbkarten |
-| `palette-app.js` | rendert Farbfelder, Farb-Erklaerung, Kamera-Farbcheck, Install-/Update-UI |
+| `palette-app.js` | rendert Farbfelder, Farb-Erklaerung, Kamera-Farbcheck, Kundinnen-Personalisierung, Install-/Update-UI |
 | `styles.css` | responsive App-Layout, Branding, Splashscreen, Vollbild-Farbansicht |
 | `sw.js` | Offline-Cache und Update-Mechanik |
 
@@ -66,6 +66,18 @@ Prioritaet:
 2. `navigator.languages`
 3. `navigator.language`
 4. Fallback `de`
+
+## Kundinnen-Personalisierung
+
+Farbkarten koennen mit einem Namen personalisiert gestartet werden, zum Beispiel:
+
+```text
+/farbe/light_warm_clear/?name=Melissa
+```
+
+Unterstuetzte Parameter sind `name`, `kundin`, `customer` und `client`. `palette-app.js` bereinigt den Namen, zeigt ihn im Header als `ESKYNA Farbe fuer Melissa` und speichert ihn pro Farbkarte in `localStorage`. Dadurch bleibt der Name innerhalb der installierten App sichtbar, auch wenn die PWA spaeter ueber die manifest-basierte `start_url` ohne Query-Parameter startet.
+
+Wichtig fuer Datenschutz und PWA-Stabilitaet: Kundinnennamen gehoeren nicht in statische Manifeste, Cache-Namen, `id` oder `version.json`. Das Manifest bleibt pro Farbkarte stabil; die Personalisierung ist Laufzeit-Zustand im Browser.
 
 ## Sicherheits- und Datenschutzmodell
 

@@ -6,8 +6,11 @@
     de: {
       ui: {
         brandWord: 'Farbe',
+        customerFor: 'für {name}',
         brandAria: 'ESKYNA Farbe',
+        brandAriaFor: 'ESKYNA Farbe für {name}',
         pageTitle: 'ESKYNA Farbe - {palette}',
+        pageTitleFor: 'ESKYNA Farbe für {name} - {palette}',
         overviewTitle: 'ESKYNA Farbe',
         paletteSection: 'Farbkarte {palette}',
         overviewSelection: 'Farbkarten Auswahl',
@@ -123,8 +126,11 @@
     en: {
       ui: {
         brandWord: 'Color',
+        customerFor: 'for {name}',
         brandAria: 'ESKYNA Color',
+        brandAriaFor: 'ESKYNA Color for {name}',
         pageTitle: 'ESKYNA Color - {palette}',
+        pageTitleFor: 'ESKYNA Color for {name} - {palette}',
         overviewTitle: 'ESKYNA Color',
         paletteSection: 'Color card {palette}',
         overviewSelection: 'Color card selection',
@@ -220,8 +226,11 @@
     ru: {
       ui: {
         brandWord: 'Цвет',
+        customerFor: 'для {name}',
         brandAria: 'ESKYNA Цвет',
+        brandAriaFor: 'ESKYNA Цвет для {name}',
         pageTitle: 'ESKYNA Цвет - {palette}',
+        pageTitleFor: 'ESKYNA Цвет для {name} - {palette}',
         overviewTitle: 'ESKYNA Цвет',
         paletteSection: 'Цветовая карта {palette}',
         overviewSelection: 'Выбор цветовой карты',
@@ -377,8 +386,9 @@
     return text.charAt(0).toUpperCase() + text.slice(1);
   }
 
-  function getPageTitle(paletteName) {
-    return t('ui.pageTitle', { palette: formatPaletteName(paletteName) });
+  function getPageTitle(paletteName, customerName = '') {
+    const palette = formatPaletteName(paletteName);
+    return customerName ? t('ui.pageTitleFor', { palette, name: customerName }) : t('ui.pageTitle', { palette });
   }
 
   function getOverviewTitle() {

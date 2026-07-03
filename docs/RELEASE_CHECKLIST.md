@@ -5,7 +5,9 @@ Vor dem Deployment:
 - [ ] `npm install` erfolgreich
 - [ ] `npm run check` erfolgreich
 - [ ] Sichtpruefung Portrait
-- [ ] Sichtpruefung Landscape
+- [ ] Sichtpruefung Landscape: Header bleibt einzeilig
+- [ ] Personalisierter Link getestet, z. B. `/farbe/light_warm_clear/?name=Melissa`
+- [ ] Personalisierter Link im Landscape-Modus getestet
 - [ ] Sprache Deutsch getestet
 - [ ] Sprache Englisch mit `?lang=en` getestet
 - [ ] Sprache Russisch mit `?lang=ru` getestet

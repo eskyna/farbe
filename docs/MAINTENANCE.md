@@ -52,6 +52,24 @@ Unterstuetzt sind `de`, `en`, `ru`. Neue sichtbare Texte muessen fuer alle drei 
 /farbe/light_warm_clear/?lang=ru
 ```
 
+## Kundinnen-Links pflegen
+
+Personalisierte Links nutzen Query-Parameter:
+
+```text
+/farbe/light_warm_clear/?name=Melissa
+/farbe/light_warm_clear/?kundin=Melissa
+```
+
+Der Name wird in `palette-app.js` gelesen, bereinigt, im Header angezeigt und pro Farbkarte in `localStorage` gespeichert. Sichtbare Texte wie `fuer`, `for` oder `для` liegen in `i18n.js` unter `ui.customerFor`, `ui.brandAriaFor` und `ui.pageTitleFor`.
+
+Wartungsregeln:
+
+- Keine Kundinnennamen in `manifest.webmanifest`, Service-Worker-Caches, Build-Artefakte oder Logs schreiben.
+- Den Manifest-`id` pro Farbkarte stabil halten, damit Installations- und Update-Erkennung nicht durch Namen fragmentiert wird.
+- Personalisierung muss auch ohne `localStorage` ausfallen koennen, ohne die Farbkarte zu blockieren.
+- Landscape-Header mit `?name=Melissa&lang=de`, `?name=Melissa&lang=en` und `?name=Melissa&lang=ru` testen.
+
 ## Assets ersetzen
 
 | Asset | Zweck |
