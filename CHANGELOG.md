@@ -4,6 +4,8 @@ Alle nennenswerten Aenderungen an diesem Projekt werden hier dokumentiert.
 
 ## Unreleased
 
+- Android/PWA-Installierbarkeit nach dem App-Icon-Update stabilisiert: Manifeste nutzen jetzt getrennte `any`- und `maskable`-Icons, HTML-Manifest-Links bekommen eine Build-Version und Legacy-Icon-Pfade bleiben fuer gecachte Android-Manifeste erhalten.
+
 - Zentrales ESKYNA-Farbe-App-Icon mit Kleeblatt, Schriftzug und Farbfächer als `assets/app-icon.png` eingebunden; alle Paletten-Manifeste verwenden daraus generierte 192px- und 512px-Icons.
 - Validierung, Behave/Cucumber-Requirement und Dokumentation fuer das neue App-Icon ergaenzt.
 - Detaillierte Farbglossarseiten fuer alle Farben ergaenzt: Farbprofil, Rolle im Farbpass, Modewissen, Materialwirkung, Outfit-Rezept, Shopping-Feintuning und kompakte Farbwerte in Deutsch, Englisch und Russisch.

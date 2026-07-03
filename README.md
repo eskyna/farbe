@@ -89,9 +89,9 @@ Wichtig fuer PWA-Updates: Immer den kompletten Dist-Inhalt austauschen, besonder
 
 ## App-Icon
 
-Das installierbare PWA-Icon liegt als Masterdatei unter `assets/app-icon.png`. Es zeigt das ausgewaehlte ESKYNA-Farbe-Design mit Kleeblatt, Schriftzug und Farbfächer. Der Generator erstellt daraus die gemeinsamen 192px-, 512px- und Apple-Touch-Icons fuer Uebersicht und alle Farbkarten. Dadurch sehen alle installierten Farbkarten auf dem Homescreen gleich hochwertig und wiedererkennbar aus.
+Das installierbare PWA-Icon liegt als Masterdatei unter `assets/app-icon.png`. Es zeigt das ausgewaehlte ESKYNA-Farbe-Design mit Kleeblatt, Schriftzug und Farbfächer. Der Generator erstellt daraus gemeinsame 192px-, 512px-, maskierbare Android-Icons und Apple-Touch-Icons fuer Uebersicht und alle Farbkarten. Dadurch sehen alle installierten Farbkarten auf dem Homescreen gleich hochwertig und wiedererkennbar aus.
 
-Die bisherigen Quell-Icons in `icons/` bleiben als Referenzmaterial erhalten. Fuer das Manifest zaehlt aber das zentrale App-Icon. Nach einem Icon-Wechsel immer `npm run build` und `npm run validate:dist` ausfuehren und beim Deployment den kompletten Dist-Ordner hochladen, weil PWA-Icons stark gecacht werden koennen.
+Die Manifeste trennen bewusst `purpose: any` und `purpose: maskable`, damit Android/Chrome die Installierbarkeit stabil erkennt und das Icon sauber maskieren kann. Zusaetzlich erzeugt der Build weiterhin Legacy-Dateien wie `icons/light_warm_clear-512.png`. Diese Dateien sind wichtig fuer Android-Geraete, die vor einem Update noch ein aelteres Manifest im Cache haben. Nach einem Icon-Wechsel immer `npm run build` und `npm run validate:dist` ausfuehren und beim Deployment den kompletten Dist-Ordner hochladen, weil PWA-Icons und Manifeste stark gecacht werden koennen.
 
 ## Farbe pruefen: Premium-Scan-Flow
 
@@ -148,7 +148,7 @@ Die fachlichen Anforderungen aus der Entwicklung sind als Gherkin-Szenarien unte
 - 24 Farbkarten mit je 24 Farben
 - Portrait-Raster 4 x 6 und Landscape-Raster 6 x 4
 - einzeiligen Landscape-Header und lesbare Aktionsleiste
-- ESKYNA Branding, zentrales App-Icon, Splashscreens inklusive Versionszeile, Hintergrundbild und klickbares Kleeblatt
+- ESKYNA Branding, zentrales App-Icon mit Android-maskable Icons und Legacy-Icon-Pfaden, Splashscreens inklusive Versionszeile, Hintergrundbild und klickbares Kleeblatt
 - Deutsch, Englisch und Russisch inklusive Palettennamen
 - Farbnamen, Farberklaerungen, detaillierte Glossarseiten und keine doppelten Farbnamen innerhalb einer Karte
 - Premium-Scan-Flow mit Live-Kamera, Lichtqualitaet, mehreren Messpunkten, Prozentpassung und drei naechsten Farbpass-Toenen

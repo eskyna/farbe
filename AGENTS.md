@@ -112,10 +112,10 @@ Siehe auch [`docs/CODE_MAP.md`](docs/CODE_MAP.md).
 ### App-Icon / PWA-Icon
 
 - Das ausgewaehlte Icon liegt zentral in `assets/app-icon.png`.
-- `bin/generate` erzeugt daraus die gemeinsamen Manifest-Icons fuer Uebersicht und Farbkarten.
+- `bin/generate` erzeugt daraus die gemeinsamen Manifest-Icons fuer Uebersicht und Farbkarten, separate Android-maskable Icons und Legacy-Icon-Pfade fuer gecachte Manifeste.
 - Nicht nur einzelne Dateien in `dist/icons/` austauschen; die Quelle und der Generator muessen konsistent bleiben.
 - Nach Icon-Aenderungen `npm run build && npm run validate:dist` ausfuehren.
-- PWA-Icons koennen auf Android/Chrome laenger gecacht werden; bei Tests eventuell die installierte PWA entfernen und neu installieren.
+- PWA-Icons und Manifestdateien koennen auf Android/Chrome laenger gecacht werden; bei Tests eventuell die installierte PWA entfernen, Chrome-Sitedaten leeren und danach neu installieren.
 
 ### PWA-/Service-Worker-Aenderung
 

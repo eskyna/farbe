@@ -156,7 +156,7 @@ def step_generated_palette_assets(context):
         assert project.path(manifest_path).exists(), f"{manifest_path} fehlt."
         manifest = project.read_json(manifest_path)
         icons = manifest.get("icons", [])
-        assert len(icons) >= 2, f"{slug}: Manifest braucht mindestens zwei Icons."
+        assert len(icons) >= 4, f"{slug}: Manifest braucht any- und maskable-Icons."
         for icon in icons:
             icon_path = str(icon.get("src", "")).replace("../", "").replace("/farbe/", "")
             assert project.path(f"dist/{icon_path}").exists(), f"{slug}: Icon fehlt: {icon.get('src')}"
@@ -453,14 +453,23 @@ def step_installable_app_icon_uses_selected_brand_icon(context):
     assert project.path("dist/assets/app-icon.png").exists(), "dist/assets/app-icon.png fehlt."
     assert project.path("dist/icons/icon-192.png").exists(), "dist/icons/icon-192.png fehlt."
     assert project.path("dist/icons/icon-512.png").exists(), "dist/icons/icon-512.png fehlt."
+    assert project.path("dist/icons/icon-maskable-192.png").exists(), "dist/icons/icon-maskable-192.png fehlt."
+    assert project.path("dist/icons/icon-maskable-512.png").exists(), "dist/icons/icon-maskable-512.png fehlt."
 
     for palette in project.palettes():
         slug = palette["slug"]
         manifest = project.read_json(f"dist/{slug}/manifest.webmanifest")
         icons = manifest.get("icons", [])
-        icon_sources = {str(icon.get("sizes")): str(icon.get("src", "")).replace("/farbe/", "") for icon in icons}
-        assert icon_sources.get("192x192") == "icons/icon-192.png", f"{slug}: 192px-App-Icon verweist nicht auf das zentrale Icon."
-        assert icon_sources.get("512x512") == "icons/icon-512.png", f"{slug}: 512px-App-Icon verweist nicht auf das zentrale Icon."
+        icon_sources = {
+            f"{icon.get('sizes')}:{icon.get('purpose', 'any')}": str(icon.get("src", "")).replace("/farbe/", "")
+            for icon in icons
+        }
+        assert icon_sources.get("192x192:any") == "icons/icon-192.png", f"{slug}: 192px-any-App-Icon verweist nicht auf das zentrale Icon."
+        assert icon_sources.get("512x512:any") == "icons/icon-512.png", f"{slug}: 512px-any-App-Icon verweist nicht auf das zentrale Icon."
+        assert icon_sources.get("192x192:maskable") == "icons/icon-maskable-192.png", f"{slug}: 192px-maskable-App-Icon fehlt."
+        assert icon_sources.get("512x512:maskable") == "icons/icon-maskable-512.png", f"{slug}: 512px-maskable-App-Icon fehlt."
+        assert project.path(f"dist/icons/{slug}-192.png").exists(), f"{slug}: Legacy-192px-Icon fehlt."
+        assert project.path(f"dist/icons/{slug}-512.png").exists(), f"{slug}: Legacy-512px-Icon fehlt."
 
 
 @then("die Buttons verwenden Montserrat und ESKYNA-Stilelemente")

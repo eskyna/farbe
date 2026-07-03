@@ -38,7 +38,7 @@ Browser
 
 Alle installierbaren Farbkarten verwenden dasselbe zentrale ESKYNA-Farbe-App-Icon. Die Masterdatei liegt in `assets/app-icon.png` und wird im Build in die benoetigten Groessen fuer Manifest und Apple-Touch-Icon umgerechnet. Das verhindert, dass Kundinnen je Farbkarte unterschiedliche technische Icons sehen, und staerkt die Wiedererkennbarkeit der App.
 
-Die Paletten-Manifeste verweisen direkt auf `icons/icon-192.png` und `icons/icon-512.png`. Dadurch gibt es kein unnoetiges Icon-Duplikat pro Farbkarte und Icon-Aenderungen bleiben zentral wartbar.
+Die Paletten-Manifeste verweisen direkt auf `icons/icon-192.png`, `icons/icon-512.png`, `icons/icon-maskable-192.png` und `icons/icon-maskable-512.png`. Die normalen Icons verwenden `purpose: any`, die Android-Icons `purpose: maskable`. Zusaetzlich erzeugt der Build Legacy-Icon-Pfade je Farbkarte, damit Android/Chrome auch dann installierbar bleibt, wenn ein Geraet noch ein aelteres Manifest im Cache hat.
 
 ## PWA-Update-Modell
 

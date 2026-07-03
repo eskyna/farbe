@@ -134,7 +134,7 @@ Wartungsregeln:
 | `icons/*.png` | Referenz-Icons und vom Generator erzeugte Icon-Ziele; Manifeste verwenden das zentrale App-Icon |
 | `images/*.png` | Referenzbild je Farbkarte |
 
-Nach Asset-Aenderungen immer neu bauen. PWA-Caches koennen alte Bilder halten, besonders App-Icons; deshalb Dist komplett deployen und bei Icon-Tests die installierte PWA ggf. entfernen und neu installieren.
+Nach Asset-Aenderungen immer neu bauen. PWA-Caches koennen alte Bilder halten, besonders App-Icons und Manifestdateien; deshalb Dist komplett deployen. Der Build haelt Legacy-Icon-Pfade fuer gecachte Android-Manifeste bereit. Bei Icon-Tests die installierte PWA ggf. entfernen und Chrome-Sitedaten fuer `/farbe/` leeren.
 
 ## PWA-Installationsbutton
 

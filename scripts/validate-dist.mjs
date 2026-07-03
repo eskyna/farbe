@@ -65,6 +65,8 @@ assert(readText('styles.css').includes('color-glossary-profile-grid'), 'Dist ent
 assert(readText('i18n.js').includes('glossary:'), 'Dist enthaelt keine Glossar-Uebersetzungen.');
 assert(fileExists('icons/icon-192.png'), 'Zentrales 192px-App-Icon fehlt.');
 assert(fileExists('icons/icon-512.png'), 'Zentrales 512px-App-Icon fehlt.');
+assert(fileExists('icons/icon-maskable-192.png'), 'Zentrales maskierbares 192px-App-Icon fehlt.');
+assert(fileExists('icons/icon-maskable-512.png'), 'Zentrales maskierbares 512px-App-Icon fehlt.');
 
 const commonText = requiredFiles
   .filter((file) => /\.(html|js|css|json|webmanifest)$/.test(file))
@@ -88,18 +90,23 @@ for (const palette of palettes) {
 
   const manifest = readJson(`${palette.slug}/manifest.webmanifest`);
   assert(manifest.start_url?.includes(`/${palette.slug}/`), `Palette ${palette.slug}: start_url zeigt nicht auf die Palette.`);
-  assert(Array.isArray(manifest.icons) && manifest.icons.length >= 2, `Palette ${palette.slug}: Manifest braucht mindestens 192px- und 512px-Icons.`);
+  assert(Array.isArray(manifest.icons) && manifest.icons.length >= 4, `Palette ${palette.slug}: Manifest braucht 192px-/512px-Icons fuer any und maskable.`);
+  const iconMatrix = new Map();
 
   for (const icon of manifest.icons) {
     const iconPath = String(icon.src || '').replace(/^\.\.\//, '').replace(/^\/farbe\//, '');
     assert(fileExists(iconPath), `Palette ${palette.slug}: Manifest-Icon fehlt: ${icon.src}`);
-    if (String(icon.sizes) === '192x192') {
-      assert(iconPath === 'icons/icon-192.png', `Palette ${palette.slug}: 192px-Icon verweist nicht auf das zentrale App-Icon.`);
-    }
-    if (String(icon.sizes) === '512x512') {
-      assert(iconPath === 'icons/icon-512.png', `Palette ${palette.slug}: 512px-Icon verweist nicht auf das zentrale App-Icon.`);
-    }
+    iconMatrix.set(`${icon.sizes}:${icon.purpose || 'any'}`, iconPath);
   }
+
+  assert(iconMatrix.get('192x192:any') === 'icons/icon-192.png', `Palette ${palette.slug}: 192px-any-Icon verweist nicht auf das zentrale App-Icon.`);
+  assert(iconMatrix.get('512x512:any') === 'icons/icon-512.png', `Palette ${palette.slug}: 512px-any-Icon verweist nicht auf das zentrale App-Icon.`);
+  assert(iconMatrix.get('192x192:maskable') === 'icons/icon-maskable-192.png', `Palette ${palette.slug}: 192px-maskable-Icon fehlt oder ist falsch.`);
+  assert(iconMatrix.get('512x512:maskable') === 'icons/icon-maskable-512.png', `Palette ${palette.slug}: 512px-maskable-Icon fehlt oder ist falsch.`);
+  assert(fileExists(`icons/${palette.slug}-192.png`), `Palette ${palette.slug}: Legacy-192px-Icon fuer gecachte Android-Manifeste fehlt.`);
+  assert(fileExists(`icons/${palette.slug}-512.png`), `Palette ${palette.slug}: Legacy-512px-Icon fuer gecachte Android-Manifeste fehlt.`);
+  assert(fileExists(`icons/${palette.slug}-apple-touch-icon.png`), `Palette ${palette.slug}: Legacy-Apple-Icon fehlt.`);
+  assert(fileExists(`icons/${palette.slug}.png`), `Palette ${palette.slug}: Legacy-Quell-Icon fehlt.`);
 
   assert(Array.isArray(palette.colors) && palette.colors.length === 24, `Palette ${palette.slug}: colors muss 24 Farben haben.`);
   for (const hex of palette.colors) {

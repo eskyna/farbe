@@ -98,8 +98,8 @@ Service Worker:
 ### Das App-Icon aendern
 
 1. Neue Masterdatei als `assets/app-icon.png` ablegen.
-2. Darauf achten, dass Kleeblatt, `ESKYNA Farbe` und Farbfächer innerhalb der sicheren Icon-Mitte liegen.
-3. `bin/generate` nicht umgehen: Der Build erzeugt `icons/icon-192.png`, `icons/icon-512.png` und `icons/apple-touch-icon.png` aus dieser Masterdatei; alle Paletten-Manifeste verweisen darauf.
+2. Darauf achten, dass Kleeblatt, `ESKYNA Farbe` und Farbfächer innerhalb der sicheren Icon-Mitte liegen; der Generator erstellt daraus separate `any`- und `maskable`-Icons.
+3. `bin/generate` nicht umgehen: Der Build erzeugt `icons/icon-192.png`, `icons/icon-512.png`, `icons/icon-maskable-192.png`, `icons/icon-maskable-512.png`, `icons/apple-touch-icon.png` und Legacy-Icon-Pfade aus dieser Masterdatei; alle Paletten-Manifeste verweisen auf die zentralen Dateien.
 4. `npm run build && npm run validate:dist` ausfuehren.
 5. Wegen PWA-Icon-Caching den kompletten Dist-Ordner deployen und auf Testgeraeten ggf. die PWA neu installieren.
 

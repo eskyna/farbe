@@ -18,6 +18,8 @@ const APP_SHELL = [
   "/farbe/assets/app-background.jpg",
   "/farbe/icons/icon-192.png",
   "/farbe/icons/icon-512.png",
+  "/farbe/icons/icon-maskable-192.png",
+  "/farbe/icons/icon-maskable-512.png",
   "/farbe/icons/apple-touch-icon.png",
   "/farbe/light_cool_clear/",
   "/farbe/light_cool_clear/index.html",
