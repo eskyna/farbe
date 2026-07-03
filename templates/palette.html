@@ -9,16 +9,27 @@
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="apple-touch-icon" href="__BASE_PATH__icons/__PALETTE_SLUG__-apple-touch-icon.png" />
   <link rel="icon" href="__BASE_PATH__icons/__PALETTE_SLUG__-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="__BASE_PATH__styles.css" />
   <title>__APP_NAME__</title>
 </head>
 <body class="palette-page">
+  <div id="splashScreen" class="splash-screen" aria-hidden="true">
+    <picture>
+      <source media="(orientation: landscape)" srcset="__BASE_PATH__assets/splash-landscape.jpg" />
+      <img src="__BASE_PATH__assets/splash-portrait.jpg" alt="" />
+    </picture>
+  </div>
+
   <main class="app palette-app-layout">
     <header class="hero" aria-label="__APP_NAME__">
-      <img class="hero-logo" src="__BASE_PATH__assets/sign_gold.png" alt="ESKYNA Symbol" />
+      <a class="hero-logo-link" href="https://eskyna.com" target="_blank" rel="noopener noreferrer" aria-label="ESKYNA Website öffnen">
+        <img class="hero-logo" src="__BASE_PATH__assets/sign_gold.png" alt="ESKYNA Symbol" />
+      </a>
       <div class="hero-copy">
-        <p class="eyebrow">ESKYNA</p>
-        <h1>ESKYNA Farbe</h1>
+        <h1 class="brand-title"><span class="brand-eskyna">ESKYNA</span> <span class="brand-farbe">Farbe</span></h1>
         <p id="pageTitle" class="palette-subtitle">__PALETTE_NAME__</p>
       </div>
     </header>
@@ -29,7 +40,6 @@
 
     <section class="analysis-panel" aria-label="Kleidungsstück prüfen">
       <p id="installHint" class="install-hint hidden" aria-live="polite"></p>
-      <p class="hint">Foto machen oder wählen. Das Kleidungsstück muss in der Bildmitte liegen.</p>
       <div id="previewWrap" class="preview-wrap hidden">
         <canvas id="previewCanvas"></canvas>
         <div class="target" aria-hidden="true"></div>
@@ -46,11 +56,12 @@
             <circle cx="12" cy="13.5" r="3.5"></circle>
           </svg>
         </span>
-        <span>Foto wählen</span>
+        <span>Farbe prüfen</span>
         <input id="photoInput" type="file" accept="image/*" capture="environment" />
       </label>
       <a class="bottom-action secondary-button telegram-button" href="__TELEGRAM_BOT_URL__" target="_blank" rel="noopener noreferrer">Stilfrage an Natalia</a>
-      <button id="installButton" class="bottom-action install-button" type="button">App installieren</button>
+      <button id="installButton" class="bottom-action install-button hidden" type="button">App installieren</button>
+      <button id="updateButton" class="bottom-action install-button update-button hidden" type="button">App aktualisieren</button>
     </nav>
   </main>
   <div id="colorFullscreen" class="color-fullscreen hidden" aria-hidden="true" aria-label="Vollbild-Farbansicht"></div>

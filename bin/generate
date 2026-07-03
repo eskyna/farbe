@@ -31,6 +31,7 @@ from __future__ import annotations
 import argparse
 import json
 import shutil
+from datetime import datetime, timezone
 import sys
 from html import escape
 from pathlib import Path
@@ -1807,6 +1808,11 @@ def create_icons(logo_png: bytes, farbe_dir: Path, palettes: list[dict[str, Any]
   icons = farbe_dir / "icons"
   write_binary(assets / "sign_gold.png", logo_png)
 
+  for splash_name in ("splash-portrait.jpg", "splash-landscape.jpg"):
+    splash_path = ROOT_DIR / "assets" / splash_name
+    if splash_path.exists() and splash_path.is_file():
+      write_binary(assets / splash_name, splash_path.read_bytes())
+
   write_binary(icons / "icon-192.png", make_icon_png(logo_png, 192))
   write_binary(icons / "icon-512.png", make_icon_png(logo_png, 512))
   write_binary(icons / "apple-touch-icon.png", make_icon_png(logo_png, 180))
@@ -1838,6 +1844,8 @@ def verify_generated_icons(farbe_dir: Path, palettes: list[dict[str, Any]]) -> N
     farbe_dir / "icons" / "icon-512.png",
     farbe_dir / "icons" / "apple-touch-icon.png",
     farbe_dir / "assets" / "sign_gold.png",
+    farbe_dir / "assets" / "splash-portrait.jpg",
+    farbe_dir / "assets" / "splash-landscape.jpg",
   ]
 
   for palette in palettes:
@@ -1937,7 +1945,12 @@ def manifest_json(palette: dict[str, Any], base_path: str) -> str:
 
 def service_worker_js(palettes: list[dict[str, Any]], base_path: str) -> str:
     _ = palettes
-    return rewrite_base_path(read_repo_text(ROOT_DIR / "sw.js"), base_path)
+    content = rewrite_base_path(read_repo_text(ROOT_DIR / "sw.js"), base_path)
+    build_version = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
+    return content.replace(
+        'const CACHE_NAME = "eskyna-farben-v2";',
+        f'const CACHE_NAME = "eskyna-farben-{build_version}";'
+    )
 
 
 def readme_md(base_path: str) -> str:

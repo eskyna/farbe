@@ -1,5 +1,6 @@
 const grid = document.getElementById('overviewGrid');
 
+initializeSplashScreen();
 registerServiceWorker();
 
 function renderOverview() {
@@ -37,3 +38,18 @@ function registerServiceWorker() {
 }
 
 renderOverview();
+
+
+function initializeSplashScreen() {
+  const splashScreen = document.getElementById('splashScreen');
+  if (!splashScreen) return;
+
+  const hideSplash = () => {
+    splashScreen.classList.add('splash-hide');
+    window.setTimeout(() => splashScreen.remove(), 650);
+  };
+
+  splashScreen.addEventListener('click', hideSplash, { once: true });
+  window.addEventListener('load', () => window.setTimeout(hideSplash, 1750), { once: true });
+  window.setTimeout(hideSplash, 3200);
+}

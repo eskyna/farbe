@@ -4,12 +4,16 @@ const previewWrap = document.getElementById('previewWrap');
 const previewCanvas = document.getElementById('previewCanvas');
 const result = document.getElementById('result');
 const installButton = document.getElementById('installButton');
+const updateButton = document.getElementById('updateButton');
 const installHint = document.getElementById('installHint');
+const splashScreen = document.getElementById('splashScreen');
 const colorFullscreen = document.getElementById('colorFullscreen');
 const ctx = previewCanvas.getContext('2d', { willReadFrequently: true });
 const MATCH_THRESHOLD = 18;
 let deferredInstallPrompt = null;
 let fullscreenColor = null;
+let refreshingForUpdate = false;
+let waitingServiceWorker = null;
 
 const slugFromPage = window.ESKYNA_PALETTE_SLUG || location.pathname.split('/').filter(Boolean).pop();
 const activePalette = window.ESKYNA_PALETTES.find((p) => p.slug === slugFromPage) || window.ESKYNA_PALETTES[0];
@@ -17,9 +21,10 @@ const activePalette = window.ESKYNA_PALETTES.find((p) => p.slug === slugFromPage
 document.title = activePalette.appName;
 const titleNode = document.getElementById('pageTitle');
 const paletteNameNode = document.getElementById('paletteName');
-if (titleNode) titleNode.textContent = activePalette.name;
-if (paletteNameNode) paletteNameNode.textContent = activePalette.name;
+if (titleNode) titleNode.textContent = formatPaletteName(activePalette.name);
+if (paletteNameNode) paletteNameNode.textContent = formatPaletteName(activePalette.name);
 
+initializeSplashScreen();
 renderPalette();
 photoInput.addEventListener('change', handlePhoto);
 registerServiceWorker();
@@ -162,58 +167,92 @@ function findNearestColor(sampled, palette) {
   return best;
 }
 
+function initializeSplashScreen() {
+  if (!splashScreen) return;
+
+  const hideSplash = () => {
+    splashScreen.classList.add('splash-hide');
+    window.setTimeout(() => splashScreen.remove(), 650);
+  };
+
+  splashScreen.addEventListener('click', hideSplash, { once: true });
+  window.addEventListener('load', () => window.setTimeout(hideSplash, 1750), { once: true });
+  window.setTimeout(hideSplash, 3200);
+}
+
 function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return;
   const basePath = window.ESKYNA_BASE_PATH || '/farbe/';
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('../sw.js', { scope: basePath }).catch(() => {});
+
+  window.addEventListener('load', async () => {
+    try {
+      const registration = await navigator.serviceWorker.register('../sw.js', { scope: basePath });
+
+      if (registration.waiting && navigator.serviceWorker.controller) {
+        showUpdateButton(registration.waiting);
+      }
+
+      registration.addEventListener('updatefound', () => {
+        const newWorker = registration.installing;
+        if (!newWorker) return;
+
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            showUpdateButton(newWorker);
+          }
+        });
+      });
+
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (refreshingForUpdate) return;
+        refreshingForUpdate = true;
+        window.location.reload();
+      });
+
+      registration.update().catch(() => {});
+    } catch (error) {
+      // Kein sichtbarer Fehler: Die Farbkarte funktioniert auch ohne Service Worker.
+    }
   });
+}
+
+function showUpdateButton(worker) {
+  if (!updateButton || !worker) return;
+
+  waitingServiceWorker = worker;
+  updateButton.disabled = false;
+  updateButton.classList.remove('hidden');
+  document.body.classList.add('has-update');
 }
 
 function initializeInstallPrompt() {
   if (!installButton) return;
 
-  installButton.classList.remove('hidden');
-  installButton.disabled = false;
+  hideInstallButton();
 
-  if (isStandaloneMode()) {
-    installButton.disabled = true;
-    showInstallHint('Diese App ist bereits installiert.');
-    return;
+  if (updateButton) {
+    updateButton.addEventListener('click', handleUpdateClick);
   }
+
+  if (isStandaloneMode()) return;
 
   installButton.addEventListener('click', handleInstallClick);
 
   window.addEventListener('beforeinstallprompt', (event) => {
     event.preventDefault();
     deferredInstallPrompt = event;
-    installButton.disabled = false;
-    showInstallHint('Installieren Sie diese Palette als App auf Ihrem Gerät.');
+    showInstallButton();
   });
 
   window.addEventListener('appinstalled', () => {
     deferredInstallPrompt = null;
-    installButton.disabled = true;
-    showInstallHint('Die App wurde installiert.');
+    hideInstallButton();
   });
 
-  if (isIosSafari()) {
-    showInstallHint('Auf iPhone oder iPad: Tippen Sie auf Teilen und dann auf Zum Home-Bildschirm.');
-    return;
-  }
-
-  showInstallHint('Tippen Sie auf App installieren. Falls kein Dialog erscheint, nutzen Sie das Browser-Menue und dann Installieren oder Zum Startbildschirm hinzufuegen.');
 }
 
 async function handleInstallClick() {
-  if (!deferredInstallPrompt) {
-    if (isIosSafari()) {
-      showInstallHint('Auf iPhone oder iPad: Tippen Sie auf Teilen und dann auf Zum Home-Bildschirm.');
-      return;
-    }
-    showInstallHint('Bitte nutzen Sie das Browser-Menue und waehlen Sie Installieren oder Zum Startbildschirm hinzufuegen.');
-    return;
-  }
+  if (!deferredInstallPrompt) return;
 
   installButton.disabled = true;
   await deferredInstallPrompt.prompt();
@@ -221,19 +260,38 @@ async function handleInstallClick() {
   deferredInstallPrompt = null;
 
   if (outcome === 'accepted') {
-    installButton.disabled = true;
-    showInstallHint('Die Installation wurde gestartet.');
+    hideInstallButton();
     return;
   }
 
   installButton.disabled = false;
-  showInstallHint('Die Installation wurde abgebrochen. Sie koennen es erneut versuchen.');
+  showInstallButton();
+}
+
+function handleUpdateClick() {
+  if (!waitingServiceWorker) return;
+
+  updateButton.disabled = true;
+  updateButton.textContent = 'Aktualisiere ...';
+  waitingServiceWorker.postMessage({ type: 'SKIP_WAITING' });
+}
+
+function showInstallButton() {
+  if (!installButton || isStandaloneMode()) return;
+  installButton.disabled = false;
+  installButton.classList.remove('hidden');
+}
+
+function hideInstallButton() {
+  if (!installButton) return;
+  installButton.classList.add('hidden');
+  installButton.disabled = true;
 }
 
 function showInstallHint(message) {
   if (!installHint) return;
-  installHint.textContent = message;
-  installHint.classList.remove('hidden');
+  installHint.textContent = message || '';
+  installHint.classList.toggle('hidden', !message);
 }
 
 function isStandaloneMode() {
@@ -246,6 +304,14 @@ function isIosSafari() {
   const isWebKit = /WebKit/.test(userAgent);
   const isCriOS = /CriOS/.test(userAgent);
   return isIos && isWebKit && !isCriOS;
+}
+
+function formatPaletteName(name) {
+  return String(name)
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
 }
 
 function hexToRgb(hex) {

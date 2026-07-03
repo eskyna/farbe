@@ -519,3 +519,181 @@ h2 {
     height: 14px;
   }
 }
+
+/* ESKYNA refinement 2026-07 */
+:root {
+  --eskyna-black: #171512;
+  --eskyna-cream: #fffaf0;
+  --eskyna-blush: #efe1d3;
+  --eskyna-bronze: #8f6930;
+  --eskyna-gold: #c7a35b;
+}
+
+body {
+  font-family: "Montserrat", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.hero-logo-link {
+  display: inline-flex;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.hero-logo-link:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(199, 163, 91, .30);
+}
+
+.brand-title {
+  margin: 0;
+  font-family: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(38px, 10vw, 64px);
+  font-weight: 800;
+  letter-spacing: .045em;
+  line-height: .94;
+  text-transform: uppercase;
+}
+.brand-eskyna {
+  color: var(--eskyna-black);
+}
+.brand-farbe {
+  color: var(--eskyna-bronze);
+  font-weight: 700;
+  letter-spacing: .025em;
+  text-transform: none;
+}
+
+.palette-subtitle {
+  font-family: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  color: var(--eskyna-bronze);
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: none;
+}
+
+.palette-page .brand-title {
+  font-size: clamp(32px, 8.6vw, 52px);
+  letter-spacing: .04em;
+}
+.palette-page h1.brand-title {
+  font-family: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+}
+.palette-page .hero {
+  align-items: center;
+}
+.palette-page .hero-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #efe2d4;
+  transition: opacity .58s ease, visibility .58s ease;
+  cursor: pointer;
+}
+.splash-screen picture,
+.splash-screen img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.splash-screen img {
+  object-fit: cover;
+  object-position: center;
+}
+.splash-screen.splash-hide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+@media (orientation: landscape) {
+  .splash-screen img {
+    object-position: center center;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .splash-screen {
+    transition: none;
+  }
+}
+
+.file-button,
+.secondary-button,
+.install-button {
+  position: relative;
+  isolation: isolate;
+  border-radius: 999px;
+  font-family: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: .03em;
+  text-transform: none;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+}
+.file-button:active,
+.secondary-button:active,
+.install-button:active {
+  transform: translateY(1px) scale(.995);
+}
+.file-button {
+  border: 1px solid rgba(23, 21, 18, .96);
+  background: linear-gradient(135deg, #15130f 0%, #2b251d 100%);
+  color: var(--eskyna-cream);
+  box-shadow: 0 16px 34px rgba(23, 21, 18, .20), inset 0 1px 0 rgba(255, 250, 240, .12);
+}
+.file-button::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  border: 1px solid rgba(245, 211, 127, .22);
+  pointer-events: none;
+}
+.secondary-button {
+  border: 1px solid rgba(143, 105, 48, .42);
+  background: linear-gradient(135deg, rgba(255, 253, 248, .96) 0%, rgba(244, 234, 220, .92) 100%);
+  color: var(--eskyna-black);
+  box-shadow: 0 14px 28px rgba(67, 50, 25, .12), inset 0 1px 0 rgba(255, 255, 255, .75);
+}
+.install-button {
+  border: 1px solid rgba(143, 105, 48, .55);
+  background: linear-gradient(135deg, #b78f45 0%, #e3c16d 52%, #9d7735 100%);
+  color: #211a11;
+  box-shadow: 0 14px 30px rgba(154, 116, 51, .22), inset 0 1px 0 rgba(255, 255, 255, .30);
+}
+.update-button {
+  background: linear-gradient(135deg, #171512 0%, #372b1d 100%);
+  color: var(--eskyna-cream);
+  border-color: rgba(245, 211, 127, .45);
+}
+.bottom-action-bar {
+  grid-template-columns: repeat(auto-fit, minmax(108px, 1fr));
+  background: linear-gradient(180deg, rgba(247, 242, 232, .70) 0%, rgba(247, 242, 232, .96) 28%, rgba(247, 242, 232, .99) 100%);
+}
+body.has-update .bottom-action-bar {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 430px) {
+  .brand-title {
+    font-size: clamp(32px, 8.8vw, 44px);
+    letter-spacing: .025em;
+  }
+  .palette-page .brand-title {
+    font-size: clamp(26px, 7.3vw, 36px);
+    letter-spacing: .025em;
+  }
+  .palette-page .palette-subtitle {
+    font-size: 12px;
+    letter-spacing: .04em;
+  }
+  .bottom-action-bar {
+    grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  }
+}

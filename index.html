@@ -9,16 +9,27 @@
   <link rel="manifest" href="/farbe/manifest.webmanifest" />
   <link rel="apple-touch-icon" href="/farbe/icons/apple-touch-icon.png" />
   <link rel="icon" href="/farbe/icons/icon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/farbe/styles.css" />
   <title>ESKYNA Farbe</title>
 </head>
 <body>
+  <div id="splashScreen" class="splash-screen" aria-hidden="true">
+    <picture>
+      <source media="(orientation: landscape)" srcset="/farbe/assets/splash-landscape.jpg" />
+      <img src="/farbe/assets/splash-portrait.jpg" alt="" />
+    </picture>
+  </div>
+
   <main class="app">
     <header class="hero" aria-label="ESKYNA Farben">
-      <img class="hero-logo" src="/farbe/assets/sign_gold.png" alt="ESKYNA Symbol" />
+      <a class="hero-logo-link" href="https://eskyna.com" target="_blank" rel="noopener noreferrer" aria-label="ESKYNA Website öffnen">
+        <img class="hero-logo" src="/farbe/assets/sign_gold.png" alt="ESKYNA Symbol" />
+      </a>
       <div class="hero-copy">
-        <p class="eyebrow">ESKYNA</p>
-        <h1>Farbe</h1>
+        <h1 class="brand-title"><span class="brand-eskyna">ESKYNA</span> <span class="brand-farbe">Farbe</span></h1>
       </div>
     </header>
     <section id="overviewGrid" class="overview-grid" aria-label="Farbkarten Auswahl"></section>

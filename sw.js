@@ -1,4 +1,4 @@
-const CACHE_NAME = "eskyna-farben-v1";
+const CACHE_NAME = "eskyna-farben-v2";
 const FALLBACK_URL = "/farbe/";
 const APP_SHELL = [
   "/farbe/",
@@ -9,6 +9,8 @@ const APP_SHELL = [
   "/farbe/overview.js",
   "/farbe/palette-app.js",
   "/farbe/assets/sign_gold.png",
+  "/farbe/assets/splash-portrait.jpg",
+  "/farbe/assets/splash-landscape.jpg",
   "/farbe/icons/icon-192.png",
   "/farbe/icons/icon-512.png",
   "/farbe/icons/apple-touch-icon.png",
@@ -186,7 +188,6 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)).catch(() => {})
   );
-  self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
@@ -194,6 +195,12 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))))
   );
   self.clients.claim();
+});
+
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
 self.addEventListener('fetch', (event) => {
