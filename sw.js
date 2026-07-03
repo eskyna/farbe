@@ -1,4 +1,4 @@
-const CACHE_NAME = "eskyna-farben-v2";
+const CACHE_NAME = "eskyna-farben-v3";
 const FALLBACK_URL = "/farbe/";
 const APP_SHELL = [
   "/farbe/",
@@ -11,6 +11,7 @@ const APP_SHELL = [
   "/farbe/assets/sign_gold.png",
   "/farbe/assets/splash-portrait.jpg",
   "/farbe/assets/splash-landscape.jpg",
+  "/farbe/assets/app-background.jpg",
   "/farbe/icons/icon-192.png",
   "/farbe/icons/icon-512.png",
   "/farbe/icons/apple-touch-icon.png",

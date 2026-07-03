@@ -220,6 +220,7 @@ function showUpdateButton(worker) {
   if (!updateButton || !worker) return;
 
   waitingServiceWorker = worker;
+  hideInstallButton();
   updateButton.disabled = false;
   updateButton.classList.remove('hidden');
   document.body.classList.add('has-update');
@@ -277,15 +278,17 @@ function handleUpdateClick() {
 }
 
 function showInstallButton() {
-  if (!installButton || isStandaloneMode()) return;
+  if (!installButton || isStandaloneMode() || document.body.classList.contains('has-update')) return;
   installButton.disabled = false;
   installButton.classList.remove('hidden');
+  document.body.classList.add('has-install');
 }
 
 function hideInstallButton() {
   if (!installButton) return;
   installButton.classList.add('hidden');
   installButton.disabled = true;
+  document.body.classList.remove('has-install');
 }
 
 function showInstallHint(message) {

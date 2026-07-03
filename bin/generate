@@ -8,7 +8,7 @@ Erzeugt eine statische Website ohne Code-Duplikation:
 - /<palette_slug>/        eine installierbare PWA pro Farbkarte
 
 Jede PWA nutzt dieselben gemeinsamen Dateien:
-styles.css, palettes.js, overview.js, palette-app.js, sw.js, assets/sign_gold.png
+styles.css, palettes.js, overview.js, palette-app.js, sw.js, assets/sign_gold.png, assets/app-background.jpg
 
 Jede Farbkarte bekommt ihr eigenes App-Icon. Der Generator sucht standardmäßig
 in ./icons nach Dateien wie icons/light_warm_soft.png. Fehlt eine Datei, wird
@@ -1808,10 +1808,10 @@ def create_icons(logo_png: bytes, farbe_dir: Path, palettes: list[dict[str, Any]
   icons = farbe_dir / "icons"
   write_binary(assets / "sign_gold.png", logo_png)
 
-  for splash_name in ("splash-portrait.jpg", "splash-landscape.jpg"):
-    splash_path = ROOT_DIR / "assets" / splash_name
-    if splash_path.exists() and splash_path.is_file():
-      write_binary(assets / splash_name, splash_path.read_bytes())
+  for asset_name in ("splash-portrait.jpg", "splash-landscape.jpg", "app-background.jpg"):
+    asset_path = ROOT_DIR / "assets" / asset_name
+    if asset_path.exists() and asset_path.is_file():
+      write_binary(assets / asset_name, asset_path.read_bytes())
 
   write_binary(icons / "icon-192.png", make_icon_png(logo_png, 192))
   write_binary(icons / "icon-512.png", make_icon_png(logo_png, 512))
@@ -1846,6 +1846,7 @@ def verify_generated_icons(farbe_dir: Path, palettes: list[dict[str, Any]]) -> N
     farbe_dir / "assets" / "sign_gold.png",
     farbe_dir / "assets" / "splash-portrait.jpg",
     farbe_dir / "assets" / "splash-landscape.jpg",
+    farbe_dir / "assets" / "app-background.jpg",
   ]
 
   for palette in palettes:
@@ -1948,7 +1949,7 @@ def service_worker_js(palettes: list[dict[str, Any]], base_path: str) -> str:
     content = rewrite_base_path(read_repo_text(ROOT_DIR / "sw.js"), base_path)
     build_version = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
     return content.replace(
-        'const CACHE_NAME = "eskyna-farben-v2";',
+        'const CACHE_NAME = "eskyna-farben-v3";',
         f'const CACHE_NAME = "eskyna-farben-{build_version}";'
     )
 
