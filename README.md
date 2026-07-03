@@ -1,10 +1,10 @@
 # ESKYNA Farben
 
-Dieses ZIP enthält die fertige statische Website unter `farbe/` und den Generator unter `bin/generate`.
+Dieses Repo enthält die fertige statische Website und den Generator unter `bin/generate`.
 
 ## Direkt hochladen
 
-Den Ordner `farbe/` in das Webroot von `eskyna.com` legen, sodass diese URL funktioniert:
+Den generierten Inhalt ins Webroot oder GitHub-Pages-Artefakt legen, sodass diese URL funktioniert:
 
 ```text
 https://eskyna.com/farbe/
@@ -19,10 +19,10 @@ https://eskyna.com/farbe/light_warm_soft/
 ## Neu generieren
 
 ```bash
-./bin/generate --output ./dist --base-path /farbe/ --zip
+./bin/generate --output ./dist
 ```
 
-Danach den Ordner `dist/farbe/` hochladen.
+Danach den Inhalt von `dist/` deployen.
 
 ## Eigene App-Icons pro Farbkarte
 
@@ -34,28 +34,16 @@ icons/light_cool_clear.png
 icons/clear_warm_deep.png
 ```
 
-Dann generieren:
-
-```bash
-./bin/generate --output ./dist --base-path /farbe/ --palette-icons ./icons --zip
-```
-
-Optional streng prüfen, dass wirklich alle 24 Icons vorhanden sind:
-
-```bash
-./bin/generate --output ./dist --base-path /farbe/ --palette-icons ./icons --require-palette-icons --zip
-```
-
-Jede Palettenseite bekommt dadurch ihr eigenes Manifest-Icon, z. B. `ESKYNA - light warm soft` mit dem Icon aus `icons/light_warm_soft.png`. Fehlt eine Icon-Datei, nutzt der Generator automatisch das ESKYNA-Symbol als Fallback.
+Der Generator verlangt dabei für alle 24 Paletten ein eigenes Icon in `icons/`. Akzeptiert werden Dateinamen im Slug-Format wie `light_warm_soft.png` und die im Repo vorhandene Schreibweise mit Leerzeichen wie `light warm soft.png`. Fehlt eine Datei, bricht der Lauf ab.
 
 ## Struktur
 
 ```text
 bin/generate                # Generator, ausführbar
 icons/                      # Quell-Icons pro Palette, z. B. icons/light_warm_soft.png
-farbe/                      # fertige statische Website
-farbe/index.html            # Übersicht mit 24 Farbkarten
-farbe/<palette>/index.html  # einzelne installierbare PWA
+dist/                       # fertige statische Website
+dist/index.html             # Übersicht mit 24 Farbkarten
+dist/<palette>/index.html   # einzelne installierbare PWA
 ```
 
-Die wiederverwendeten Dateien liegen zentral in `farbe/`; pro Farbkarte werden nur `index.html` und `manifest.webmanifest` erzeugt.
+Die wiederverwendeten Dateien liegen zentral in `dist/`; pro Farbkarte werden nur `index.html` und `manifest.webmanifest` erzeugt.

@@ -5,28 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#f7f2e8" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-title" content="ESKYNA - soft warm deep" />
+  <meta name="apple-mobile-web-app-title" content="__APP_NAME__" />
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="apple-touch-icon" href="/farbe/icons/soft_warm_deep-apple-touch-icon.png" />
-  <link rel="icon" href="/farbe/icons/soft_warm_deep-192.png" />
-  <link rel="stylesheet" href="/farbe/styles.css" />
-  <title>ESKYNA - soft warm deep</title>
+  <link rel="apple-touch-icon" href="__BASE_PATH__icons/__PALETTE_SLUG__-apple-touch-icon.png" />
+  <link rel="icon" href="__BASE_PATH__icons/__PALETTE_SLUG__-192.png" />
+  <link rel="stylesheet" href="__BASE_PATH__styles.css" />
+  <title>__APP_NAME__</title>
 </head>
 <body>
   <main class="app">
-    <header class="hero" aria-label="ESKYNA - soft warm deep">
-      <img class="hero-logo" src="/farbe/assets/sign_gold.png" alt="ESKYNA Symbol" />
+    <header class="hero" aria-label="__APP_NAME__">
+      <img class="hero-logo" src="__BASE_PATH__assets/sign_gold.png" alt="ESKYNA Symbol" />
       <div class="hero-copy">
         <p class="eyebrow">ESKYNA</p>
-        <h1 id="pageTitle">soft warm deep</h1>
+        <h1 id="pageTitle">__PALETTE_NAME__</h1>
       </div>
     </header>
 
-    <section class="panel palette-panel" aria-label="Farbkarte soft warm deep">
+    <section class="panel palette-panel" aria-label="Farbkarte __PALETTE_NAME__">
       <div class="panel-head">
         <div>
           <p class="section-kicker">Meine Palette</p>
-          <h2 id="paletteName">soft warm deep</h2>
+          <h2 id="paletteName">__PALETTE_NAME__</h2>
         </div>
       </div>
       <div id="paletteGrid" class="palette-grid"></div>
@@ -52,10 +52,10 @@
     </section>
   </main>
   <script>
-    window.ESKYNA_PALETTE_SLUG = "soft_warm_deep";
-    window.ESKYNA_BASE_PATH = "/farbe/";
+    window.ESKYNA_PALETTE_SLUG = "__PALETTE_SLUG__";
+    window.ESKYNA_BASE_PATH = "__BASE_PATH__";
   </script>
-  <script src="/farbe/palettes.js"></script>
-  <script src="/farbe/palette-app.js"></script>
+  <script src="__BASE_PATH__palettes.js"></script>
+  <script src="__BASE_PATH__palette-app.js"></script>
 </body>
 </html>

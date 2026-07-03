@@ -3,6 +3,7 @@ const FALLBACK_URL = "/farbe/";
 const APP_SHELL = [
   "/farbe/",
   "/farbe/index.html",
+  "/farbe/manifest.webmanifest",
   "/farbe/styles.css",
   "/farbe/palettes.js",
   "/farbe/overview.js",

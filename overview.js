@@ -1,5 +1,7 @@
 const grid = document.getElementById('overviewGrid');
 
+registerServiceWorker();
+
 function renderOverview() {
   grid.innerHTML = '';
   window.ESKYNA_PALETTES.forEach((palette) => {
@@ -23,6 +25,14 @@ function renderOverview() {
     card.appendChild(mini);
     card.appendChild(name);
     grid.appendChild(card);
+  });
+}
+
+function registerServiceWorker() {
+  if (!('serviceWorker' in navigator)) return;
+  const basePath = '/farbe/';
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js', { scope: basePath }).catch(() => {});
   });
 }
 
