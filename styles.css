@@ -404,6 +404,8 @@ h2 {
   border: 0;
   border-radius: 0;
   background: transparent;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(6, minmax(0, 1fr));
 }
 .palette-page .swatch {
   aspect-ratio: auto;
@@ -487,6 +489,12 @@ h2 {
   }
   .palette-page #previewCanvas {
     max-height: min(13dvh, 98px);
+  }
+}
+@media (orientation: landscape) {
+  .palette-page .palette-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-rows: repeat(4, minmax(0, 1fr));
   }
 }
 @media (min-width: 640px) {

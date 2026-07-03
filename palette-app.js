@@ -25,6 +25,999 @@ const slugFromPage = window.ESKYNA_PALETTE_SLUG || location.pathname.split('/').
 const activePalette = window.ESKYNA_PALETTES.find((p) => p.slug === slugFromPage) || window.ESKYNA_PALETTES[0];
 const I18N = window.ESKYNA_I18N || createFallbackI18n();
 
+const COLOR_NAME_VARIANTS = {
+  "de": {
+    "whiteClear": [
+      "Schneeweiß",
+      "Porzellanweiß",
+      "Kreideweiß",
+      "Kristallweiß",
+      "Optic White",
+      "Reinweiß"
+    ],
+    "whiteCream": [
+      "Cremeweiß",
+      "Elfenbein",
+      "Champagnerweiß",
+      "Vanillecreme",
+      "Eierschale",
+      "Milchweiß"
+    ],
+    "graphite": [
+      "Graphit",
+      "Anthrazit",
+      "Schiefergrau",
+      "Tiefgrau",
+      "Kohle",
+      "Schwarzgrau",
+      "Dunkelgraphit"
+    ],
+    "taupeGrey": [
+      "Taupegrau",
+      "Steingrau",
+      "Rauchgrau",
+      "Zinngrau",
+      "Warmgrau",
+      "Aschbraun",
+      "Mushroom"
+    ],
+    "greige": [
+      "Greige",
+      "Leinengrau",
+      "Perlgrau",
+      "Kieselbeige",
+      "Nebelbeige",
+      "Soft Taupe"
+    ],
+    "espresso": [
+      "Espresso",
+      "Mokka",
+      "Dunkler Kakao",
+      "Kaffeebraun",
+      "Schwarzbraun",
+      "Röstbraun",
+      "Bitterschokolade",
+      "Tiefmokka",
+      "Braunschwarz"
+    ],
+    "chocolateBrown": [
+      "Schokobraun",
+      "Kakaobraun",
+      "Walnussbraun",
+      "Maronenbraun",
+      "Kastanienbraun",
+      "Haselnussbraun",
+      "Erdbraun",
+      "Mahagoni"
+    ],
+    "cognacBrown": [
+      "Cognacbraun",
+      "Karamellbraun",
+      "Lederbraun",
+      "Tabakbraun",
+      "Bernsteinbraun",
+      "Kupferbraun",
+      "Zimtbraun",
+      "Toffee"
+    ],
+    "camel": [
+      "Camel",
+      "Kaschmirbeige",
+      "Honigbeige",
+      "Kamelhaar",
+      "Goldbeige",
+      "Haferbeige",
+      "Nussbeige"
+    ],
+    "sandBeige": [
+      "Sandbeige",
+      "Saharabeige",
+      "Leinenbeige",
+      "Champagnerbeige",
+      "Muschelbeige",
+      "Nude Beige",
+      "Vanillebeige",
+      "Dünenbeige"
+    ],
+    "burgundy": [
+      "Bordeaux",
+      "Burgunderrot",
+      "Merlot",
+      "Granatrot",
+      "Weinrot",
+      "Schwarzkirsche",
+      "Rubinbraun",
+      "Cranberryrot",
+      "Pflaumenrot",
+      "Ochsenblut"
+    ],
+    "cherryRed": [
+      "Kirschrot",
+      "Rubinrot",
+      "Mohnrot",
+      "Klarrot",
+      "Signalrot",
+      "Apfelrot",
+      "Erdbeerrot"
+    ],
+    "tomatoRed": [
+      "Tomatenrot",
+      "Paprikarot",
+      "Geranienrot",
+      "Warmrot",
+      "Feuerrot",
+      "Korallenrot"
+    ],
+    "coral": [
+      "Koralle",
+      "Lachsrot",
+      "Hummerrot",
+      "Papaya",
+      "Wassermelone",
+      "Melonenrot"
+    ],
+    "terracotta": [
+      "Terrakotta",
+      "Ziegelrot",
+      "Rostrot",
+      "Siena",
+      "Tonrot",
+      "Kupferrot"
+    ],
+    "apricot": [
+      "Apricot",
+      "Pfirsich",
+      "Aprikosencreme",
+      "Melba",
+      "Soft Peach",
+      "Nektarine",
+      "Rosé-Apricot"
+    ],
+    "rustOrange": [
+      "Rostorange",
+      "Zimtorange",
+      "Kupferorange",
+      "Mango",
+      "Kürbis",
+      "Curryorange",
+      "Amber Orange"
+    ],
+    "vanillaYellow": [
+      "Vanillegelb",
+      "Buttercreme",
+      "Primelgelb",
+      "Champagnergelb",
+      "Cremegelb",
+      "Sorbetgelb",
+      "Maisgelb hell"
+    ],
+    "goldenYellow": [
+      "Goldgelb",
+      "Sonnengelb",
+      "Safrangelb",
+      "Honiggelb",
+      "Maisgelb",
+      "Bernsteingelb",
+      "Senfgold"
+    ],
+    "lemonYellow": [
+      "Zitronengelb",
+      "Limonengelb",
+      "Klargelb",
+      "Frühlingsgelb",
+      "Chartreusegelb",
+      "Leuchtgelb",
+      "Lindengelb",
+      "Primelgelb klar"
+    ],
+    "oliveGreen": [
+      "Olivgrün",
+      "Moosgrün",
+      "Khakioliv",
+      "Artischocke",
+      "Lorbeergrün",
+      "Tannennadel",
+      "Dunkles Erbsengrün"
+    ],
+    "limeGreen": [
+      "Lindgrün",
+      "Limettengrün",
+      "Apfelgrün",
+      "Pistazie",
+      "Frühlingsgrün",
+      "Chartreusegrün",
+      "Birnengrün"
+    ],
+    "forestGreen": [
+      "Tannengrün",
+      "Waldgrün",
+      "Flaschengrün",
+      "Dunkelsmaragd",
+      "Jagdgrün",
+      "Piniengrün"
+    ],
+    "sageGreen": [
+      "Salbeigrün",
+      "Eukalyptus",
+      "Schilfgrün",
+      "Nebelgrün",
+      "Graugrün",
+      "Minzsalbei",
+      "Staubiges Grün"
+    ],
+    "emeraldGreen": [
+      "Smaragdgrün",
+      "Jadegrün",
+      "Malachit",
+      "Kleeblattgrün",
+      "Brillantgrün",
+      "Viridiangrün",
+      "Pfauengrün"
+    ],
+    "petrol": [
+      "Petrol",
+      "Tiefpetrol",
+      "Teal",
+      "Ozeanpetrol",
+      "Blaugrün tief",
+      "Pfauenblau",
+      "Tintenpetrol"
+    ],
+    "turquoise": [
+      "Türkis",
+      "Aquamarin",
+      "Lagunenblau",
+      "Karibiktürkis",
+      "Poolblau",
+      "Minttürkis",
+      "Eispetrol"
+    ],
+    "nightBlue": [
+      "Nachtblau",
+      "Marineblau",
+      "Tintenblau",
+      "Mitternachtsblau",
+      "Dunkelnavy",
+      "Preußischblau",
+      "Schwarzblau"
+    ],
+    "cobaltBlue": [
+      "Kobaltblau",
+      "Royalblau",
+      "Ultramarin",
+      "Azurblau",
+      "Klarblau",
+      "Saphirblau",
+      "Denimblau"
+    ],
+    "aubergine": [
+      "Aubergine",
+      "Dunkelviolett",
+      "Pflaume",
+      "Brombeere",
+      "Dunkler Amethyst",
+      "Violettbraun"
+    ],
+    "violet": [
+      "Violett",
+      "Flieder",
+      "Amethyst",
+      "Lavendelviolett",
+      "Orchidee",
+      "Veilchen",
+      "Purpur"
+    ],
+    "berry": [
+      "Beerenton",
+      "Himbeerrot",
+      "Brombeerrot",
+      "Johannisbeere",
+      "Cassis",
+      "Fuchsia tief",
+      "Magenta-Beere"
+    ],
+    "powderPink": [
+      "Puderrosa",
+      "Blush",
+      "Rosé hell",
+      "Balletrosa",
+      "Nude Rosé",
+      "Altrosa hell",
+      "Zartrosa"
+    ],
+    "rosePink": [
+      "Rosenpink",
+      "Himbeerpink",
+      "Fuchsia",
+      "Pink",
+      "Wassermelonenpink",
+      "Bougainvillea",
+      "Kirschblüte"
+    ],
+    "generic": [
+      "Farbton",
+      "Akzentton",
+      "Modeton",
+      "Nuanceton"
+    ]
+  },
+  "en": {
+    "whiteClear": [
+      "Snow White",
+      "Porcelain White",
+      "Chalk White",
+      "Crystal White",
+      "Optic White",
+      "Pure White"
+    ],
+    "whiteCream": [
+      "Cream White",
+      "Ivory",
+      "Champagne White",
+      "Vanilla Cream",
+      "Eggshell",
+      "Milk White"
+    ],
+    "graphite": [
+      "Graphite",
+      "Anthracite",
+      "Slate Grey",
+      "Deep Grey",
+      "Charcoal",
+      "Blackened Grey",
+      "Dark Graphite"
+    ],
+    "taupeGrey": [
+      "Taupe Grey",
+      "Stone Grey",
+      "Smoke Grey",
+      "Pewter",
+      "Warm Grey",
+      "Ash Brown",
+      "Mushroom"
+    ],
+    "greige": [
+      "Greige",
+      "Linen Grey",
+      "Pearl Grey",
+      "Pebble Beige",
+      "Mist Beige",
+      "Soft Taupe"
+    ],
+    "espresso": [
+      "Espresso",
+      "Mocha",
+      "Dark Cocoa",
+      "Coffee Brown",
+      "Black Brown",
+      "Roast Brown",
+      "Bittersweet Chocolate",
+      "Deep Mocha",
+      "Brown Black"
+    ],
+    "chocolateBrown": [
+      "Chocolate Brown",
+      "Cocoa Brown",
+      "Walnut Brown",
+      "Chestnut Brown",
+      "Marron",
+      "Hazelnut Brown",
+      "Earth Brown",
+      "Mahogany"
+    ],
+    "cognacBrown": [
+      "Cognac Brown",
+      "Caramel Brown",
+      "Leather Brown",
+      "Tobacco Brown",
+      "Amber Brown",
+      "Copper Brown",
+      "Cinnamon Brown",
+      "Toffee"
+    ],
+    "camel": [
+      "Camel",
+      "Cashmere Beige",
+      "Honey Beige",
+      "Camel Hair",
+      "Golden Beige",
+      "Oat Beige",
+      "Nut Beige"
+    ],
+    "sandBeige": [
+      "Sand Beige",
+      "Sahara Beige",
+      "Linen Beige",
+      "Champagne Beige",
+      "Shell Beige",
+      "Nude Beige",
+      "Vanilla Beige",
+      "Dune Beige"
+    ],
+    "burgundy": [
+      "Bordeaux",
+      "Burgundy",
+      "Merlot",
+      "Garnet Red",
+      "Wine Red",
+      "Black Cherry",
+      "Brown Ruby",
+      "Cranberry Red",
+      "Plum Red",
+      "Oxblood"
+    ],
+    "cherryRed": [
+      "Cherry Red",
+      "Ruby Red",
+      "Poppy Red",
+      "Clear Red",
+      "Signal Red",
+      "Apple Red",
+      "Strawberry Red"
+    ],
+    "tomatoRed": [
+      "Tomato Red",
+      "Pepper Red",
+      "Geranium Red",
+      "Warm Red",
+      "Fire Red",
+      "Coral Red"
+    ],
+    "coral": [
+      "Coral",
+      "Salmon Red",
+      "Lobster Red",
+      "Papaya",
+      "Watermelon",
+      "Melon Red"
+    ],
+    "terracotta": [
+      "Terracotta",
+      "Brick Red",
+      "Rust Red",
+      "Sienna",
+      "Clay Red",
+      "Copper Red"
+    ],
+    "apricot": [
+      "Apricot",
+      "Peach",
+      "Apricot Cream",
+      "Melba",
+      "Soft Peach",
+      "Nectarine",
+      "Rosy Apricot"
+    ],
+    "rustOrange": [
+      "Rust Orange",
+      "Cinnamon Orange",
+      "Copper Orange",
+      "Mango",
+      "Pumpkin",
+      "Curry Orange",
+      "Amber Orange"
+    ],
+    "vanillaYellow": [
+      "Vanilla Yellow",
+      "Buttercream",
+      "Primrose Yellow",
+      "Champagne Yellow",
+      "Cream Yellow",
+      "Sorbet Yellow",
+      "Light Corn Yellow"
+    ],
+    "goldenYellow": [
+      "Golden Yellow",
+      "Sun Yellow",
+      "Saffron Yellow",
+      "Honey Yellow",
+      "Corn Yellow",
+      "Amber Yellow",
+      "Mustard Gold"
+    ],
+    "lemonYellow": [
+      "Lemon Yellow",
+      "Lime Yellow",
+      "Clear Yellow",
+      "Spring Yellow",
+      "Chartreuse Yellow",
+      "Bright Yellow",
+      "Linden Yellow",
+      "Clear Primrose"
+    ],
+    "oliveGreen": [
+      "Olive Green",
+      "Moss Green",
+      "Khaki Olive",
+      "Artichoke",
+      "Laurel Green",
+      "Pine Needle",
+      "Deep Pea Green"
+    ],
+    "limeGreen": [
+      "Linden Green",
+      "Lime Green",
+      "Apple Green",
+      "Pistachio",
+      "Spring Green",
+      "Chartreuse Green",
+      "Pear Green"
+    ],
+    "forestGreen": [
+      "Pine Green",
+      "Forest Green",
+      "Bottle Green",
+      "Deep Emerald",
+      "Hunter Green",
+      "Stone Pine Green"
+    ],
+    "sageGreen": [
+      "Sage Green",
+      "Eucalyptus",
+      "Reed Green",
+      "Mist Green",
+      "Grey Green",
+      "Mint Sage",
+      "Dusty Green"
+    ],
+    "emeraldGreen": [
+      "Emerald Green",
+      "Jade Green",
+      "Malachite",
+      "Clover Green",
+      "Brilliant Green",
+      "Viridian",
+      "Peacock Green"
+    ],
+    "petrol": [
+      "Petrol",
+      "Deep Petrol",
+      "Teal",
+      "Ocean Petrol",
+      "Deep Blue Green",
+      "Peacock Blue",
+      "Ink Petrol"
+    ],
+    "turquoise": [
+      "Turquoise",
+      "Aquamarine",
+      "Lagoon Blue",
+      "Caribbean Turquoise",
+      "Pool Blue",
+      "Mint Turquoise",
+      "Ice Petrol"
+    ],
+    "nightBlue": [
+      "Night Blue",
+      "Navy Blue",
+      "Ink Blue",
+      "Midnight Blue",
+      "Dark Navy",
+      "Prussian Blue",
+      "Black Blue"
+    ],
+    "cobaltBlue": [
+      "Cobalt Blue",
+      "Royal Blue",
+      "Ultramarine",
+      "Azure Blue",
+      "Clear Blue",
+      "Sapphire Blue",
+      "Denim Blue"
+    ],
+    "aubergine": [
+      "Aubergine",
+      "Deep Violet",
+      "Plum",
+      "Blackberry",
+      "Dark Amethyst",
+      "Violet Brown"
+    ],
+    "violet": [
+      "Violet",
+      "Lilac",
+      "Amethyst",
+      "Lavender Violet",
+      "Orchid",
+      "Viola",
+      "Purple"
+    ],
+    "berry": [
+      "Berry Tone",
+      "Raspberry Red",
+      "Blackberry Red",
+      "Redcurrant",
+      "Cassis",
+      "Deep Fuchsia",
+      "Magenta Berry"
+    ],
+    "powderPink": [
+      "Powder Pink",
+      "Blush",
+      "Light Rosé",
+      "Ballet Pink",
+      "Nude Rosé",
+      "Light Dusty Rose",
+      "Soft Pink"
+    ],
+    "rosePink": [
+      "Rose Pink",
+      "Raspberry Pink",
+      "Fuchsia",
+      "Pink",
+      "Watermelon Pink",
+      "Bougainvillea",
+      "Cherry Blossom"
+    ],
+    "generic": [
+      "Color Tone",
+      "Accent Tone",
+      "Fashion Tone",
+      "Nuance"
+    ]
+  },
+  "ru": {
+    "whiteClear": [
+      "Снежно-белый",
+      "Фарфоровый белый",
+      "Меловой белый",
+      "Кристальный белый",
+      "Оптический белый",
+      "Чистый белый"
+    ],
+    "whiteCream": [
+      "Кремовый белый",
+      "Айвори",
+      "Шампанский белый",
+      "Ванильный крем",
+      "Яичная скорлупа",
+      "Молочный белый"
+    ],
+    "graphite": [
+      "Графит",
+      "Антрацит",
+      "Сланцевый серый",
+      "Глубокий серый",
+      "Угольный",
+      "Чёрно-серый",
+      "Тёмный графит"
+    ],
+    "taupeGrey": [
+      "Тауп-серый",
+      "Каменный серый",
+      "Дымчатый серый",
+      "Оловянный",
+      "Тёплый серый",
+      "Пепельно-коричневый",
+      "Mushroom"
+    ],
+    "greige": [
+      "Грейж",
+      "Льняной серый",
+      "Жемчужно-серый",
+      "Галечный беж",
+      "Туманный беж",
+      "Мягкий тауп"
+    ],
+    "espresso": [
+      "Эспрессо",
+      "Мокка",
+      "Тёмный какао",
+      "Кофейный коричневый",
+      "Чёрно-коричневый",
+      "Обжаренный коричневый",
+      "Горький шоколад",
+      "Глубокий мокка",
+      "Коричнево-чёрный"
+    ],
+    "chocolateBrown": [
+      "Шоколадный коричневый",
+      "Какао",
+      "Ореховый коричневый",
+      "Каштановый",
+      "Марон",
+      "Фундук",
+      "Землистый коричневый",
+      "Махагони"
+    ],
+    "cognacBrown": [
+      "Коньячный коричневый",
+      "Карамельный коричневый",
+      "Кожаный коричневый",
+      "Табачный коричневый",
+      "Янтарный коричневый",
+      "Медный коричневый",
+      "Коричный коричневый",
+      "Тоффи"
+    ],
+    "camel": [
+      "Кэмел",
+      "Кашемировый беж",
+      "Медовый беж",
+      "Верблюжья шерсть",
+      "Золотистый беж",
+      "Овсяный беж",
+      "Ореховый беж"
+    ],
+    "sandBeige": [
+      "Песочный беж",
+      "Сахарский беж",
+      "Льняной беж",
+      "Шампанский беж",
+      "Ракушечный беж",
+      "Нюдовый беж",
+      "Ванильный беж",
+      "Дюнный беж"
+    ],
+    "burgundy": [
+      "Бордо",
+      "Бургунди",
+      "Мерло",
+      "Гранатовый красный",
+      "Винный красный",
+      "Чёрная вишня",
+      "Коричневый рубин",
+      "Клюквенный красный",
+      "Сливовый красный",
+      "Оксблад"
+    ],
+    "cherryRed": [
+      "Вишнёвый красный",
+      "Рубиновый красный",
+      "Маковый красный",
+      "Чистый красный",
+      "Сигнальный красный",
+      "Яблочный красный",
+      "Клубничный красный"
+    ],
+    "tomatoRed": [
+      "Томатный красный",
+      "Перечный красный",
+      "Гераниевый красный",
+      "Тёплый красный",
+      "Огненный красный",
+      "Коралловый красный"
+    ],
+    "coral": [
+      "Коралловый",
+      "Лососевый красный",
+      "Лобстеровый",
+      "Папайя",
+      "Арбузный",
+      "Дынный красный"
+    ],
+    "terracotta": [
+      "Терракота",
+      "Кирпичный красный",
+      "Ржавый красный",
+      "Сиена",
+      "Глиняный красный",
+      "Медный красный"
+    ],
+    "apricot": [
+      "Абрикосовый",
+      "Персиковый",
+      "Абрикосовый крем",
+      "Мельба",
+      "Мягкий персик",
+      "Нектарин",
+      "Розе-абрикос"
+    ],
+    "rustOrange": [
+      "Ржаво-оранжевый",
+      "Коричный оранжевый",
+      "Медный оранжевый",
+      "Манго",
+      "Тыквенный",
+      "Карри-оранжевый",
+      "Янтарный оранжевый"
+    ],
+    "vanillaYellow": [
+      "Ванильный жёлтый",
+      "Масляный крем",
+      "Примульный жёлтый",
+      "Шампанский жёлтый",
+      "Кремовый жёлтый",
+      "Сорбетный жёлтый",
+      "Светло-кукурузный"
+    ],
+    "goldenYellow": [
+      "Золотистый жёлтый",
+      "Солнечный жёлтый",
+      "Шафрановый жёлтый",
+      "Медовый жёлтый",
+      "Кукурузный жёлтый",
+      "Янтарный жёлтый",
+      "Горчичное золото"
+    ],
+    "lemonYellow": [
+      "Лимонный жёлтый",
+      "Лаймовый жёлтый",
+      "Чистый жёлтый",
+      "Весенний жёлтый",
+      "Шартрез-жёлтый",
+      "Яркий жёлтый",
+      "Липовый жёлтый",
+      "Чистая примула"
+    ],
+    "oliveGreen": [
+      "Оливковый зелёный",
+      "Моховый зелёный",
+      "Хаки-оливковый",
+      "Артишок",
+      "Лавровый зелёный",
+      "Сосновая игла",
+      "Глубокий гороховый"
+    ],
+    "limeGreen": [
+      "Липовый зелёный",
+      "Лаймовый зелёный",
+      "Яблочный зелёный",
+      "Фисташковый",
+      "Весенний зелёный",
+      "Шартрез-зелёный",
+      "Грушевый зелёный"
+    ],
+    "forestGreen": [
+      "Еловый зелёный",
+      "Лесной зелёный",
+      "Бутылочный зелёный",
+      "Глубокий изумруд",
+      "Охотничий зелёный",
+      "Пиниевый зелёный"
+    ],
+    "sageGreen": [
+      "Шалфейный зелёный",
+      "Эвкалипт",
+      "Камышовый зелёный",
+      "Туманный зелёный",
+      "Серо-зелёный",
+      "Мятный шалфей",
+      "Пыльный зелёный"
+    ],
+    "emeraldGreen": [
+      "Изумрудный зелёный",
+      "Нефритовый зелёный",
+      "Малахит",
+      "Клеверный зелёный",
+      "Бриллиантовый зелёный",
+      "Виридиан",
+      "Павлиний зелёный"
+    ],
+    "petrol": [
+      "Петроль",
+      "Глубокий петроль",
+      "Тил",
+      "Океанский петроль",
+      "Глубокий сине-зелёный",
+      "Павлиний синий",
+      "Чернильный петроль"
+    ],
+    "turquoise": [
+      "Бирюзовый",
+      "Аквамарин",
+      "Лагунный синий",
+      "Карибская бирюза",
+      "Бассейновый синий",
+      "Мятная бирюза",
+      "Ледяной петроль"
+    ],
+    "nightBlue": [
+      "Ночной синий",
+      "Navy Blue",
+      "Чернильный синий",
+      "Полуночный синий",
+      "Тёмный navy",
+      "Прусский синий",
+      "Чёрно-синий"
+    ],
+    "cobaltBlue": [
+      "Кобальтовый синий",
+      "Королевский синий",
+      "Ультрамарин",
+      "Лазурный синий",
+      "Чистый синий",
+      "Сапфировый синий",
+      "Денимовый синий"
+    ],
+    "aubergine": [
+      "Баклажановый",
+      "Глубокий фиолетовый",
+      "Сливовый",
+      "Ежевичный",
+      "Тёмный аметист",
+      "Фиолетово-коричневый"
+    ],
+    "violet": [
+      "Фиолетовый",
+      "Сиреневый",
+      "Аметист",
+      "Лавандово-фиолетовый",
+      "Орхидея",
+      "Фиалковый",
+      "Пурпурный"
+    ],
+    "berry": [
+      "Ягодный тон",
+      "Малиновый красный",
+      "Ежевичный красный",
+      "Красная смородина",
+      "Кассис",
+      "Глубокая фуксия",
+      "Маджента-ягода"
+    ],
+    "powderPink": [
+      "Пудрово-розовый",
+      "Blush",
+      "Светлый розе",
+      "Балетный розовый",
+      "Нюдовый розе",
+      "Светлый пыльный розовый",
+      "Нежно-розовый"
+    ],
+    "rosePink": [
+      "Розовый",
+      "Малиновый розовый",
+      "Фуксия",
+      "Pink",
+      "Арбузный розовый",
+      "Бугенвиллия",
+      "Цвет вишни"
+    ],
+    "generic": [
+      "Цветовой тон",
+      "Акцентный тон",
+      "Модный тон",
+      "Нюанс"
+    ]
+  }
+};
+const COLOR_NAME_MODIFIERS = {
+  "de": {
+    "light": "hell",
+    "deep": "tief",
+    "dark": "dunkel",
+    "clear": "klar",
+    "soft": "sanft",
+    "muted": "gedämpft",
+    "warm": "warm",
+    "cool": "kühl",
+    "rich": "satt",
+    "smoky": "rauchig",
+    "bright": "leuchtend",
+    "elegant": "edel"
+  },
+  "en": {
+    "light": "light",
+    "deep": "deep",
+    "dark": "dark",
+    "clear": "clear",
+    "soft": "soft",
+    "muted": "muted",
+    "warm": "warm",
+    "cool": "cool",
+    "rich": "rich",
+    "smoky": "smoky",
+    "bright": "bright",
+    "elegant": "elegant"
+  },
+  "ru": {
+    "light": "светлый",
+    "deep": "глубокий",
+    "dark": "тёмный",
+    "clear": "чистый",
+    "soft": "мягкий",
+    "muted": "приглушённый",
+    "warm": "тёплый",
+    "cool": "холодный",
+    "rich": "насыщенный",
+    "smoky": "дымчатый",
+    "bright": "яркий",
+    "elegant": "элегантный"
+  }
+};
+const paletteColorNameCache = new Map();
+
 I18N.applyDocumentLanguage();
 document.title = I18N.getPageTitle(activePalette.name);
 const titleNode = document.getElementById('pageTitle');
@@ -128,7 +1121,7 @@ function renderPalette() {
   paletteGrid.innerHTML = '';
   activePalette.grid.flat().forEach((hex, index) => {
     const tile = document.createElement('div');
-    const colorName = describeColor(hex).name;
+    const colorName = describeColor(hex, index, activePalette).name;
     tile.className = 'swatch';
     tile.style.background = hex;
     tile.style.setProperty('--label', readableTextColor(hex));
@@ -164,7 +1157,8 @@ function initializeResultColorChips() {
   result.addEventListener('click', (event) => {
     const chip = event.target.closest('[data-fullscreen-color]');
     if (!chip) return;
-    toggleColorFullscreen(chip.dataset.fullscreenColor, -1);
+    const fullscreenIndex = Number(chip.dataset.fullscreenIndex);
+    toggleColorFullscreen(chip.dataset.fullscreenColor, Number.isFinite(fullscreenIndex) ? fullscreenIndex : -1);
   });
 }
 
@@ -237,7 +1231,7 @@ function closeColorFullscreen() {
 }
 
 function getColorStory(hex, index, palette) {
-  const color = describeColor(hex);
+  const color = describeColor(hex, index, palette);
   const paletteNote = getPaletteCombinationNote(palette.name);
   const depthNote = getPaletteDepthNote(palette.name);
   return {
@@ -248,70 +1242,213 @@ function getColorStory(hex, index, palette) {
   };
 }
 
-function describeColor(hex) {
+function describeColor(hex, index = -1, palette = null) {
   const rgb = hexToRgb(hex);
   const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
-  const h = hsl.h;
-  const s = hsl.s;
-  const l = hsl.l;
+  const key = classifyColorKey(hsl.h, hsl.s, hsl.l);
+  const story = colorStory(key);
+  return {
+    ...story,
+    name: getNuancedColorName(hex, key, hsl, index, palette, story.name)
+  };
+}
 
-  if (l >= 0.92 && s <= 0.22) return colorStory(l > 0.97 ? 'whiteClear' : 'whiteCream');
+function classifyColorKey(h, s, l) {
+  if (l >= 0.92 && s <= 0.22) return l > 0.97 ? 'whiteClear' : 'whiteCream';
 
   if (s <= 0.12) {
-    if (l < 0.20) return colorStory('graphite');
-    if (l < 0.55) return colorStory('taupeGrey');
-    return colorStory('greige');
+    if (l < 0.20) return 'graphite';
+    if (l < 0.55) return 'taupeGrey';
+    return 'greige';
   }
 
   if (isBrownHue(h, s, l)) {
-    if (l < 0.24) return colorStory('espresso');
-    if (l < 0.43) return colorStory(h < 28 ? 'chocolateBrown' : 'cognacBrown');
-    if (l < 0.66) return colorStory('camel');
-    return colorStory('sandBeige');
+    if (l < 0.24) return 'espresso';
+    if (l < 0.43) return h < 28 ? 'chocolateBrown' : 'cognacBrown';
+    if (l < 0.66) return 'camel';
+    return 'sandBeige';
   }
 
   if (h < 12 || h >= 350) {
-    if (l < 0.32) return colorStory('burgundy');
-    return colorStory(h >= 350 ? 'cherryRed' : 'tomatoRed');
+    if (l < 0.32) return 'burgundy';
+    return h >= 350 ? 'cherryRed' : 'tomatoRed';
   }
 
-  if (h < 26) return colorStory(l > 0.62 ? 'coral' : 'terracotta');
-  if (h < 45) return colorStory(l > 0.66 ? 'apricot' : 'rustOrange');
+  if (h < 26) return l > 0.62 ? 'coral' : 'terracotta';
+  if (h < 45) return l > 0.66 ? 'apricot' : 'rustOrange';
 
   if (h < 70) {
-    if (l > 0.72) return colorStory('vanillaYellow');
-    return colorStory(h < 53 ? 'goldenYellow' : 'lemonYellow');
+    if (l > 0.72) return 'vanillaYellow';
+    if (h < 53 || s < 0.45 || l < 0.60) return 'goldenYellow';
+    return 'lemonYellow';
   }
 
   if (h < 165) {
-    if (h < 90) return colorStory(l < 0.36 ? 'oliveGreen' : 'limeGreen');
-    if (l < 0.28) return colorStory('forestGreen');
-    return colorStory(s < 0.38 ? 'sageGreen' : 'emeraldGreen');
+    if (h < 90) return l < 0.36 ? 'oliveGreen' : 'limeGreen';
+    if (l < 0.28) return 'forestGreen';
+    return s < 0.38 ? 'sageGreen' : 'emeraldGreen';
   }
 
-  if (h < 200) return colorStory(l < 0.30 ? 'petrol' : 'turquoise');
+  if (h < 200) return l < 0.30 ? 'petrol' : 'turquoise';
 
   if (h < 250) {
-    if (l < 0.25) return colorStory('nightBlue');
-    return colorStory('cobaltBlue');
+    if (l < 0.25) return 'nightBlue';
+    return 'cobaltBlue';
   }
 
-  if (h < 320) return colorStory(l < 0.34 ? 'aubergine' : 'violet');
+  if (h < 320) return l < 0.34 ? 'aubergine' : 'violet';
 
   if (h < 350) {
-    if (l < 0.38) return colorStory('berry');
-    return colorStory(l > 0.70 ? 'powderPink' : 'rosePink');
+    if (l < 0.38) return 'berry';
+    return l > 0.70 ? 'powderPink' : 'rosePink';
   }
 
-  return colorStory('generic');
+  return 'generic';
 }
 
 function colorStory(key) {
   return I18N.getColorStory(key);
 }
 
+function getNuancedColorName(hex, key, hsl, index, palette, fallbackName) {
+  if (palette && Array.isArray(palette.colors) && Number.isInteger(index) && index >= 0) {
+    const cacheId = [palette.slug || palette.name || 'palette', getCurrentLanguage()].join('|');
+    if (!paletteColorNameCache.has(cacheId)) {
+      paletteColorNameCache.set(cacheId, buildPaletteColorNameMap(palette));
+    }
+    const map = paletteColorNameCache.get(cacheId);
+    const mappedName = map.get(colorNameMapKey(hex, index));
+    if (mappedName) return mappedName;
+  }
+
+  return getColorNameCandidates(hex, key, hsl, index, fallbackName)[0] || fallbackName;
+}
+
+function buildPaletteColorNameMap(palette) {
+  const map = new Map();
+  const usedNames = new Set();
+  const colors = Array.isArray(palette.colors) ? palette.colors : palette.grid.flat();
+
+  colors.forEach((hex, index) => {
+    const rgb = hexToRgb(hex);
+    const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+    const key = classifyColorKey(hsl.h, hsl.s, hsl.l);
+    const fallbackName = colorStory(key).name;
+    const candidates = getColorNameCandidates(hex, key, hsl, index, fallbackName);
+    let selected = candidates.find((name) => !usedNames.has(normalizeColorName(name)));
+
+    if (!selected) {
+      selected = fallbackName;
+      let attempt = 0;
+      while (usedNames.has(normalizeColorName(selected)) && attempt < 24) {
+        const modifier = getColorNameModifiers(hsl, hex, index + attempt)[attempt % getColorNameModifiers(hsl, hex, index + attempt).length];
+        selected = fallbackName + ' · ' + modifier;
+        attempt += 1;
+      }
+    }
+
+    map.set(colorNameMapKey(hex, index), selected);
+    usedNames.add(normalizeColorName(selected));
+  });
+
+  return map;
+}
+
+function getColorNameCandidates(hex, key, hsl, index, fallbackName) {
+  const variants = getLocalizedColorNameVariants(key, fallbackName);
+  const seed = colorNameSeed(hex, index, hsl);
+  const start = variants.length ? seed % variants.length : 0;
+  const candidates = [];
+
+  for (let offset = 0; offset < variants.length; offset += 1) {
+    candidates.push(variants[(start + offset) % variants.length]);
+  }
+
+  const modifiers = getColorNameModifiers(hsl, hex, index);
+  modifiers.forEach((modifier) => candidates.push(fallbackName + ' · ' + modifier));
+  modifiers.forEach((modifier) => {
+    variants.forEach((variant) => candidates.push(variant + ' · ' + modifier));
+  });
+
+  return uniqueColorNames(candidates.filter(Boolean));
+}
+
+function getLocalizedColorNameVariants(key, fallbackName) {
+  const language = getCurrentLanguage();
+  const languageNames = COLOR_NAME_VARIANTS[language] || COLOR_NAME_VARIANTS.de || {};
+  const fallbackNames = COLOR_NAME_VARIANTS.de || {};
+  const variants = languageNames[key] || fallbackNames[key] || [];
+  return variants.length ? variants : [fallbackName || key];
+}
+
+function getColorNameModifiers(hsl, hex, index) {
+  const language = getCurrentLanguage();
+  const dictionary = COLOR_NAME_MODIFIERS[language] || COLOR_NAME_MODIFIERS.de;
+  const picks = [];
+
+  if (hsl.l < 0.24) picks.push(dictionary.deep);
+  else if (hsl.l < 0.38) picks.push(dictionary.dark);
+  else if (hsl.l > 0.78) picks.push(dictionary.light);
+
+  if (hsl.s > 0.70) picks.push(dictionary.clear, dictionary.bright);
+  else if (hsl.s < 0.30) picks.push(dictionary.soft, dictionary.muted);
+  else picks.push(dictionary.rich);
+
+  if (isWarmHue(hsl.h)) picks.push(dictionary.warm);
+  else picks.push(dictionary.cool);
+
+  picks.push(dictionary.elegant, dictionary.smoky);
+
+  const unique = uniqueColorNames(picks.filter(Boolean));
+  const start = unique.length ? colorNameSeed(hex, index, hsl) % unique.length : 0;
+  return unique.slice(start).concat(unique.slice(0, start));
+}
+
+function isWarmHue(h) {
+  return h < 75 || h >= 330;
+}
+
+function getCurrentLanguage() {
+  return typeof I18N.getLanguage === 'function' ? I18N.getLanguage() : 'de';
+}
+
+function colorNameSeed(hex, index, hsl) {
+  const data = [normalizeHexValue(hex), Number.isInteger(index) ? index : -1, Math.round((hsl.h || 0) * 10), Math.round((hsl.s || 0) * 100), Math.round((hsl.l || 0) * 100)].join('|');
+  let hash = 0;
+  for (let i = 0; i < data.length; i += 1) {
+    hash = ((hash << 5) - hash + data.charCodeAt(i)) | 0;
+  }
+  return Math.abs(hash);
+}
+
+function colorNameMapKey(hex, index) {
+  return String(index) + ':' + normalizeHexValue(hex);
+}
+
+function normalizeHexValue(hex) {
+  return String(hex || '').trim().toUpperCase();
+}
+
+function normalizeColorName(name) {
+  return String(name || '').trim().toLocaleLowerCase();
+}
+
+function uniqueColorNames(names) {
+  const seen = new Set();
+  return names.filter((name) => {
+    const normalized = normalizeColorName(name);
+    if (!normalized || seen.has(normalized)) return false;
+    seen.add(normalized);
+    return true;
+  });
+}
+
 function isBrownHue(h, s, l) {
-  return h >= 15 && h <= 58 && ((l < 0.56 && s < 0.72) || (l < 0.40 && s < 0.95));
+  return h >= 15 && h <= 52 && (
+    (l < 0.30 && s < 0.95) ||
+    (l < 0.48 && s < 0.62) ||
+    (l < 0.62 && s < 0.45)
+  );
 }
 
 function getPaletteCombinationNote(name) {
@@ -393,11 +1530,11 @@ function analyzeCanvas() {
   const fit = getPaletteFit(match.delta);
 
   const sampledName = describeColor(sampled.hex).name;
-  const matchName = describeColor(match.hex).name;
+  const matchName = describeColor(match.hex, match.index, activePalette).name;
 
   result.className = `result ${fit.className}`;
   result.innerHTML = `
-    <button class="color-chip" type="button" style="background:${sampled.hex}" title="${escapeHtml(I18N.t('ui.resultColorTitle', { color: sampledName }))}" aria-label="${escapeHtml(I18N.t('ui.resultSampleAria', { color: sampledName }))}" data-fullscreen-color="${sampled.hex}"></button>
+    <button class="color-chip" type="button" style="background:${sampled.hex}" title="${escapeHtml(I18N.t('ui.resultColorTitle', { color: sampledName }))}" aria-label="${escapeHtml(I18N.t('ui.resultSampleAria', { color: sampledName }))}" data-fullscreen-color="${sampled.hex}" data-fullscreen-index="-1"></button>
     <div class="result-main">
       <div class="result-eyebrow">${escapeHtml(I18N.t('ui.resultEyebrow'))}</div>
       <div class="result-title">${escapeHtml(fit.title)}</div>
@@ -410,7 +1547,7 @@ function analyzeCanvas() {
       </div>
       <div class="result-advice">${escapeHtml(fit.advice)}</div>
     </div>
-    <button class="color-chip" type="button" style="background:${match.hex}" title="${escapeHtml(I18N.t('ui.resultColorTitle', { color: matchName }))}" aria-label="${escapeHtml(I18N.t('ui.resultMatchAria', { color: matchName }))}" data-fullscreen-color="${match.hex}"></button>
+    <button class="color-chip" type="button" style="background:${match.hex}" title="${escapeHtml(I18N.t('ui.resultColorTitle', { color: matchName }))}" aria-label="${escapeHtml(I18N.t('ui.resultMatchAria', { color: matchName }))}" data-fullscreen-color="${match.hex}" data-fullscreen-index="${match.index}"></button>
   `;
 }
 
