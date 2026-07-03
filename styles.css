@@ -1727,3 +1727,134 @@ body.scanner-open {
   }
 }
 
+
+/* Farbglossar: jede Vollbild-Farbe wird zur kleinen Wissensseite. */
+.color-glossary-card {
+  width: min(100%, 700px);
+  max-height: calc(100dvh - 44px);
+  overflow: auto;
+}
+.color-glossary-intro {
+  margin: 14px 0 12px;
+  color: #40362d;
+  font-size: clamp(14px, 3.8vw, 17px);
+  font-weight: 500;
+  line-height: 1.55;
+}
+.color-glossary-profile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0 0 8px;
+}
+.color-glossary-profile-item {
+  padding: 10px 11px;
+  border: 1px solid rgba(154, 116, 51, .20);
+  border-radius: 17px;
+  background: rgba(255, 253, 248, .58);
+}
+.color-glossary-profile-item dt {
+  margin: 0 0 3px;
+  color: #9a7433;
+  font-family: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+.color-glossary-profile-item dd {
+  margin: 0;
+  color: #2a241e;
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.25;
+}
+.color-glossary-section p + .color-glossary-related-colors {
+  margin-top: 10px;
+}
+.color-glossary-list {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding-left: 18px;
+  color: #2a241e;
+  font-size: clamp(13px, 3.5vw, 15px);
+  line-height: 1.5;
+}
+.color-glossary-checklist {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.color-glossary-checklist ul {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.color-glossary-checklist li {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 6px;
+  color: #2a241e;
+  font-size: 13px;
+  line-height: 1.45;
+}
+.color-glossary-checklist li span {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: rgba(154, 116, 51, .12);
+  color: #9a7433;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 20px;
+  text-align: center;
+}
+.color-glossary-related-colors {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.color-glossary-related-color {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 8px;
+  border: 1px solid rgba(154, 116, 51, .22);
+  border-radius: 17px;
+  background: rgba(255, 253, 248, .60);
+  color: #2a241e;
+  font: 650 12px/1.2 "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  text-align: left;
+  cursor: pointer;
+}
+.color-glossary-related-color:hover,
+.color-glossary-related-color:focus-visible {
+  outline: none;
+  border-color: rgba(154, 116, 51, .48);
+  box-shadow: 0 0 0 4px rgba(199, 163, 91, .18);
+}
+.color-glossary-related-dot {
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(29,27,24,.16);
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.22);
+}
+@media (orientation: landscape) {
+  .color-glossary-card {
+    width: min(60vw, 820px);
+    max-height: calc(100dvh - 36px);
+  }
+}
+@media (max-width: 520px) {
+  .color-glossary-profile-grid,
+  .color-glossary-checklist,
+  .color-glossary-related-colors {
+    grid-template-columns: 1fr;
+  }
+}

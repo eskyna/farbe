@@ -100,6 +100,12 @@ Das Ergebnis zeigt bewusst kundinnenfreundlich:
 
 Bei schlechten Bedingungen zeigt die App lieber `Unsicher` und empfiehlt eine neue Messung bei neutralem Tageslicht. Das ist absichtlich so, weil Kamera, Licht und Stoffstruktur die Farbwahrnehmung beeinflussen.
 
+## Farbglossar: Farbe als Stilwissen
+
+Jedes Farbfeld oeffnet eine detaillierte Glossarseite. Die Seite zeigt Kundinnen, dass in einem Farbton mehr steckt als ein Name: Temperatur, Helligkeit, Klarheit, Rolle im Farbpass, Materialwirkung, Modewissen, Outfit-Rezept, Shopping-Feintuning und ein kompaktes Farbprofil.
+
+Die Glossarseiten werden dynamisch fuer alle 576 Farben erzeugt. Sichtbare Texte liegen mehrsprachig in `i18n.js`; die Logik fuer Profil, Rolle, Material und Shopping-Hinweise liegt in `palette-app.js` unter `getColorGlossary()`. Details zur Informationsarchitektur stehen in [`docs/COLOR_GLOSSARY.md`](docs/COLOR_GLOSSARY.md).
+
 ## Personalisierte Kundinnen-Links
 
 Eine Farbkarte kann mit Kundinnenname geoeffnet werden:
@@ -116,7 +122,7 @@ Datenschutz: Keine Kundinnennamen in `manifest.webmanifest`, `version.json`, Ser
 
 - **Farben und Paletten:** `bin/generate` enthaelt die Rohdaten, `palettes.js` wird im Build daraus erzeugt.
 - **Texte und Uebersetzungen:** `i18n.js` pflegt Deutsch, Englisch und Russisch zentral.
-- **Farbnamen und Farberklaerungen:** `palette-app.js` enthaelt die Nuancierung der Farbnamen und die Zuordnung zu Erklaertexten aus `i18n.js`.
+- **Farbnamen, Farberklaerungen und Glossarseiten:** `palette-app.js` enthaelt Nuancierung, Farbprofil und Glossar-Logik; `i18n.js` enthaelt die sichtbaren Texte.
 - **Layout und Branding:** `styles.css`, `assets/` und `templates/palette.html`.
 - **Personalisierte Kundinnen-Links:** `palette-app.js`, `i18n.js`, `templates/palette.html` und die Hinweise in `docs/MAINTENANCE.md`.
 - **PWA-Update-Logik:** `palette-app.js`, `sw.js`, `version.json` im Dist.
@@ -137,7 +143,7 @@ Die fachlichen Anforderungen aus der Entwicklung sind als Gherkin-Szenarien unte
 - einzeiligen Landscape-Header und lesbare Aktionsleiste
 - ESKYNA Branding, Splashscreens inklusive Versionszeile, Hintergrundbild und klickbares Kleeblatt
 - Deutsch, Englisch und Russisch inklusive Palettennamen
-- Farbnamen, Farberklaerungen und keine doppelten Farbnamen innerhalb einer Karte
+- Farbnamen, Farberklaerungen, detaillierte Glossarseiten und keine doppelten Farbnamen innerhalb einer Karte
 - Premium-Scan-Flow mit Live-Kamera, Lichtqualitaet, mehreren Messpunkten, Prozentpassung und drei naechsten Farbpass-Toenen
 - kundinnentaugliche Farbpruefungs-Ergebnisse ohne technische Abstandswerte
 - PWA-Installations- und Update-Logik
@@ -168,6 +174,7 @@ Startpunkte:
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) - technische Architektur
 - [`docs/CODE_MAP.md`](docs/CODE_MAP.md) - wo welche Aenderung gemacht wird
 - [`docs/MAINTENANCE.md`](docs/MAINTENANCE.md) - Wartung von Farben, Texten und Assets
+- [`docs/COLOR_GLOSSARY.md`](docs/COLOR_GLOSSARY.md) - Aufbau und Wartung der Farbglossarseiten
 - [`docs/QUALITY_AND_CI.md`](docs/QUALITY_AND_CI.md) - Linting, Formatierung, Behave/Cucumber, CI und Dependabot
 - [`docs/RELEASE_CHECKLIST.md`](docs/RELEASE_CHECKLIST.md) - Checkliste vor Deployment
 

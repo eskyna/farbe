@@ -48,6 +48,13 @@ const UI_TRANSLATION_KEYS = [
   'ui.styleKnowledge',
   'ui.combine',
   'ui.fitMeter',
+  'ui.glossaryProfile',
+  'ui.glossaryFashion',
+  'ui.glossaryShopping',
+  'ui.glossaryRelated',
+  'glossary.kicker',
+  'glossary.profileSummary',
+  'glossary.formulas.hero',
   'scan.scannerAria',
   'scan.close',
   'scan.closeShort',
@@ -183,6 +190,9 @@ assert(sourceTexts.includes('scannerCancel'), 'Farbe pruefen braucht einen sicht
 assert(sourceTexts.includes('scanResultClose'), 'Farberkennung braucht einen sichtbaren Button zurueck zur Farbkarte.');
 assert(sourceTexts.includes('closeScanResult'), 'Farberkennung muss Ergebnis und Vorschau wieder ausblenden koennen.');
 assert(sourceTexts.includes('scannerSessionId'), 'Farbe pruefen muss laufende Kamera-Starts beim Schliessen sauber abbrechen.');
+assert(sourceTexts.includes('getColorGlossary'), 'Vollbild-Farben muessen detaillierte Glossarseiten erzeugen.');
+assert(sourceTexts.includes('color-glossary-profile-grid'), 'Glossarseiten muessen ein Farbprofil anzeigen.');
+assert(sourceTexts.includes('renderGlossaryRelatedColors'), 'Glossarseiten muessen nahe Farbpass-Toene anzeigen.');
 
 for (const language of SUPPORTED_LANGUAGES) {
   const i18n = evaluateI18n(language);

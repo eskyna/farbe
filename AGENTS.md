@@ -43,6 +43,7 @@ npm run serve
 | --- | --- |
 | Layout, Buttons, Header, Landscape/Portrait | `styles.css`, `templates/palette.html`, `index.html` |
 | UI-Texte und Uebersetzungen | `i18n.js` |
+| Farbglossar und Stilwissen | `palette-app.js`, `i18n.js`, `styles.css`, `docs/COLOR_GLOSSARY.md` |
 | Kundinnen-Personalisierung | `palette-app.js`, `i18n.js`, `templates/palette.html`, `styles.css` |
 | Farbcheck, Live-Scanner, Kameralogik, Lichtqualitaet, Install-/Update-Button | `palette-app.js`, `i18n.js`, `styles.css`, `templates/palette.html` |
 | Service Worker / Cache / Update | `sw.js`, `palette-app.js`, `bin/generate` |
@@ -59,7 +60,7 @@ Siehe auch [`docs/CODE_MAP.md`](docs/CODE_MAP.md).
 - Features beschreiben Kundinnen- und Produktverhalten, nicht nur Implementierungsdetails.
 - Schrittdefinitionen sollen deterministisch, offline und ohne Browser laufen.
 - Tests duerfen `dist/` lesen, aber nicht stillschweigend deployen oder externe Dienste aufrufen.
-- Anforderungen aus diesem Projektverlauf sind bewusst in `features/` abgebildet: Layout, Branding, PWA-Update, Personalisierung, Sprachen, Farbnamen und Farberklaerungen.
+- Anforderungen aus diesem Projektverlauf sind bewusst in `features/` abgebildet: Layout, Branding, PWA-Update, Personalisierung, Sprachen, Farbnamen, Farberklaerungen und Farbglossare.
 - Wenn eine Anforderung absichtlich geaendert wird, Feature und Dokumentation im selben PR aktualisieren.
 
 ## Akzeptanzkriterien fuer typische Aufgaben
@@ -96,12 +97,15 @@ Siehe auch [`docs/CODE_MAP.md`](docs/CODE_MAP.md).
 - Fallback-Verhalten pruefen.
 - Keine fest verdrahteten deutschen UI-Texte in `palette-app.js`, wenn sie sichtbar sind.
 
-### Neue Farb-/Stiltexte
+### Neue Farb-/Stiltexte und Glossarseiten
 
 - Kundinnenorientiert schreiben.
 - Keine Nummern oder internen Klassifikationen nennen.
 - Farbnamen innerhalb einer Farbkarte moeglichst differenzieren.
 - Kombinationstipps praktisch halten: neutrale Basis, Akzent, Materialwirkung.
+- Glossarseiten muessen mehr Tiefe zeigen: Farbprofil, Rolle im Farbpass, Modewissen, Materialwirkung, Outfit-Rezept und Shopping-Feintuning.
+- Neue Glossar-Texte fuer `de`, `en` und `ru` ergaenzen und `features/requirements_color_guidance.feature` aktuell halten.
+- Details stehen in `docs/COLOR_GLOSSARY.md`.
 
 ### PWA-/Service-Worker-Aenderung
 

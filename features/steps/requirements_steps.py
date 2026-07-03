@@ -220,11 +220,57 @@ def step_no_duplicate_color_names(context, language):
         assert not duplicates, f"{palette.get('slug')} wiederholt Farbnamen in {language}: {duplicates}"
 
 
+@then('jede Farbe auf jeder Farbkarte hat eine detaillierte Glossarseite in "{language}"')
+def step_every_color_has_glossary(context, language):
+    report = get_project(context).color_report(language)
+    for palette in report:
+        glossaries = palette.get("glossaries", [])
+        assert len(glossaries) == 24, f"{palette.get('slug')} hat {len(glossaries)} statt 24 Glossarseiten."
+        for index, glossary in enumerate(glossaries, start=1):
+            for key in ["intro", "profileSummary", "effect", "fashion", "materials", "relatedIntro"]:
+                value = str(glossary.get(key, "")).strip()
+                assert len(value) >= 35, f"{palette.get('slug')} Glossar {index}: '{key}' ist zu kurz."
+            assert len(glossary.get("profile", [])) >= 6, f"{palette.get('slug')} Glossar {index}: Farbprofil ist unvollstaendig."
+            assert len(glossary.get("formulas", [])) >= 3, f"{palette.get('slug')} Glossar {index}: Kombinationsformeln fehlen."
+            assert len(glossary.get("shopping", [])) >= 2, f"{palette.get('slug')} Glossar {index}: Shopping-Kompass fehlt."
+            assert len(glossary.get("dos", [])) >= 3, f"{palette.get('slug')} Glossar {index}: Dos fehlen."
+            assert len(glossary.get("donts", [])) >= 3, f"{palette.get('slug')} Glossar {index}: Donts fehlen."
+            assert len(glossary.get("relatedColors", [])) >= 3, f"{palette.get('slug')} Glossar {index}: nahe Farbpass-Toene fehlen."
+            joined = " ".join(str(glossary.get(key, "")) for key in ["intro", "effect", "fashion", "materials", "relatedIntro"])
+            for forbidden in ["Feldnummer", "field number", "номер поля"]:
+                assert forbidden not in joined, f"{palette.get('slug')} Glossar {index}: unerwuenschter Hinweis {forbidden}."
+
+
+@then("die Glossarseite zeigt Farbprofil, Rolle, Material, Kombination, Shopping und Modewissen")
+def step_glossary_shows_required_facets(context):
+    source = get_project(context).read_text("palette-app.js")
+    css = get_project(context).read_text("styles.css")
+    i18n = get_project(context).read_text("i18n.js")
+    for needle in [
+        "getColorGlossary",
+        "renderGlossaryProfile",
+        "renderGlossaryChecklist",
+        "renderGlossaryRelatedColors",
+        "ui.glossaryProfile",
+        "ui.glossaryFashion",
+        "ui.glossaryMaterials",
+        "ui.glossaryShopping",
+        "ui.glossaryRelated",
+        "ui.styleKnowledge",
+        "ui.combine",
+    ]:
+        assert_contains(source, needle, "palette-app.js")
+    assert_contains(css, "color-glossary-profile-grid", "styles.css")
+    assert_contains(css, "color-glossary-related-colors", "styles.css")
+    assert_contains(i18n, "Farbglossar", "i18n.js")
+    assert_contains(i18n, "profileSummary", "i18n.js")
+
+
 @then("die Vollbild-Farbansicht zeigt Farbnamen, Stilwissen und Kombinationen")
 def step_fullscreen_shows_story_parts(context):
     source = get_project(context).read_text("palette-app.js")
     assert_contains(source, "function showColorFullscreen", "palette-app.js")
-    assert_contains(source, "getColorStory(hex, index, activePalette)", "palette-app.js")
+    assert_contains(source, "getColorGlossary(hex, index, activePalette)", "palette-app.js")
     assert_contains(source, "ui.styleKnowledge", "palette-app.js")
     assert_contains(source, "ui.combine", "palette-app.js")
     assert_contains(source, "<h2>${escapeHtml(story.name)}</h2>", "palette-app.js")

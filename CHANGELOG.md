@@ -4,6 +4,8 @@ Alle nennenswerten Aenderungen an diesem Projekt werden hier dokumentiert.
 
 ## Unreleased
 
+- Detaillierte Farbglossarseiten fuer alle Farben ergaenzt: Farbprofil, Rolle im Farbpass, Modewissen, Materialwirkung, Outfit-Rezept, Shopping-Feintuning und kompakte Farbwerte in Deutsch, Englisch und Russisch.
+- Dokumentation und Behave/Cucumber-Requirements fuer Farbglossare ergaenzt.
 - Live-Farberkennung und Scan-Ergebnis koennen jetzt sichtbar ueber `Schliessen`, `Zur Farbkarte zurueck`, Escape oder Hintergrund-Tipp beendet werden; Kamera-Starts werden sauber abgebrochen und Vorschau/Resultat verschwinden beim Zurueckkehren zur Farbkarte.
 - Splashscreen zeigt unten klein die generierte App-Version.
 - `Farbe pruefen` zum Premium-Scan-Flow erweitert: Live-Kamera mit Zielkreis, Bildfallback, Lichtqualitaet, mehrere Messpunkte, Prozentpassung, Helligkeit/Waerme/Klarheit, ehrliche Unsicherheitsanzeige und drei naechste Farbpass-Toene.

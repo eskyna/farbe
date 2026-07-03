@@ -8,8 +8,10 @@ Feature: Kundinnentaugliche Farberklaerungen
     When die App-Sprache "<sprache>" aktiv ist
     Then jede Farbe auf jeder Farbkarte hat einen Farbnamen in "<sprache>"
     And jede Farbe auf jeder Farbkarte hat Stilwissen und Kombinationshilfe in "<sprache>"
+    And jede Farbe auf jeder Farbkarte hat eine detaillierte Glossarseite in "<sprache>"
     And keine Farbkarte wiederholt Farbnamen in "<sprache>"
     And die Vollbild-Farbansicht zeigt Farbnamen, Stilwissen und Kombinationen
+    And die Glossarseite zeigt Farbprofil, Rolle, Material, Kombination, Shopping und Modewissen
 
     Examples:
       | sprache |

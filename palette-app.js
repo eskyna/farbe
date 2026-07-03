@@ -1196,6 +1196,141 @@ function createFallbackI18n() {
         'ui.styleKnowledge': 'Stilwissen',
         'ui.combine': 'Kombinieren',
         'ui.fullscreenFootnote': 'Tippe außerhalb der Karte, um zurück zur Farbkarte zu kommen.',
+        'ui.glossaryProfile': 'Farbprofil',
+        'ui.glossaryEffect': 'Wirkung',
+        'ui.glossaryFashion': 'Modewissen',
+        'ui.glossaryFormulas': 'Kombinationsformeln',
+        'ui.glossaryMaterials': 'Material & Oberfläche',
+        'ui.glossaryShopping': 'Shopping-Kompass',
+        'ui.glossaryDosDonts': 'Dos & Don’ts',
+        'ui.glossaryRelated': 'Nahe Farbpass-Töne',
+        'glossary.kicker': 'Farbglossar',
+        'glossary.labels.family': 'Farbfamilie',
+        'glossary.labels.temperature': 'Temperatur',
+        'glossary.labels.brightness': 'Helligkeit',
+        'glossary.labels.clarity': 'Klarheit',
+        'glossary.labels.depth': 'Tiefe',
+        'glossary.labels.role': 'Rolle',
+        'glossary.values.warm': 'warm',
+        'glossary.values.cool': 'kühl',
+        'glossary.values.neutral': 'neutral',
+        'glossary.values.light': 'hell',
+        'glossary.values.medium': 'mittelhell',
+        'glossary.values.deep': 'tief',
+        'glossary.values.clear': 'klar',
+        'glossary.values.soft': 'gedämpft',
+        'glossary.values.balanced': 'ausbalanciert',
+        'glossary.values.airy': 'leicht',
+        'glossary.values.grounded': 'erdend',
+        'glossary.values.rich': 'satt',
+        'glossary.role.lightSurface': 'eine Frischefläche, die Outfits öffnet',
+        'glossary.role.depthAnchor': 'ein Tiefenanker, der Kontur gibt',
+        'glossary.role.accent': 'ein Akzentton mit Energie',
+        'glossary.role.connector': 'ein Verbindungston',
+        'glossary.role.wardrobeColor': 'eine tragbare Garderobenfarbe',
+        'glossary.intro': '{name} gehört zur Familie {family}, wirkt {temperature}, {brightness} und {clarity}. In deiner Farbkarte ist er {role}.',
+        'glossary.profileSummary': 'Das Profil hilft beim Einkaufen: Temperatur, Helligkeit und Klarheit entscheiden, ob ein Ton wirklich passt.',
+        'glossary.effectPrefix': 'Auf der Fläche wirkt {name} {tone}.',
+        'glossary.fashionContext': 'Modewissen: Farbe verändert sich durch Schnitt, Fläche und Stoff.',
+        'glossary.materialClear': 'Glatte Stoffe zeigen klare Farben besonders schön.',
+        'glossary.materialSoft': 'Matte Oberflächen machen Farben ruhiger.',
+        'glossary.materialDeep': 'Tiefe Farben wirken in Samt, Wolle oder Leder edel.',
+        'glossary.materialLight': 'Helle Farben brauchen sichtbare Stoffqualität.',
+        'glossary.materialBalanced': 'Glanz macht Farbe präsenter, matte Materialien machen sie alltagstauglicher.',
+        'glossary.shoppingLookFor': 'Achte beim Einkaufen auf {lookFor}.',
+        'glossary.shoppingAvoid': 'Sei vorsichtig bei {avoid}.',
+        'glossary.lookFor.warm': 'warme Untertöne',
+        'glossary.lookFor.cool': 'kühle Untertöne',
+        'glossary.lookFor.neutral': 'saubere neutrale Untertöne',
+        'glossary.lookFor.clear': 'frische klare Farben',
+        'glossary.lookFor.soft': 'gebrochene weiche Nuancen',
+        'glossary.avoid.warm': 'zu kühlen Varianten',
+        'glossary.avoid.cool': 'zu warmen Varianten',
+        'glossary.avoid.clear': 'stumpfen Varianten',
+        'glossary.avoid.soft': 'neonartigen Varianten',
+        'glossary.avoid.deep': 'flachen Farben ohne Tiefe',
+        'glossary.avoid.light': 'zu schweren Begleitern',
+        'glossary.formulas.hero': 'Als Hauptfarbe: {color} mit {neutral} beruhigen.',
+        'glossary.formulas.accent': 'Als Akzent: {color} in Accessoires wiederholen.',
+        'glossary.formulas.echo': 'Als Paletten-Echo: {color} mit {partner} kombinieren.',
+        'glossary.neutralWarm': 'Creme, Camel, Cognac oder Gold',
+        'glossary.neutralCool': 'Weiß, Taupe, Navy oder Silber',
+        'glossary.neutralNeutral': 'einem hellen und einem dunklen Neutral',
+        'glossary.dos.face': 'Nah am Gesicht tragen, wenn der Ton harmoniert.',
+        'glossary.dos.repeat': 'Die Farbe einmal wiederholen.',
+        'glossary.dos.balance': 'Kräftige Farben schlicht stylen.',
+        'glossary.donts.overload': 'Nicht mit zu vielen Akzenten überladen.',
+        'glossary.donts.wrongLight': 'Nicht unter gelbem Kunstlicht entscheiden.',
+        'glossary.donts.isolate': 'Nicht ohne Verbindung zum Farbpass tragen.',
+        'glossary.relatedIntro': 'Nahe Töne aus demselben Farbpass helfen beim Vergleichen.',
+        'glossary.pageTitle': 'Farbglossar',
+        'glossary.profile': 'Farbprofil',
+        'glossary.roleTitle': 'Rolle im Farbpass',
+        'glossary.materialTitle': 'Material & Oberfläche',
+        'glossary.outfitTitle': 'Outfit-Rezept',
+        'glossary.shoppingTitle': 'Shopping-Feintuning',
+        'glossary.valuesTitle': 'Farbprofil kompakt',
+        'glossary.labels.temperature': 'Temperatur',
+        'glossary.labels.brightness': 'Helligkeit',
+        'glossary.labels.clarity': 'Klarheit',
+        'glossary.labels.role': 'Rolle',
+        'glossary.values.temperature.warm': 'warm',
+        'glossary.values.temperature.cool': 'kühl',
+        'glossary.values.temperature.neutral': 'neutral',
+        'glossary.values.brightness.light': 'hell',
+        'glossary.values.brightness.medium': 'mittelhell',
+        'glossary.values.brightness.deep': 'tief',
+        'glossary.values.clarity.clear': 'klar',
+        'glossary.values.clarity.balanced': 'ausgewogen',
+        'glossary.values.clarity.soft': 'sanft',
+        'glossary.values.role.lightBase': 'Lichtgeber',
+        'glossary.values.role.darkAnchor': 'Tiefengeber',
+        'glossary.values.role.neutralBase': 'Basisfarbe',
+        'glossary.values.role.accent': 'Akzentfarbe',
+        'glossary.values.role.connector': 'Verbindungston',
+        'glossary.intro': '{color} ist {tone}. Stoff, Licht, Schnitt und Nähe zum Gesicht verändern die Wirkung sichtbar.',
+        'glossary.role.lightBase': '{color} bringt Licht in {palette} und öffnet den Look.',
+        'glossary.role.darkAnchor': '{color} gibt {palette} Tiefe und Kontur.',
+        'glossary.role.neutralBase': '{color} verbindet Akzentfarben und macht den Look ruhiger.',
+        'glossary.role.accent': '{color} funktioniert als bewusster Blickfang.',
+        'glossary.role.connector': '{color} verbindet Basis und Akzent.',
+        'glossary.fashion.neutral': 'Neutralfarben lassen Silhouette, Material und Schmuck stärker wirken.',
+        'glossary.fashion.warmNeutral': 'Warme Neutrals wirken besonders hochwertig in Leder, Strick und Wolle.',
+        'glossary.fashion.coolNeutral': 'Kühle Neutrals wirken grafisch und gepflegt.',
+        'glossary.fashion.red': 'Rot lenkt den Blick schnell und funktioniert stark als Akzent.',
+        'glossary.fashion.orange': 'Orange- und Terrakottatöne bringen Wärme und Natürlichkeit.',
+        'glossary.fashion.yellow': 'Gelb wirkt wie ein Lichtakzent und braucht ruhige Begleiter.',
+        'glossary.fashion.green': 'Grün verbindet Natur und Eleganz.',
+        'glossary.fashion.blue': 'Blau wirkt vertraut, klar und vielseitig.',
+        'glossary.fashion.violet': 'Violett bringt Individualität und kreative Ruhe.',
+        'glossary.fashion.pink': 'Rosé, Pink und Beere bringen Frische ins Gesicht.',
+        'glossary.harmony.warm': 'Wiederhole die Wärme mit Creme, Gold, Camel, Cognac oder Koralle.',
+        'glossary.harmony.cool': 'Kühle Begleiter wie Silber, Weiß, Navy oder Beerentöne halten den Look klar.',
+        'glossary.harmony.neutral': 'Rahme den Look bewusst eher warm oder eher kühl.',
+        'glossary.material.crisp': '{color} wirkt in glatten Stoffen klar und modern.',
+        'glossary.material.soft': '{color} wirkt in matten, weichen Materialien besonders edel.',
+        'glossary.material.fluid': '{color} wird durch Glanz stärker und braucht schlichte Formen.',
+        'glossary.material.texture': '{color} gewinnt durch Leder, Strick, Leinen oder Bouclé an Tiefe.',
+        'glossary.material.polished': '{color} wirkt in Samt, Leder, dichter Wolle oder Seide besonders hochwertig.',
+        'glossary.outfit.lightBase': '{color} funktioniert nah am Gesicht mit einem mittleren Ton und dunkler Kontur.',
+        'glossary.outfit.darkAnchor': '{color} eignet sich als Rahmenfarbe mit heller Fläche am Gesicht.',
+        'glossary.outfit.neutralBase': '{color} kann die ruhige Basis des Looks sein.',
+        'glossary.outfit.accent': '{color} funktioniert als 10- bis 30-Prozent-Akzent.',
+        'glossary.outfit.connector': '{color} verbindet zwei Nachbartöne aus dem Farbpass.',
+        'glossary.shopping.clarity': 'Achte darauf, dass {color} frisch und nicht staubig wirkt.',
+        'glossary.shopping.softness': 'Achte darauf, dass {color} weich, aber nicht schmutzig wirkt.',
+        'glossary.shopping.lightness': 'Bei hellen Tönen zählt Stoffqualität besonders.',
+        'glossary.shopping.depth': 'Bei tiefen Tönen entscheidet die Materialqualität stark.',
+        'glossary.shopping.warmth': 'Die Wärme soll weich und nicht grell wirken.',
+        'glossary.shopping.coolness': 'Der Ton soll kühl, aber nicht eisig wirken.',
+        'glossary.shopping.neutral': 'Prüfe neutrale Töne neben hellen und dunklen Farbpassfarben.',
+        'glossary.confusion.tooWarm': 'Nicht mit deutlich gelberen oder orangeren Varianten verwechseln.',
+        'glossary.confusion.tooCool': 'Nicht mit deutlich blaueren oder graueren Varianten verwechseln.',
+        'glossary.confusion.tooMuted': 'Nicht mit zu grauen Varianten verwechseln.',
+        'glossary.confusion.tooClear': 'Nicht mit neonhaften Varianten verwechseln.',
+        'glossary.confusion.tooLight': 'Nicht mit ausgewaschenen Varianten verwechseln.',
+        'glossary.confusion.tooDark': 'Nicht mit fast schwarzen Varianten verwechseln.',
+        'glossary.valuesLine': '{hex} · {temperature}, {brightness}, {clarity}. Diese Werte sind ein Anker; Stoff und Licht verändern die Wirkung.',
         'ui.resultColorTitle': '{color} erklären',
         'ui.resultSampleAria': 'Gemessene Farbe {color} erklären',
         'ui.resultMatchAria': 'Ähnlichsten Palettenton {color} erklären',
@@ -1346,7 +1481,8 @@ function toggleColorFullscreen(hex, index) {
 }
 
 function showColorFullscreen(hex, index) {
-  const story = getColorStory(hex, index, activePalette);
+  const glossary = getColorGlossary(hex, index, activePalette);
+  const story = glossary.story;
   const isDark = readableTextColor(hex) === '#fff';
   const contextLabel = Number.isInteger(index) && index >= 0 ? formatPaletteName(activePalette.name) : I18N.t('ui.measuredColor');
 
@@ -1357,8 +1493,8 @@ function showColorFullscreen(hex, index) {
   colorFullscreen.classList.toggle('is-light', !isDark);
   colorFullscreen.innerHTML = `
     <button class="color-fullscreen-close" type="button" aria-label="${escapeHtml(I18N.t('ui.fullscreenClose'))}">×</button>
-    <article class="color-fullscreen-card" aria-label="${escapeHtml(I18N.t('ui.explanationTo', { color: story.name }))}">
-      <div class="color-fullscreen-kicker">${escapeHtml(I18N.t('ui.colorKnowledge'))} · ${escapeHtml(contextLabel)}</div>
+    <article class="color-fullscreen-card color-glossary-card" aria-label="${escapeHtml(I18N.t('ui.explanationTo', { color: story.name }))}">
+      <div class="color-fullscreen-kicker">${escapeHtml(I18N.t('glossary.kicker'))} · ${escapeHtml(contextLabel)}</div>
       <div class="color-fullscreen-head">
         <span class="color-fullscreen-dot" style="background:${hex}"></span>
         <div>
@@ -1366,13 +1502,48 @@ function showColorFullscreen(hex, index) {
           <p class="color-fullscreen-hex">${escapeHtml(story.tone)}</p>
         </div>
       </div>
-      <div class="color-fullscreen-section">
-        <span>${escapeHtml(I18N.t('ui.styleKnowledge'))}</span>
-        <p>${escapeHtml(story.fact)}</p>
+      <p class="color-glossary-intro">${escapeHtml(glossary.intro)}</p>
+      <dl class="color-glossary-profile-grid">
+        ${renderGlossaryProfile(glossary.profile)}
+      </dl>
+      <div class="color-fullscreen-section color-glossary-section">
+        <span>${escapeHtml(I18N.t('ui.glossaryProfile'))}</span>
+        <p>${escapeHtml(glossary.profileSummary)}</p>
       </div>
-      <div class="color-fullscreen-section">
-        <span>${escapeHtml(I18N.t('ui.combine'))}</span>
-        <p>${escapeHtml(story.combinations)}</p>
+      <div class="color-fullscreen-section color-glossary-section">
+        <span>${escapeHtml(I18N.t('ui.glossaryEffect'))}</span>
+        <p>${escapeHtml(glossary.effect)}</p>
+      </div>
+      <div class="color-fullscreen-section color-glossary-section">
+        <span>${escapeHtml(I18N.t('ui.glossaryFashion'))} · ${escapeHtml(I18N.t('ui.styleKnowledge'))}</span>
+        <p>${escapeHtml(glossary.fashion)}</p>
+      </div>
+      <div class="color-fullscreen-section color-glossary-section">
+        <span>${escapeHtml(I18N.t('ui.glossaryFormulas'))} · ${escapeHtml(I18N.t('ui.combine'))}</span>
+        <ul class="color-glossary-list">
+          ${glossary.formulas.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}
+        </ul>
+      </div>
+      <div class="color-fullscreen-section color-glossary-section">
+        <span>${escapeHtml(I18N.t('ui.glossaryMaterials'))}</span>
+        <p>${escapeHtml(glossary.materials)}</p>
+      </div>
+      <div class="color-fullscreen-section color-glossary-section">
+        <span>${escapeHtml(I18N.t('ui.glossaryShopping'))}</span>
+        <ul class="color-glossary-list">
+          ${glossary.shopping.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}
+        </ul>
+      </div>
+      <div class="color-fullscreen-section color-glossary-section">
+        <span>${escapeHtml(I18N.t('ui.glossaryDosDonts'))}</span>
+        ${renderGlossaryChecklist(glossary.dos, glossary.donts)}
+      </div>
+      <div class="color-fullscreen-section color-glossary-section">
+        <span>${escapeHtml(I18N.t('ui.glossaryRelated'))}</span>
+        <p>${escapeHtml(glossary.relatedIntro)}</p>
+        <div class="color-glossary-related-colors">
+          ${renderGlossaryRelatedColors(glossary.relatedColors)}
+        </div>
       </div>
       <p class="color-fullscreen-footnote">${escapeHtml(I18N.t('ui.fullscreenFootnote'))}</p>
     </article>
@@ -1388,6 +1559,14 @@ function showColorFullscreen(hex, index) {
     });
   }
 
+  colorFullscreen.querySelectorAll('[data-glossary-related-color]').forEach((button) => {
+    button.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const relatedIndex = Number(button.dataset.fullscreenIndex);
+      showColorFullscreen(button.dataset.glossaryRelatedColor, Number.isFinite(relatedIndex) ? relatedIndex : -1);
+    });
+  });
+
   colorFullscreen.classList.remove('hidden');
   colorFullscreen.setAttribute('aria-hidden', 'false');
 }
@@ -1400,6 +1579,178 @@ function closeColorFullscreen() {
   colorFullscreen.innerHTML = '';
   fullscreenColor = null;
   fullscreenColorIndex = null;
+}
+
+function renderGlossaryProfile(profile) {
+  return profile.map((item) => `
+    <div class="color-glossary-profile-item">
+      <dt>${escapeHtml(item.label)}</dt>
+      <dd>${escapeHtml(item.value)}</dd>
+    </div>
+  `).join('');
+}
+
+function renderGlossaryChecklist(dos, donts) {
+  return `
+    <div class="color-glossary-checklist">
+      <ul>
+        ${dos.map((item) => `<li><span aria-hidden="true">✓</span>${escapeHtml(item)}</li>`).join('')}
+      </ul>
+      <ul>
+        ${donts.map((item) => `<li><span aria-hidden="true">×</span>${escapeHtml(item)}</li>`).join('')}
+      </ul>
+    </div>
+  `;
+}
+
+function renderGlossaryRelatedColors(relatedColors) {
+  return relatedColors.map((item) => `
+    <button class="color-glossary-related-color" type="button" data-glossary-related-color="${item.hex}" data-fullscreen-index="${item.index}" aria-label="${escapeHtml(I18N.t('ui.explainColor', { color: item.name }))}">
+      <span class="color-glossary-related-dot" style="background:${item.hex}"></span>
+      <span>${escapeHtml(item.name)}</span>
+    </button>
+  `).join('');
+}
+
+function getColorGlossary(hex, index, palette) {
+  const color = describeColor(hex, index, palette);
+  const rgb = hexToRgb(hex);
+  const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+  const lab = rgbToLab(rgb.r, rgb.g, rgb.b);
+  const key = classifyColorKey(hsl.h, hsl.s, hsl.l);
+  const story = getColorStory(hex, index, palette);
+  const family = colorStory(key).name;
+  const profileValues = getGlossaryProfileValues(hsl, lab);
+  const roleKey = getGlossaryRoleKey(hsl);
+  const role = I18N.t('glossary.role.' + roleKey);
+  const relatedColors = getGlossaryRelatedColors(hex, index, palette, lab);
+  const partner = relatedColors[0] ? relatedColors[0].name : family;
+  const neutral = getGlossaryNeutralText(palette);
+  const lookFor = getGlossaryLookFor(profileValues);
+  const avoid = getGlossaryAvoid(profileValues);
+  const materials = getGlossaryMaterialText(profileValues);
+
+  return {
+    story,
+    intro: I18N.t('glossary.intro', {
+      name: story.name,
+      family,
+      temperature: profileValues.temperature.value,
+      brightness: profileValues.brightness.value,
+      clarity: profileValues.clarity.value,
+      role
+    }),
+    profile: [
+      { label: I18N.t('glossary.labels.family'), value: family },
+      { label: I18N.t('glossary.labels.temperature'), value: profileValues.temperature.value },
+      { label: I18N.t('glossary.labels.brightness'), value: profileValues.brightness.value },
+      { label: I18N.t('glossary.labels.clarity'), value: profileValues.clarity.value },
+      { label: I18N.t('glossary.labels.depth'), value: profileValues.depth.value },
+      { label: I18N.t('glossary.labels.role'), value: role }
+    ],
+    profileSummary: I18N.t('glossary.profileSummary'),
+    effect: I18N.t('glossary.effectPrefix', { name: story.name, tone: story.tone }) + ' ' + story.combinations,
+    fashion: story.fact + ' ' + I18N.t('glossary.fashionContext'),
+    formulas: [
+      I18N.t('glossary.formulas.hero', { color: story.name, neutral }),
+      I18N.t('glossary.formulas.accent', { color: story.name }),
+      I18N.t('glossary.formulas.echo', { color: story.name, partner })
+    ],
+    materials,
+    shopping: [
+      I18N.t('glossary.shoppingLookFor', { lookFor }),
+      I18N.t('glossary.shoppingAvoid', { avoid })
+    ],
+    dos: [
+      I18N.t('glossary.dos.face'),
+      I18N.t('glossary.dos.repeat'),
+      I18N.t('glossary.dos.balance')
+    ],
+    donts: [
+      I18N.t('glossary.donts.overload'),
+      I18N.t('glossary.donts.wrongLight'),
+      I18N.t('glossary.donts.isolate')
+    ],
+    relatedIntro: I18N.t('glossary.relatedIntro'),
+    relatedColors
+  };
+}
+
+function getGlossaryProfileValues(hsl, lab) {
+  const temperatureKey = hsl.s < 0.14 ? 'neutral' : (isWarmHue(hsl.h) ? 'warm' : 'cool');
+  const brightnessKey = hsl.l > 0.74 ? 'light' : (hsl.l < 0.38 ? 'deep' : 'medium');
+  const clarityKey = hsl.s > 0.62 ? 'clear' : (hsl.s < 0.34 ? 'soft' : 'balanced');
+  const chroma = labChroma(lab);
+  let depthKey = 'rich';
+  if (hsl.l > 0.78) depthKey = 'airy';
+  else if (hsl.l < 0.30 || chroma > 62) depthKey = 'deep';
+  else if (hsl.s < 0.24) depthKey = 'grounded';
+
+  return {
+    temperature: glossaryValue(temperatureKey),
+    brightness: glossaryValue(brightnessKey),
+    clarity: glossaryValue(clarityKey),
+    depth: glossaryValue(depthKey)
+  };
+}
+
+function glossaryValue(key) {
+  return {
+    key,
+    value: I18N.t('glossary.values.' + key)
+  };
+}
+
+function getGlossaryRoleKey(hsl) {
+  if (hsl.l > 0.78) return 'lightSurface';
+  if (hsl.l < 0.30) return 'depthAnchor';
+  if (hsl.s > 0.62) return 'accent';
+  if (hsl.s < 0.34) return 'connector';
+  return 'wardrobeColor';
+}
+
+function getGlossaryNeutralText(palette) {
+  const name = String(palette && palette.name ? palette.name : '').toLowerCase();
+  if (name.includes('warm')) return I18N.t('glossary.neutralWarm');
+  if (name.includes('cool')) return I18N.t('glossary.neutralCool');
+  return I18N.t('glossary.neutralNeutral');
+}
+
+function getGlossaryLookFor(profileValues) {
+  if (profileValues.clarity.key === 'clear') return I18N.t('glossary.lookFor.clear');
+  if (profileValues.clarity.key === 'soft') return I18N.t('glossary.lookFor.soft');
+  if (profileValues.temperature.key === 'warm') return I18N.t('glossary.lookFor.warm');
+  if (profileValues.temperature.key === 'cool') return I18N.t('glossary.lookFor.cool');
+  return I18N.t('glossary.lookFor.neutral');
+}
+
+function getGlossaryAvoid(profileValues) {
+  if (profileValues.clarity.key === 'clear') return I18N.t('glossary.avoid.clear');
+  if (profileValues.clarity.key === 'soft') return I18N.t('glossary.avoid.soft');
+  if (profileValues.brightness.key === 'deep') return I18N.t('glossary.avoid.deep');
+  if (profileValues.brightness.key === 'light') return I18N.t('glossary.avoid.light');
+  if (profileValues.temperature.key === 'warm') return I18N.t('glossary.avoid.warm');
+  if (profileValues.temperature.key === 'cool') return I18N.t('glossary.avoid.cool');
+  return I18N.t('glossary.avoid.clear');
+}
+
+function getGlossaryMaterialText(profileValues) {
+  if (profileValues.clarity.key === 'clear') return I18N.t('glossary.materialClear') + ' ' + I18N.t('glossary.materialBalanced');
+  if (profileValues.clarity.key === 'soft') return I18N.t('glossary.materialSoft') + ' ' + I18N.t('glossary.materialBalanced');
+  if (profileValues.brightness.key === 'deep') return I18N.t('glossary.materialDeep') + ' ' + I18N.t('glossary.materialBalanced');
+  if (profileValues.brightness.key === 'light') return I18N.t('glossary.materialLight') + ' ' + I18N.t('glossary.materialBalanced');
+  return I18N.t('glossary.materialBalanced');
+}
+
+function getGlossaryRelatedColors(hex, index, palette, lab) {
+  if (!palette || !Array.isArray(palette.colors)) return [];
+  const nearest = findNearestColors({ lab }, palette, 7).filter((item) => !(
+    item.index === index && normalizeHexValue(item.hex) === normalizeHexValue(hex)
+  ));
+  return nearest.slice(0, 3).map((item) => ({
+    ...item,
+    name: describeColor(item.hex, item.index, palette).name
+  }));
 }
 
 function getColorStory(hex, index, palette) {

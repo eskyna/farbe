@@ -59,6 +59,9 @@ const version = readJson('version.json');
 assert(typeof version.version === 'string' && version.version.length > 0, 'version.json braucht eine version.');
 assert(readText('sw.js').includes(version.version), 'sw.js enthaelt nicht die Build-Version aus version.json.');
 assert(readText('index.html').includes('v' + version.version), 'Uebersicht-Splashscreen zeigt nicht die aktuelle Version.');
+assert(readText('palette-app.js').includes('getColorGlossary'), 'Dist enthaelt keine detaillierten Farbglossare.');
+assert(readText('styles.css').includes('color-glossary-profile-grid'), 'Dist enthaelt keine Glossar-Profil-Stile.');
+assert(readText('i18n.js').includes('glossary:'), 'Dist enthaelt keine Glossar-Uebersetzungen.');
 
 const commonText = requiredFiles
   .filter((file) => /\.(html|js|css|json|webmanifest)$/.test(file))

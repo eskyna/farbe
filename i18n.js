@@ -39,7 +39,15 @@
         resultEyebrow: 'Dein Farbcheck',
         yourColor: 'Deine Farbe',
         nearestPaletteColor: 'Ähnlichster Palettenton',
-        fitMeter: 'Farbpassung: {label}'
+        fitMeter: 'Farbpassung: {label}',
+        glossaryProfile: 'Farbprofil',
+        glossaryEffect: 'Wirkung',
+        glossaryFashion: 'Modewissen',
+        glossaryFormulas: 'Kombinationsformeln',
+        glossaryMaterials: 'Material & Oberfläche',
+        glossaryShopping: 'Shopping-Kompass',
+        glossaryDosDonts: 'Dos & Don’ts',
+        glossaryRelated: 'Nahe Farbpass-Töne'
       },
       paletteTerms: {
         light: 'Hell',
@@ -75,6 +83,83 @@
           label: 'deutlich außerhalb der Farbkarte',
           advice: 'Als kleines Detail kann die Farbe noch funktionieren. Für Oberteile, Schals oder Kleider ist ein Ton aus deiner Farbkarte meist schmeichelhafter.'
         }
+      },
+      glossary: {
+        kicker: 'Farbglossar',
+        intro: '{name} ist mehr als ein Farbfeld: Der Ton gehört zur Familie {family}, wirkt {temperature}, {brightness} und {clarity}. In deiner Farbkarte ist er {role}.',
+        labels: {
+          family: 'Farbfamilie',
+          temperature: 'Temperatur',
+          brightness: 'Helligkeit',
+          clarity: 'Klarheit',
+          depth: 'Tiefe',
+          role: 'Rolle'
+        },
+        values: {
+          warm: 'warm',
+          cool: 'kühl',
+          neutral: 'neutral',
+          light: 'hell',
+          medium: 'mittelhell',
+          deep: 'tief',
+          clear: 'klar',
+          soft: 'gedämpft',
+          balanced: 'ausbalanciert',
+          airy: 'leicht',
+          grounded: 'erdend',
+          rich: 'satt'
+        },
+        role: {
+          lightSurface: 'eine Frischefläche, die Outfits öffnet und Farben sauberer erscheinen lässt',
+          depthAnchor: 'ein Tiefenanker, der Kontur gibt und helle Töne erwachsener wirken lässt',
+          accent: 'ein Akzentton, der Energie bringt und als Blickfang funktioniert',
+          connector: 'ein Verbindungston, der andere Farben ruhiger zusammenführt',
+          wardrobeColor: 'eine tragbare Garderobenfarbe, die mehr Charakter hat als ein reiner Neutralton'
+        },
+        profileSummary: 'Das Profil hilft dir beim Einkaufen: Suche nicht nur nach dem Farbnamen, sondern nach Temperatur, Helligkeit und Klarheit. Zwei Farben können gleich heißen und trotzdem völlig anders wirken.',
+        effectPrefix: 'Auf der Fläche wirkt {name} {tone}. Je näher die Farbe am Gesicht sitzt, desto stärker beeinflusst sie Frische, Kontrast und Gesamtausdruck.',
+        fashionContext: 'Modewissen: Farbe verändert sich durch Schnitt, Fläche und Stoff. Ein minimalistischer Schnitt macht kräftige Farben eleganter; ein weicher Stoff macht dunkle Töne freundlicher.',
+        materialClear: 'Glatte Stoffe, Seide, feiner Strick oder klare Baumwolle zeigen die Frische dieses Tons besonders schön.',
+        materialSoft: 'Matte, angeraute oder melierte Oberflächen lassen diesen Ton ruhiger und luxuriöser wirken.',
+        materialDeep: 'Bei tiefen Farben wirken Samt, Wolle, Leder und dichter Strick besonders edel, weil sie Licht kontrolliert schlucken.',
+        materialLight: 'Bei hellen Farben sind Struktur und Qualität wichtig: Leinen, Baumwolle, Satin oder feiner Strick verhindern, dass der Ton flach wirkt.',
+        materialBalanced: 'Je stärker ein Stoff glänzt, desto präsenter wirkt die Farbe. Matte Materialien machen sie alltagstauglicher.',
+        shoppingLookFor: 'Achte beim Einkaufen auf {lookFor}. Fotos im Shop können täuschen; prüfe den Ton möglichst bei neutralem Tageslicht.',
+        shoppingAvoid: 'Sei vorsichtig bei {avoid}. Kleine Abweichungen wirken am Gesicht stärker als bei Hose, Rock, Tasche oder Schuhen.',
+        lookFor: {
+          warm: 'cremige, goldene, sonnige oder natürliche Untertöne',
+          cool: 'klare, rosige, bläuliche oder silbrige Untertöne',
+          neutral: 'saubere, nicht zu gelbe und nicht zu blaue Untertöne',
+          clear: 'frische, eindeutige Farben ohne Grauschleier',
+          soft: 'gebrochene, pudrige oder leicht rauchige Nuancen'
+        },
+        avoid: {
+          warm: 'zu bläulichen, eisigen oder grauen Varianten',
+          cool: 'zu gelben, orangenen oder honigfarbenen Varianten',
+          clear: 'verwaschenen, stumpfen oder stark melierten Varianten',
+          soft: 'neonartigen, sehr harten oder extrem glänzenden Varianten',
+          deep: 'zu flachen Farben ohne Tiefe',
+          light: 'zu schweren, schwarzen oder sehr kontrastreichen Begleitern'
+        },
+        formulas: {
+          hero: 'Als Hauptfarbe: {color} großflächig tragen und mit {neutral} beruhigen.',
+          accent: 'Als Akzent: {color} in Tasche, Schuhen, Tuch, Schmuck oder Make-up wiederholen.',
+          echo: 'Als Paletten-Echo: Kombiniere {color} mit {partner}; dadurch wirkt der Look geplant statt zufällig.'
+        },
+        neutralWarm: 'Creme, Camel, Cognac, warmem Braun oder Gold',
+        neutralCool: 'Weiß, Taupe, Navy, Graphit, Rosé oder Silber',
+        neutralNeutral: 'einem hellen Neutral, einem dunklen Neutral und einem ruhigen Material',
+        dos: {
+          face: 'Nah am Gesicht tragen, wenn Helligkeit und Wärme mit deiner Farbkarte harmonieren.',
+          repeat: 'Die Farbe einmal wiederholen, damit Outfit, Accessoires und Make-up verbunden wirken.',
+          balance: 'Bei kräftigen Farben Schnitt und Styling bewusst schlicht halten.'
+        },
+        donts: {
+          overload: 'Nicht mit zu vielen weiteren Akzentfarben überladen.',
+          wrongLight: 'Nicht unter gelbem Kunstlicht entscheiden; das macht viele Stoffe wärmer als sie sind.',
+          isolate: 'Nicht als einzigen Fremdkörper tragen, sondern immer mit einem Farbpass-Ton verbinden.'
+        },
+        relatedIntro: 'Diese Töne liegen im selben Farbpass nah daran und helfen dir, Varianten im Geschäft schneller einzuordnen.'
       },
       scan: {
         scannerAria: 'Farbe live prüfen',
@@ -222,7 +307,15 @@
         resultEyebrow: 'Your color check',
         yourColor: 'Your color',
         nearestPaletteColor: 'Closest palette tone',
-        fitMeter: 'Color harmony: {label}'
+        fitMeter: 'Color harmony: {label}',
+        glossaryProfile: 'Color profile',
+        glossaryEffect: 'Effect',
+        glossaryFashion: 'Fashion knowledge',
+        glossaryFormulas: 'Combination formulas',
+        glossaryMaterials: 'Material & surface',
+        glossaryShopping: 'Shopping compass',
+        glossaryDosDonts: 'Dos & don’ts',
+        glossaryRelated: 'Nearby color-card tones'
       },
       paletteTerms: {
         light: 'Light',
@@ -238,6 +331,83 @@
         good: { title: 'Works well with the color card', label: 'harmonious, but not identical', advice: 'The direction is right. For a very polished outfit, repeat the closest palette tone once more in jewelry, shoes, a bag or make-up.' },
         soft: { title: 'Can work - combine deliberately', label: 'close, but with a small shift', advice: 'This color is not completely palette-pure. Avoid wearing it directly next to the face or combine it with strong favorite colors from your color card.' },
         away: { title: 'Probably not an ideal tone', label: 'clearly outside the color card', advice: 'As a small detail, the color can still work. For tops, scarves or dresses, a tone from your color card will usually be more flattering.' }
+      },
+      glossary: {
+        kicker: 'Color glossary',
+        intro: '{name} is more than a swatch: it belongs to the {family} family and reads {temperature}, {brightness} and {clarity}. In your color card it is {role}.',
+        labels: {
+          family: 'Color family',
+          temperature: 'Temperature',
+          brightness: 'Brightness',
+          clarity: 'Clarity',
+          depth: 'Depth',
+          role: 'Role'
+        },
+        values: {
+          warm: 'warm',
+          cool: 'cool',
+          neutral: 'neutral',
+          light: 'light',
+          medium: 'medium-light',
+          deep: 'deep',
+          clear: 'clear',
+          soft: 'soft',
+          balanced: 'balanced',
+          airy: 'airy',
+          grounded: 'grounding',
+          rich: 'rich'
+        },
+        role: {
+          lightSurface: 'a freshening surface that opens an outfit and makes colors look cleaner',
+          depthAnchor: 'a depth anchor that gives shape and makes light tones feel more grown-up',
+          accent: 'an accent tone that adds energy and becomes the visual focus',
+          connector: 'a connector tone that brings other colors together more calmly',
+          wardrobeColor: 'a wearable wardrobe color with more character than a pure neutral'
+        },
+        profileSummary: 'This profile helps when shopping: do not look only at the color name. Temperature, brightness and clarity decide whether two similar colors really feel the same.',
+        effectPrefix: 'On a garment, {name} feels {tone}. The closer it sits to the face, the more it influences freshness, contrast and overall expression.',
+        fashionContext: 'Fashion knowledge: color changes with cut, surface and scale. A minimal cut makes strong color more elegant; a soft fabric makes dark tones friendlier.',
+        materialClear: 'Smooth fabrics, silk, fine knit or crisp cotton show the freshness of this tone especially well.',
+        materialSoft: 'Matte, brushed or mottled surfaces make this tone calmer and more luxurious.',
+        materialDeep: 'Deep colors look refined in velvet, wool, leather and dense knit because they absorb light in a controlled way.',
+        materialLight: 'Light colors need visible quality and structure: linen, cotton, satin or fine knit keep them from looking flat.',
+        materialBalanced: 'The shinier the fabric, the stronger the color appears. Matte materials make it easier for everyday wear.',
+        shoppingLookFor: 'When shopping, look for {lookFor}. Online photos can mislead; check the tone in neutral daylight whenever possible.',
+        shoppingAvoid: 'Be careful with {avoid}. Small shifts are more visible near the face than on trousers, skirts, bags or shoes.',
+        lookFor: {
+          warm: 'creamy, golden, sunny or natural undertones',
+          cool: 'clear, rosy, blue-based or silvery undertones',
+          neutral: 'clean undertones that are neither too yellow nor too blue',
+          clear: 'fresh, definite colors without a grey veil',
+          soft: 'broken, powdery or slightly smoky nuances'
+        },
+        avoid: {
+          warm: 'icy, bluish or greyed versions',
+          cool: 'yellow, orange or honey-colored versions',
+          clear: 'washed-out, dull or heavily mottled versions',
+          soft: 'neon-like, very harsh or extremely shiny versions',
+          deep: 'flat colors without depth',
+          light: 'heavy black or very high-contrast partners'
+        },
+        formulas: {
+          hero: 'As the main color: wear {color} on a larger area and calm it with {neutral}.',
+          accent: 'As an accent: repeat {color} in a bag, shoes, scarf, jewelry or make-up.',
+          echo: 'As a palette echo: combine {color} with {partner}; the look feels intentional instead of random.'
+        },
+        neutralWarm: 'cream, camel, cognac, warm brown or gold',
+        neutralCool: 'white, taupe, navy, graphite, rose or silver',
+        neutralNeutral: 'one light neutral, one dark neutral and a calm material',
+        dos: {
+          face: 'Wear it close to the face when brightness and warmth harmonize with your color card.',
+          repeat: 'Repeat the color once so outfit, accessories and make-up feel connected.',
+          balance: 'With strong colors, keep cut and styling intentionally simple.'
+        },
+        donts: {
+          overload: 'Do not overload it with too many additional accent colors.',
+          wrongLight: 'Do not decide under yellow artificial light; it makes many fabrics look warmer.',
+          isolate: 'Do not wear it as an isolated outsider; connect it with a color-card tone.'
+        },
+        relatedIntro: 'These tones sit close to it within the same color card and help you judge alternatives in a store faster.'
       },
       scan: {
         scannerAria: 'Live color check',
@@ -385,7 +555,15 @@
         resultEyebrow: 'Ваша проверка цвета',
         yourColor: 'Ваш цвет',
         nearestPaletteColor: 'Ближайший тон палитры',
-        fitMeter: 'Гармония цвета: {label}'
+        fitMeter: 'Гармония цвета: {label}',
+        glossaryProfile: 'Профиль цвета',
+        glossaryEffect: 'Впечатление',
+        glossaryFashion: 'Модное знание',
+        glossaryFormulas: 'Формулы сочетаний',
+        glossaryMaterials: 'Материал и поверхность',
+        glossaryShopping: 'Компас для покупок',
+        glossaryDosDonts: 'Можно и не стоит',
+        glossaryRelated: 'Близкие тона цветового паспорта'
       },
       paletteTerms: {
         light: 'Светлая',
@@ -401,6 +579,83 @@
         good: { title: 'Хорошо подходит к карте', label: 'гармонично, но не полностью идентично', advice: 'Направление верное. Чтобы образ выглядел особенно цельно, повторите ближайший тон палитры в украшениях, обуви, сумке или макияже.' },
         soft: { title: 'Может сработать - сочетайте осознанно', label: 'близко, но есть небольшое смещение', advice: 'Цвет не совсем чистый для палитры. Лучше не носить его прямо у лица или сочетать с сильными любимыми цветами из вашей карты.' },
         away: { title: 'Скорее не идеальный тон', label: 'заметно вне цветовой карты', advice: 'Как маленькая деталь цвет ещё может работать. Для топов, шарфов или платьев тон из вашей цветовой карты обычно будет более комплиментарным.' }
+      },
+      glossary: {
+        kicker: 'Глоссарий цвета',
+        intro: '{name} — это больше, чем цветовое поле: он относится к семье {family}, воспринимается как {temperature}, {brightness} и {clarity}. В вашей цветовой карте он играет роль: {role}.',
+        labels: {
+          family: 'Цветовая семья',
+          temperature: 'Температура',
+          brightness: 'Светлота',
+          clarity: 'Чистота',
+          depth: 'Глубина',
+          role: 'Роль'
+        },
+        values: {
+          warm: 'тёплый',
+          cool: 'холодный',
+          neutral: 'нейтральный',
+          light: 'светлый',
+          medium: 'средне-светлый',
+          deep: 'глубокий',
+          clear: 'чистый',
+          soft: 'приглушённый',
+          balanced: 'сбалансированный',
+          airy: 'лёгкий',
+          grounded: 'заземляющий',
+          rich: 'насыщенный'
+        },
+        role: {
+          lightSurface: 'светлую поверхность, которая раскрывает образ и делает цвета чище',
+          depthAnchor: 'якорь глубины, который даёт контуру силу и делает светлые тона взрослее',
+          accent: 'акцентный тон, который добавляет энергию и становится фокусом',
+          connector: 'связующий тон, который спокойнее соединяет другие цвета',
+          wardrobeColor: 'носибельный гардеробный цвет с большим характером, чем у простого нейтрала'
+        },
+        profileSummary: 'Профиль помогает при покупках: смотрите не только на название цвета. Температура, светлота и чистота решают, действительно ли похожие цвета ощущаются одинаково.',
+        effectPrefix: 'В одежде {name} воспринимается как {tone}. Чем ближе цвет к лицу, тем сильнее он влияет на свежесть, контраст и общее впечатление.',
+        fashionContext: 'Модное знание: цвет меняется из-за кроя, поверхности и площади. Минималистичный крой делает яркий цвет элегантнее, а мягкая ткань делает тёмные тона дружелюбнее.',
+        materialClear: 'Гладкие ткани, шёлк, тонкий трикотаж или плотный хлопок особенно красиво показывают свежесть этого тона.',
+        materialSoft: 'Матовые, ворсистые или меланжевые поверхности делают этот тон спокойнее и роскошнее.',
+        materialDeep: 'Глубокие цвета благородно смотрятся в бархате, шерсти, коже и плотном трикотаже, потому что они мягко поглощают свет.',
+        materialLight: 'Светлым цветам важны структура и качество: лён, хлопок, сатин или тонкий трикотаж не дают тону выглядеть плоским.',
+        materialBalanced: 'Чем сильнее блеск ткани, тем заметнее цвет. Матовые материалы делают его более повседневным.',
+        shoppingLookFor: 'При покупке ищите {lookFor}. Фото в магазине могут обманывать; проверяйте тон при нейтральном дневном свете.',
+        shoppingAvoid: 'Будьте осторожны с {avoid}. Маленькие отклонения у лица заметнее, чем в брюках, юбке, сумке или обуви.',
+        lookFor: {
+          warm: 'сливочные, золотистые, солнечные или натуральные подтона',
+          cool: 'чистые, розовые, голубоватые или серебристые подтона',
+          neutral: 'чистые подтона без сильной желтизны и без сильной синевы',
+          clear: 'свежие, ясные цвета без серой вуали',
+          soft: 'смягчённые, пудровые или слегка дымчатые нюансы'
+        },
+        avoid: {
+          warm: 'ледяными, синеватыми или сероватыми вариантами',
+          cool: 'жёлтыми, оранжевыми или медовыми вариантами',
+          clear: 'выстиранными, тусклыми или сильно меланжевыми вариантами',
+          soft: 'неоновыми, очень жёсткими или чрезмерно блестящими вариантами',
+          deep: 'плоскими цветами без глубины',
+          light: 'тяжёлым чёрным или очень контрастными соседями'
+        },
+        formulas: {
+          hero: 'Как главный цвет: носите {color} большой площадью и смягчайте его через {neutral}.',
+          accent: 'Как акцент: повторите {color} в сумке, обуви, платке, украшениях или макияже.',
+          echo: 'Как эхо палитры: сочетайте {color} с {partner}; образ выглядит продуманным, а не случайным.'
+        },
+        neutralWarm: 'кремовым, кэмелом, коньячным, тёплым коричневым или золотом',
+        neutralCool: 'белым, таупом, navy, графитом, розе или серебром',
+        neutralNeutral: 'одним светлым нейтралом, одним тёмным нейтралом и спокойным материалом',
+        dos: {
+          face: 'Носите у лица, если светлота и температура гармонируют с вашей цветовой картой.',
+          repeat: 'Повторите цвет один раз, чтобы одежда, аксессуары и макияж были связаны.',
+          balance: 'С сильными цветами держите крой и стилизацию намеренно простыми.'
+        },
+        donts: {
+          overload: 'Не перегружайте образ слишком большим количеством дополнительных акцентов.',
+          wrongLight: 'Не принимайте решение под жёлтым искусственным светом; он делает многие ткани теплее.',
+          isolate: 'Не носите цвет как случайный чужой элемент; соедините его с тоном из цветового паспорта.'
+        },
+        relatedIntro: 'Эти тона находятся близко в той же цветовой карте и помогают быстрее оценивать варианты в магазине.'
       },
       scan: {
         scannerAria: 'Живая проверка цвета',

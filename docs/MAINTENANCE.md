@@ -82,6 +82,19 @@ Gute Struktur:
 
 Alle sichtbaren Erklaertexte liegen in `i18n.js` unter `colorStories`. Behave prueft fuer alle 576 Farben, dass Name, Wirkung, Modefakt und Kombinationstipp vorhanden sind.
 
+## Farbglossare pflegen
+
+Jedes Farbfeld oeffnet eine detaillierte Glossarseite. Sie soll Kundinnen zeigen, wie viel in einer Farbe steckt: Temperatur, Helligkeit, Klarheit, Rolle im Farbpass, Materialwirkung, Kombinationslogik, Modewissen, Outfit-Rezept und Shopping-Feintuning.
+
+Wartungsregeln:
+
+- `getColorGlossary()` in `palette-app.js` ist die zentrale Logik.
+- Sichtbare Glossartexte liegen in `i18n.js` unter `glossary` und muessen fuer `de`, `en` und `ru` gepflegt werden.
+- Farbfamilien werden in `getColorGlossary()` gebuendelt. Neue Farbfamilien brauchen neue Texte unter `glossary.fashion`.
+- Keine Feldnummern, internen Keys oder technischen Delta-Werte in der Kundinnenansicht zeigen.
+- Glossarseiten sollen inspirierend, aber praktisch bleiben: Was macht der Ton, womit kombiniere ich ihn, worauf achte ich im Laden?
+- Details zur Struktur stehen in `docs/COLOR_GLOSSARY.md`.
+
 ## Uebersetzungen pflegen
 
 Unterstuetzt sind `de`, `en`, `ru`. Neue sichtbare Texte muessen fuer alle drei Sprachen ergaenzt werden. Fuer Tests kann die Sprache erzwungen werden:

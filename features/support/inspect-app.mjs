@@ -169,7 +169,11 @@ function evaluateI18n(activeLanguage) {
       scanLightTooYellow: i18n.t('scan.light.tooYellow'),
       scanLightShadow: i18n.t('scan.light.shadow'),
       scanVerdict: i18n.t('scan.verdict.veryGood', { score: '91' }),
-      scanNearestThree: i18n.t('scan.nearestThree')
+      scanNearestThree: i18n.t('scan.nearestThree'),
+      glossaryProfile: i18n.t('ui.glossaryProfile'),
+      glossaryFashion: i18n.t('ui.glossaryFashion'),
+      glossaryShopping: i18n.t('ui.glossaryShopping'),
+      glossaryRelated: i18n.t('ui.glossaryRelated')
     },
     paletteName: i18n.formatPaletteName('light warm clear'),
     pageTitleFor: i18n.getPageTitle('light warm clear', 'Melissa'),
@@ -187,7 +191,8 @@ function evaluateColorGuidance(activeLanguage) {
     window.__bddColorReport = window.ESKYNA_PALETTES.map((palette) => ({
       slug: palette.slug,
       names: palette.colors.map((hex, index) => describeColor(hex, index, palette).name),
-      stories: palette.colors.map((hex, index) => getColorStory(hex, index, palette))
+      stories: palette.colors.map((hex, index) => getColorStory(hex, index, palette)),
+      glossaries: palette.colors.map((hex, index) => getColorGlossary(hex, index, palette))
     }));
   `;
   vm.runInContext(appCode, sandbox, { filename: 'palette-app.js' });

@@ -23,7 +23,7 @@ Interaktive Logik einer einzelnen Farbkarte:
 
 - aktive Palette anhand des Slugs finden
 - Farbfelder rendern
-- Vollbild-Farbansicht mit Farbnamen und Stilwissen
+- Vollbild-Farbansicht als detaillierte Farbglossarseite mit Farbnamen, Stilwissen, Profil, Material und Shopping-Hilfe
 - Live-Scanner oeffnen oder Bildfallback ausloesen
 - Lichtqualitaet bewerten: Tageslicht, Dunkelheit, Gelbstich, Schatten
 - mehrere Messpunkte im Zielkreis robust mitteln
@@ -35,7 +35,7 @@ Interaktive Logik einer einzelnen Farbkarte:
 
 ### `i18n.js`
 
-Alle sichtbaren Texte in Deutsch, Englisch und Russisch. Neue sichtbare Texte sollten hier gepflegt werden, nicht direkt in JS/HTML.
+Alle sichtbaren Texte in Deutsch, Englisch und Russisch. Neue sichtbare Texte sollten hier gepflegt werden, nicht direkt in JS/HTML. Dazu zaehlen auch die Farbglossar-Texte unter `glossary` und die Basisgeschichten unter `colorStories`.
 
 ### `styles.css`
 
@@ -123,3 +123,7 @@ Service Worker:
 4. Keine Namen in Manifest, Cache-Schluessel oder Build-Dateien schreiben.
 5. Mit `/farbe/light_warm_clear/?name=Melissa`, Landscape und installierter PWA testen.
 
+
+## Farbglossar
+
+Die Informationsarchitektur fuer Glossarseiten steht in [`COLOR_GLOSSARY.md`](COLOR_GLOSSARY.md). Die technische Einstiegstelle ist `getColorGlossary()` in `palette-app.js`; die Gestaltung erfolgt ueber `.color-glossary-card` und `.color-glossary-profile-grid` in `styles.css`.
