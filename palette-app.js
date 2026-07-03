@@ -23,13 +23,16 @@ let updateCheckTimer = null;
 
 const slugFromPage = window.ESKYNA_PALETTE_SLUG || location.pathname.split('/').filter(Boolean).pop();
 const activePalette = window.ESKYNA_PALETTES.find((p) => p.slug === slugFromPage) || window.ESKYNA_PALETTES[0];
+const I18N = window.ESKYNA_I18N || createFallbackI18n();
 
-document.title = activePalette.appName;
+I18N.applyDocumentLanguage();
+document.title = I18N.getPageTitle(activePalette.name);
 const titleNode = document.getElementById('pageTitle');
 const paletteNameNode = document.getElementById('paletteName');
 if (titleNode) titleNode.textContent = formatPaletteName(activePalette.name);
 if (paletteNameNode) paletteNameNode.textContent = formatPaletteName(activePalette.name);
 
+applyStaticTranslations();
 initializeSplashScreen();
 renderPalette();
 photoInput.addEventListener('change', handlePhoto);
@@ -37,6 +40,89 @@ registerServiceWorker();
 initializeInstallPrompt();
 initializeColorFullscreen();
 initializeResultColorChips();
+
+function applyStaticTranslations() {
+  const paletteLabel = formatPaletteName(activePalette.name);
+  const brandWord = document.querySelector('.brand-farbe');
+  const header = document.querySelector('.hero');
+  const logoLink = document.querySelector('.hero-logo-link');
+  const logo = document.querySelector('.hero-logo');
+  const palettePanel = document.querySelector('.palette-panel');
+  const analysisPanel = document.querySelector('.analysis-panel');
+  const actionBar = document.querySelector('.bottom-action-bar');
+  const fileButtonText = document.querySelector('.bottom-file-button > span:last-of-type');
+  const telegramButton = document.querySelector('.telegram-button');
+
+  if (brandWord) brandWord.textContent = I18N.t('ui.brandWord');
+  if (header) header.setAttribute('aria-label', I18N.t('ui.brandAria'));
+  if (logoLink) logoLink.setAttribute('aria-label', I18N.t('ui.openEskyna'));
+  if (logo) logo.setAttribute('alt', I18N.t('ui.symbolAlt'));
+  if (palettePanel) palettePanel.setAttribute('aria-label', I18N.t('ui.paletteSection', { palette: paletteLabel }));
+  if (analysisPanel) analysisPanel.setAttribute('aria-label', I18N.t('ui.analysisSection'));
+  if (actionBar) actionBar.setAttribute('aria-label', I18N.t('ui.actions'));
+  if (fileButtonText) fileButtonText.textContent = I18N.t('ui.colorCheck');
+  if (telegramButton) telegramButton.textContent = I18N.t('ui.styleQuestion');
+  if (installButton) installButton.textContent = I18N.t('ui.installApp');
+  if (updateButton) updateButton.textContent = I18N.t('ui.updateApp');
+  if (colorFullscreen) colorFullscreen.setAttribute('aria-label', I18N.t('ui.fullscreenAria'));
+}
+
+function createFallbackI18n() {
+  const paletteTerms = { light: 'Light', cool: 'Cool', clear: 'Clear', deep: 'Deep', warm: 'Warm', soft: 'Soft' };
+  const genericStory = {
+    name: 'Color Tone',
+    tone: 'individual and expressive',
+    fact: 'Every color changes its effect through material, light and combination.',
+    combinations: 'Combine this tone with one light neutral, one dark neutral and one accent from the palette.'
+  };
+  return {
+    applyDocumentLanguage() {},
+    t(path, replacements) {
+      const fallback = {
+        'ui.brandWord': 'Farbe',
+        'ui.brandAria': 'ESKYNA Farbe',
+        'ui.colorKnowledgeHint': 'Antippen für Farbwissen',
+        'ui.explainColor': '{color} erklären',
+        'ui.measuredColor': 'Gemessene Farbe',
+        'ui.fullscreenClose': 'Farbansicht schließen',
+        'ui.explanationTo': 'Erklärung zu {color}',
+        'ui.colorKnowledge': 'Farbwissen',
+        'ui.styleKnowledge': 'Stilwissen',
+        'ui.combine': 'Kombinieren',
+        'ui.fullscreenFootnote': 'Tippe außerhalb der Karte, um zurück zur Farbkarte zu kommen.',
+        'ui.resultColorTitle': '{color} erklären',
+        'ui.resultSampleAria': 'Gemessene Farbe {color} erklären',
+        'ui.resultMatchAria': 'Ähnlichsten Palettenton {color} erklären',
+        'ui.resultEyebrow': 'Dein Farbcheck',
+        'ui.yourColor': 'Deine Farbe',
+        'ui.nearestPaletteColor': 'Ähnlichster Palettenton',
+        'ui.fitMeter': 'Farbpassung: {label}',
+        'ui.installApp': 'App installieren',
+        'ui.updateApp': 'App aktualisieren',
+        'ui.updating': 'Aktualisiere ...',
+        'ui.pageTitle': 'ESKYNA Farbe - {palette}'
+      }[path] || path;
+      return String(fallback).replace(/\{([a-zA-Z0-9_]+)\}/g, (match, key) => replacements && key in replacements ? replacements[key] : match);
+    },
+    formatPaletteName(name) {
+      return String(name || '').split(/\s+/).filter(Boolean).map((part) => paletteTerms[part] || part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
+    },
+    getPageTitle(name) { return this.t('ui.pageTitle', { palette: this.formatPaletteName(name) }); },
+    getColorStory() { return genericStory; },
+    getPaletteCombinationNote() { return ''; },
+    getPaletteDepthNote() { return ''; },
+    getFit(key) {
+      const data = {
+        perfect: ['Volltreffer für deine Farbkarte', 'sehr nah am Palettenton', 'Diese Farbe kannst du wie einen Originalton deiner Farbkarte einsetzen.'],
+        strong: ['Sehr harmonisch', 'stimmig und leicht kombinierbar', 'Die Farbe liegt sehr nah an deiner Palette.'],
+        good: ['Passt gut zur Farbkarte', 'harmonisch, aber nicht ganz identisch', 'Die Richtung stimmt.'],
+        soft: ['Kann funktionieren - bewusst kombinieren', 'nah dran, aber mit kleiner Abweichung', 'Kombiniere bewusst mit Lieblingsfarben aus deiner Farbkarte.'],
+        away: ['Eher kein Idealton', 'deutlich außerhalb der Farbkarte', 'Als kleines Detail kann die Farbe noch funktionieren.']
+      }[key];
+      return { title: data[0], label: data[1], advice: data[2] };
+    }
+  };
+}
 
 function renderPalette() {
   paletteGrid.innerHTML = '';
@@ -48,10 +134,10 @@ function renderPalette() {
     tile.style.setProperty('--label', readableTextColor(hex));
     tile.style.setProperty('--text-shadow', readableTextColor(hex) === '#fff' ? '0 1px 2px rgba(0,0,0,.55)' : '0 1px 2px rgba(255,255,255,.35)');
     tile.textContent = '';
-    tile.title = colorName + ' · ' + formatPaletteName(activePalette.name) + ' · Antippen für Farbwissen';
+    tile.title = colorName + ' · ' + formatPaletteName(activePalette.name) + ' · ' + I18N.t('ui.colorKnowledgeHint');
     tile.setAttribute('role', 'button');
     tile.setAttribute('tabindex', '0');
-    tile.setAttribute('aria-label', colorName + ' erklären');
+    tile.setAttribute('aria-label', I18N.t('ui.explainColor', { color: colorName }));
     tile.addEventListener('click', () => toggleColorFullscreen(hex, index));
     tile.addEventListener('keydown', (event) => {
       if (event.key === 'Enter' || event.key === ' ') {
@@ -96,7 +182,7 @@ function toggleColorFullscreen(hex, index) {
 function showColorFullscreen(hex, index) {
   const story = getColorStory(hex, index, activePalette);
   const isDark = readableTextColor(hex) === '#fff';
-  const contextLabel = Number.isInteger(index) && index >= 0 ? formatPaletteName(activePalette.name) : 'Gemessene Farbe';
+  const contextLabel = Number.isInteger(index) && index >= 0 ? formatPaletteName(activePalette.name) : I18N.t('ui.measuredColor');
 
   fullscreenColor = hex;
   fullscreenColorIndex = index;
@@ -104,9 +190,9 @@ function showColorFullscreen(hex, index) {
   colorFullscreen.classList.toggle('is-dark', isDark);
   colorFullscreen.classList.toggle('is-light', !isDark);
   colorFullscreen.innerHTML = `
-    <button class="color-fullscreen-close" type="button" aria-label="Farbansicht schließen">×</button>
-    <article class="color-fullscreen-card" aria-label="Erklärung zu ${escapeHtml(story.name)}">
-      <div class="color-fullscreen-kicker">Farbwissen · ${escapeHtml(contextLabel)}</div>
+    <button class="color-fullscreen-close" type="button" aria-label="${escapeHtml(I18N.t('ui.fullscreenClose'))}">×</button>
+    <article class="color-fullscreen-card" aria-label="${escapeHtml(I18N.t('ui.explanationTo', { color: story.name }))}">
+      <div class="color-fullscreen-kicker">${escapeHtml(I18N.t('ui.colorKnowledge'))} · ${escapeHtml(contextLabel)}</div>
       <div class="color-fullscreen-head">
         <span class="color-fullscreen-dot" style="background:${hex}"></span>
         <div>
@@ -115,14 +201,14 @@ function showColorFullscreen(hex, index) {
         </div>
       </div>
       <div class="color-fullscreen-section">
-        <span>Stilwissen</span>
+        <span>${escapeHtml(I18N.t('ui.styleKnowledge'))}</span>
         <p>${escapeHtml(story.fact)}</p>
       </div>
       <div class="color-fullscreen-section">
-        <span>Kombinieren</span>
+        <span>${escapeHtml(I18N.t('ui.combine'))}</span>
         <p>${escapeHtml(story.combinations)}</p>
       </div>
-      <p class="color-fullscreen-footnote">Tippe außerhalb der Karte, um zurück zur Farbkarte zu kommen.</p>
+      <p class="color-fullscreen-footnote">${escapeHtml(I18N.t('ui.fullscreenFootnote'))}</p>
     </article>
   `;
 
@@ -169,216 +255,59 @@ function describeColor(hex) {
   const s = hsl.s;
   const l = hsl.l;
 
-  if (l >= 0.92 && s <= 0.22) {
-    return colorStory(
-      l > 0.97 ? 'Klares Weiß' : 'Cremeweiß',
-      'hell, leicht und sehr neutral',
-      'Weiß bringt optische Ruhe in eine Palette und macht kräftige Farben sofort moderner. In der Mode wirkt Weiß besonders hochwertig, wenn Stoffstruktur sichtbar bleibt – etwa bei Baumwolle, Seide oder Leinen.',
-      'Kombiniere es als Frischefläche zu fast jedem Ton der Palette. Besonders edel wirkt es mit Camel, Gold, Marine, Espresso oder einem einzigen kräftigen Akzent.'
-    );
-  }
+  if (l >= 0.92 && s <= 0.22) return colorStory(l > 0.97 ? 'whiteClear' : 'whiteCream');
 
   if (s <= 0.12) {
-    if (l < 0.20) {
-      return colorStory(
-        'Graphit',
-        'dunkel, ruhig und klar',
-        'Graphit ist die weichere Alternative zu reinem Schwarz. Es wirkt elegant, ohne helle oder zarte Farben so stark zu überdecken wie Tiefschwarz.',
-        'Trage Graphit als Rahmenfarbe zu hellen Tönen, Rosé, Creme oder kühlem Blau. Für mehr Leichtigkeit reicht oft ein heller Schuh oder Schmuck in Gold beziehungsweise Silber.'
-      );
-    }
-    if (l < 0.55) {
-      return colorStory(
-        'Taupegrau',
-        'gedämpft, neutral und vielseitig',
-        'Taupe lebt zwischen Grau und Braun und ist deshalb ein sehr erwachsener Neutralton. In Outfits verbindet es farbige Teile, ohne selbst laut zu werden.',
-        'Sehr schön zu Creme, Altrosa, Salbei, Denim oder Burgunder. Ton-in-Ton mit Sand und Braun wirkt es besonders ruhig und luxuriös.'
-      );
-    }
-    return colorStory(
-      'Greige',
-      'hell, sanft und neutral',
-      'Greige ist ein Mischton aus Grau und Beige und wirkt dadurch weniger hart als reines Grau. Er ist ideal, wenn ein Look hochwertig, aber nicht streng aussehen soll.',
-      'Nutze Greige als Basis zu Pastell, Camel, Weiß oder gedämpften Beerentönen. Mit klaren Farben sorgt es für Balance.'
-    );
+    if (l < 0.20) return colorStory('graphite');
+    if (l < 0.55) return colorStory('taupeGrey');
+    return colorStory('greige');
   }
 
   if (isBrownHue(h, s, l)) {
-    if (l < 0.24) {
-      return colorStory(
-        'Espresso',
-        'tief, warm und elegant',
-        'Espresso ist ein luxuriöser Dunkelton und wirkt oft weicher als Schwarz. In Leder, Strick oder Wolle bekommt er besonders viel Tiefe.',
-        'Kombiniere Espresso mit Creme, Karamell, Gold, Koralle oder Petrol. Als Accessoirefarbe macht er helle Outfits sofort angezogener.'
-      );
-    }
-    if (l < 0.43) {
-      return colorStory(
-        h < 28 ? 'Schokobraun' : 'Cognacbraun',
-        'warm, geerdet und hochwertig',
-        'Brauntöne gehören zu den wichtigsten Neutralfarben der Mode, weil sie natürliche Materialien wie Leder, Wildleder und Wolle besonders edel wirken lassen. Cognac bringt dabei mehr Lebendigkeit als dunkles Braun.',
-        'Sehr gut zu Creme, Gold, Oliv, Denim, Terrakotta oder Petrol. Mit Weiß wirkt Braun frisch, mit Beige besonders weich.'
-      );
-    }
-    if (l < 0.66) {
-      return colorStory(
-        'Camel',
-        'warm, weich und klassisch',
-        'Camel ist ein Outerwear-Klassiker und macht selbst einfache Outfits angezogen. Der Ton wirkt luxuriös, weil er an Kaschmir, Mantelstoffe und feine Lederwaren erinnert.',
-        'Kombiniere Camel mit Creme, Espresso, Gold, Rot, Oliv oder Denim. Monochrom mit Sand und Beige entsteht ein sehr eleganter Look.'
-      );
-    }
-    return colorStory(
-      'Sandbeige',
-      'hell, warm und zurückhaltend',
-      'Sandbeige ist ein leiser Neutralton und lässt Schnitte, Stoffe und Schmuck stärker wirken. Es ist ideal, wenn Farbe nur eine elegante Bühne sein soll.',
-      'Trage Sandbeige zu Weiß, Camel, Koralle, warmem Grün oder Braun. Für mehr Kontur helfen dunkle Schuhe, Gürtel oder Tasche.'
-    );
+    if (l < 0.24) return colorStory('espresso');
+    if (l < 0.43) return colorStory(h < 28 ? 'chocolateBrown' : 'cognacBrown');
+    if (l < 0.66) return colorStory('camel');
+    return colorStory('sandBeige');
   }
 
   if (h < 12 || h >= 350) {
-    if (l < 0.32) {
-      return colorStory(
-        'Burgunderrot',
-        'tief, sinnlich und edel',
-        'Burgunderrot wird in Abendmode und Tailoring gern als weichere Alternative zu Schwarz eingesetzt. Es bringt Tiefe, ohne kühl oder hart zu wirken.',
-        'Besonders schön zu Creme, Espresso, Camel, Rosé oder Navy. Als Lippenstift-, Schuh- oder Taschenfarbe setzt Burgunder einen eleganten Akzent.'
-      );
-    }
-    return colorStory(
-      h >= 350 ? 'Kirschrot' : 'Tomatenrot',
-      'klar, lebendig und aufmerksamkeitsstark',
-      'Rot ist eine der stärksten Signalfarben in der Mode: Schon kleine Flächen lenken den Blick. Es funktioniert deshalb sehr gut für Schuhe, Lippen, Nägel, Taschen oder ein Statement-Teil.',
-      'Kombiniere Rot mit Creme, Weiß, Denim, Camel oder Braun. Für einen modernen Look reicht oft ein rotes Detail zu ruhigen Basics.'
-    );
+    if (l < 0.32) return colorStory('burgundy');
+    return colorStory(h >= 350 ? 'cherryRed' : 'tomatoRed');
   }
 
-  if (h < 26) {
-    return colorStory(
-      l > 0.62 ? 'Koralle' : 'Terrakotta',
-      'warm, lebendig und sonnengeküsst',
-      'Koralle und Terrakotta bringen Wärme ins Gesicht und wirken weniger streng als klassisches Rot. In der Mode funktionieren sie besonders gut in fließenden Stoffen, Strick und sommerlichen Accessoires.',
-      'Kombiniere sie mit Creme, Sand, Gold, warmem Braun oder Oliv. Als Akzent beleben sie neutrale Looks sofort.'
-    );
-  }
-
-  if (h < 45) {
-    return colorStory(
-      l > 0.66 ? 'Apricot' : 'Rostorange',
-      'warm, weich und freundlich',
-      'Orange wirkt in der Mode am tragbarsten, wenn es leicht gebrochen ist – als Apricot, Rost oder Kupfer. Diese Töne sehen oft hochwertiger aus als sehr neonhafte Orangetöne.',
-      'Sehr harmonisch zu Creme, Camel, Cognac, Oliv und warmem Denim. Mit einem dunklen Neutralton bekommt Orange mehr Eleganz.'
-    );
-  }
+  if (h < 26) return colorStory(l > 0.62 ? 'coral' : 'terracotta');
+  if (h < 45) return colorStory(l > 0.66 ? 'apricot' : 'rustOrange');
 
   if (h < 70) {
-    if (l > 0.72) {
-      return colorStory(
-        'Vanillegelb',
-        'hell, warm und freundlich',
-        'Helles Gelb bringt Licht in ein Outfit und wirkt weicher als kräftiges Sonnengelb. In Blusen, Strick oder Tüchern ist es ein eleganter Frischegeber.',
-        'Kombiniere Vanillegelb mit Creme, Sand, Camel, hellem Denim oder warmem Grau. Kleine Goldakzente greifen die Wärme schön auf.'
-      );
-    }
-    return colorStory(
-      h < 53 ? 'Goldgelb' : 'Zitronengelb',
-      'strahlend, optimistisch und auffällig',
-      'Gelb zieht den Blick stark an und wirkt in der Mode besonders modern, wenn es bewusst dosiert wird. Als Tasche, Schuh, Tuch oder Top kann es einem neutralen Look sofort Energie geben.',
-      'Sehr gut zu Weiß, Creme, Denim, Navy, Oliv oder Braun. Wenn der Ton sehr klar ist, sollten die Begleiter eher schlicht bleiben.'
-    );
+    if (l > 0.72) return colorStory('vanillaYellow');
+    return colorStory(h < 53 ? 'goldenYellow' : 'lemonYellow');
   }
 
   if (h < 165) {
-    if (h < 90) {
-      return colorStory(
-        l < 0.36 ? 'Olivgrün' : 'Lindgrün',
-        'natürlich, warm und stilvoll',
-        'Oliv ist eine Mode-Neutralfarbe: Es ist farbig, wirkt aber fast so vielseitig wie Braun oder Grau. Lindgrün bringt die frischere, hellere Seite derselben Farbfamilie.',
-        'Kombiniere Grün mit Creme, Braun, Camel, Gold, Koralle oder Denim. Für mehr Eleganz funktionieren klare Schnitte und ruhige Accessoires.'
-      );
-    }
-    if (l < 0.28) {
-      return colorStory(
-        'Tannengrün',
-        'tief, ruhig und luxuriös',
-        'Tannengrün ist ein klassischer Edelton und wirkt besonders stark in Samt, Wolle, Seide oder Leder. Es gibt dunklen Looks Tiefe, ohne so hart zu sein wie Schwarz.',
-        'Sehr schön zu Creme, Gold, Cognac, Rosé, Burgunder oder Navy. Mit hellen Neutralfarben wirkt Tannengrün sofort frischer.'
-      );
-    }
-    return colorStory(
-      s < 0.38 ? 'Salbeigrün' : 'Smaragdgrün',
-      s < 0.38 ? 'sanft, natürlich und modern' : 'klar, kostbar und präsent',
-      s < 0.38
-        ? 'Salbeigrün wirkt wie ein ruhiger Neutralton mit Naturbezug. Es ist ideal, wenn ein Outfit farbig, aber nicht laut sein soll.'
-        : 'Smaragdgrün wird oft als Schmucksteinfarbe gelesen und wirkt dadurch sofort hochwertig. Es ist ein guter Statement-Ton, weil er intensiv ist, aber weniger aggressiv als Rot.',
-      s < 0.38
-        ? 'Kombiniere Salbei mit Creme, Greige, Taupe, Rosé oder Denim. Ton-in-Ton mit Beige wirkt es sehr weich.'
-        : 'Kombiniere Smaragd mit Creme, Schwarzbraun, Gold, Navy oder einem kleinen Pink-Akzent. Große Flächen brauchen ruhige Begleiter.'
-    );
+    if (h < 90) return colorStory(l < 0.36 ? 'oliveGreen' : 'limeGreen');
+    if (l < 0.28) return colorStory('forestGreen');
+    return colorStory(s < 0.38 ? 'sageGreen' : 'emeraldGreen');
   }
 
-  if (h < 200) {
-    return colorStory(
-      l < 0.30 ? 'Petrol' : 'Türkis',
-      'frisch, elegant und farbig ohne laut zu sein',
-      'Petrol und Türkis liegen zwischen Blau und Grün. Genau diese Mischung macht sie in der Mode so spannend: Sie wirken frisch, aber erwachsener als viele reine Blautöne.',
-      'Kombiniere Petrol mit Creme, Braun, Gold, Rost, Koralle oder Navy. Türkis wirkt sehr klar mit Weiß und sommerlich mit Sand.'
-    );
-  }
+  if (h < 200) return colorStory(l < 0.30 ? 'petrol' : 'turquoise');
 
   if (h < 250) {
-    if (l < 0.25) {
-      return colorStory(
-        'Nachtblau',
-        'tief, seriös und elegant',
-        'Nachtblau ist ein Business- und Abendklassiker. Es bietet die Tiefe von Schwarz, wirkt aber oft weicher und lässt sich sehr gut mit Schmuckfarben kombinieren.',
-        'Sehr schön zu Weiß, Creme, Silber, Gold, Burgunder, Hellblau oder Camel. Für klare Looks kombiniere es mit einem einzigen hellen Kontrast.'
-      );
-    }
-    return colorStory(
-      'Kobaltblau',
-      'klar, kühl und ausdrucksstark',
-      'Kobaltblau wirkt grafisch und modern, besonders wenn der Schnitt schlicht ist. Es ist ideal, um Basics sofort frischer und bewusster wirken zu lassen.',
-      'Kombiniere Kobalt mit Weiß, Navy, Silber, Denim, Pink oder einem kleinen Gelbakzent. Bei sehr klaren Blautönen darf der Rest reduziert bleiben.'
-    );
+    if (l < 0.25) return colorStory('nightBlue');
+    return colorStory('cobaltBlue');
   }
 
-  if (h < 320) {
-    return colorStory(
-      l < 0.34 ? 'Aubergine' : 'Violett',
-      'kreativ, weich und geheimnisvoll',
-      'Violett- und Auberginetöne wirken weniger erwartbar als Rot oder Blau. In der Mode geben sie einem Outfit Individualität, ohne zwingend laut zu sein.',
-      'Kombiniere sie mit Creme, Taupe, Grau, Gold, Rosé oder Tannengrün. Aubergine ist besonders elegant zu Espresso und weichen Wollstoffen.'
-    );
-  }
+  if (h < 320) return colorStory(l < 0.34 ? 'aubergine' : 'violet');
 
   if (h < 350) {
-    if (l < 0.38) {
-      return colorStory(
-        'Beerenton',
-        'tief, feminin und elegant',
-        'Beerentöne verbinden die Energie von Rot mit der Weichheit von Violett. Deshalb wirken sie auffällig, aber meist edler und ruhiger als reines Pink.',
-        'Kombiniere Beere mit Creme, Taupe, Anthrazit, Navy, Rosé oder Gold. Als Akzent ist Beere ideal zu neutralen Outfits.'
-      );
-    }
-    return colorStory(
-      l > 0.70 ? 'Puderrosa' : 'Rosenpink',
-      'frisch, weich und feminin',
-      'Rosé und Pink können ein Outfit sofort leichter wirken lassen. Besonders erwachsen wirken sie, wenn Schnitt und Material klar bleiben – etwa bei Blazer, Bluse, Strick oder Seide.',
-      'Kombiniere Rosé mit Creme, Taupe, Camel, Denim oder Braun. Kräftigeres Pink wirkt modern zu Weiß, Navy oder einem klaren Grünakzent.'
-    );
+    if (l < 0.38) return colorStory('berry');
+    return colorStory(l > 0.70 ? 'powderPink' : 'rosePink');
   }
 
-  return colorStory(
-    'Farbton',
-    'individuell und ausdrucksstark',
-    'Jeder Farbton verändert seine Wirkung durch Material, Licht und Kombination. Matte Stoffe wirken ruhiger, glänzende Stoffe stärker und festlicher.',
-    'Kombiniere diesen Ton mit einem hellen Neutral, einem dunklen Neutral und maximal einem weiteren Akzent aus der Palette.'
-  );
+  return colorStory('generic');
 }
 
-function colorStory(name, tone, fact, combinations) {
-  return { name, tone, fact, combinations };
+function colorStory(key) {
+  return I18N.getColorStory(key);
 }
 
 function isBrownHue(h, s, l) {
@@ -386,24 +315,11 @@ function isBrownHue(h, s, l) {
 }
 
 function getPaletteCombinationNote(name) {
-  const value = String(name).toLowerCase();
-  if (value.includes('warm')) {
-    return 'In einer warmen Palette wirken Creme, Gold, Camel, Cognac und warme Naturtöne besonders verbindend.';
-  }
-  if (value.includes('cool')) {
-    return 'In einer kühlen Palette verbinden Weiß, Silber, Taupe, Navy und kühle Rosé- oder Beerentöne den Look besonders sauber.';
-  }
-  return 'Wähle dazu einen hellen und einen dunklen Ton aus deiner Farbkarte, damit der Look bewusst und nicht zufällig wirkt.';
+  return I18N.getPaletteCombinationNote(name);
 }
 
 function getPaletteDepthNote(name) {
-  const value = String(name).toLowerCase();
-  const notes = [];
-  if (value.includes('light')) notes.push('Bei Light-Paletten bleiben große Flächen am schönsten hell; dunkle Töne lieber als Kontur einsetzen.');
-  if (value.includes('deep')) notes.push('Bei Deep-Paletten darf der Kontrast spürbar sein; helle Töne funktionieren besonders gut als Lichtakzent.');
-  if (value.includes('clear')) notes.push('Clear-Paletten vertragen klare Kanten, glatte Stoffe und bewusst gesetzte Kontraste.');
-  if (value.includes('soft')) notes.push('Soft-Paletten wirken besonders edel mit Ton-in-Ton, matteren Stoffen und sanften Übergängen.');
-  return notes.join(' ');
+  return I18N.getPaletteDepthNote(name);
 }
 
 function rgbToHsl(r, g, b) {
@@ -481,67 +397,51 @@ function analyzeCanvas() {
 
   result.className = `result ${fit.className}`;
   result.innerHTML = `
-    <button class="color-chip" type="button" style="background:${sampled.hex}" title="${escapeHtml(sampledName)} erklären" aria-label="Gemessene Farbe ${escapeHtml(sampledName)} erklären" data-fullscreen-color="${sampled.hex}"></button>
+    <button class="color-chip" type="button" style="background:${sampled.hex}" title="${escapeHtml(I18N.t('ui.resultColorTitle', { color: sampledName }))}" aria-label="${escapeHtml(I18N.t('ui.resultSampleAria', { color: sampledName }))}" data-fullscreen-color="${sampled.hex}"></button>
     <div class="result-main">
-      <div class="result-eyebrow">Dein Farbcheck</div>
+      <div class="result-eyebrow">${escapeHtml(I18N.t('ui.resultEyebrow'))}</div>
       <div class="result-title">${escapeHtml(fit.title)}</div>
       <div class="result-meta">
-        Deine Farbe: <strong>${escapeHtml(sampledName)}</strong><br>
-        Ähnlichster Palettenton: <strong>${escapeHtml(matchName)}</strong>
+        ${escapeHtml(I18N.t('ui.yourColor'))}: <strong>${escapeHtml(sampledName)}</strong><br>
+        ${escapeHtml(I18N.t('ui.nearestPaletteColor'))}: <strong>${escapeHtml(matchName)}</strong>
       </div>
-      <div class="fit-meter" aria-label="Farbpassung: ${escapeHtml(fit.label)}">
+      <div class="fit-meter" aria-label="${escapeHtml(I18N.t('ui.fitMeter', { label: fit.label }))}">
         <span style="width:${fit.score}%"></span>
       </div>
       <div class="result-advice">${escapeHtml(fit.advice)}</div>
     </div>
-    <button class="color-chip" type="button" style="background:${match.hex}" title="${escapeHtml(matchName)} erklären" aria-label="Ähnlichsten Palettenton ${escapeHtml(matchName)} erklären" data-fullscreen-color="${match.hex}"></button>
+    <button class="color-chip" type="button" style="background:${match.hex}" title="${escapeHtml(I18N.t('ui.resultColorTitle', { color: matchName }))}" aria-label="${escapeHtml(I18N.t('ui.resultMatchAria', { color: matchName }))}" data-fullscreen-color="${match.hex}"></button>
   `;
 }
 
 function getPaletteFit(delta) {
+  let key;
+  let className;
+  let score;
+
   if (delta <= 6) {
-    return {
-      className: 'result-fit-perfect',
-      title: 'Volltreffer für deine Farbkarte',
-      label: 'sehr nah am Palettenton',
-      score: 100,
-      advice: 'Diese Farbe kannst du wie einen Originalton deiner Farbkarte einsetzen. Sie eignet sich auch gut für größere Flächen wie Bluse, Kleid, Jacke oder Strick.'
-    };
+    key = 'perfect';
+    className = 'result-fit-perfect';
+    score = 100;
+  } else if (delta <= 12) {
+    key = 'strong';
+    className = 'result-fit-strong';
+    score = 86;
+  } else if (delta <= MATCH_THRESHOLD) {
+    key = 'good';
+    className = 'result-fit-good';
+    score = 72;
+  } else if (delta <= 30) {
+    key = 'soft';
+    className = 'result-fit-soft';
+    score = 48;
+  } else {
+    key = 'away';
+    className = 'result-fit-away';
+    score = 22;
   }
-  if (delta <= 12) {
-    return {
-      className: 'result-fit-strong',
-      title: 'Sehr harmonisch',
-      label: 'stimmig und leicht kombinierbar',
-      score: 86,
-      advice: 'Die Farbe liegt sehr nah an deiner Palette. Sie wirkt besonders schön, wenn du sie mit ruhigen Basisfarben aus deiner Farbkarte kombinierst.'
-    };
-  }
-  if (delta <= MATCH_THRESHOLD) {
-    return {
-      className: 'result-fit-good',
-      title: 'Passt gut zur Farbkarte',
-      label: 'harmonisch, aber nicht ganz identisch',
-      score: 72,
-      advice: 'Die Richtung stimmt. Für ein besonders stimmiges Outfit wiederhole den ähnlichsten Palettenton noch einmal in Schmuck, Schuhen, Tasche oder Make-up.'
-    };
-  }
-  if (delta <= 30) {
-    return {
-      className: 'result-fit-soft',
-      title: 'Kann funktionieren – bewusst kombinieren',
-      label: 'nah dran, aber mit kleiner Abweichung',
-      score: 48,
-      advice: 'Die Farbe ist nicht ganz palette-rein. Trage sie lieber nicht direkt am Gesicht oder kombiniere sie mit starken Lieblingsfarben aus deiner Farbkarte.'
-    };
-  }
-  return {
-    className: 'result-fit-away',
-    title: 'Eher kein Idealton',
-    label: 'deutlich außerhalb der Farbkarte',
-    score: 22,
-    advice: 'Als kleines Detail kann die Farbe noch funktionieren. Für Oberteile, Schals oder Kleider ist ein Ton aus deiner Farbkarte meist schmeichelhafter.'
-  };
+
+  return { className, score, ...I18N.getFit(key) };
 }
 
 function sampleCenterColor(canvas, context) {
@@ -699,7 +599,7 @@ function showUpdateButton(worker, forceReload = false) {
   forceUpdateReload = Boolean(forceReload);
   hideInstallButton();
   updateButton.disabled = false;
-  updateButton.textContent = 'App aktualisieren';
+  updateButton.textContent = I18N.t('ui.updateApp');
   updateButton.classList.remove('hidden');
   document.body.classList.add('has-update');
 }
@@ -751,7 +651,7 @@ async function handleUpdateClick() {
   if (!waitingServiceWorker && !forceUpdateReload) return;
 
   updateButton.disabled = true;
-  updateButton.textContent = 'Aktualisiere ...';
+  updateButton.textContent = I18N.t('ui.updating');
 
   if (waitingServiceWorker) {
     waitingServiceWorker.postMessage({ type: 'SKIP_WAITING' });
@@ -805,11 +705,7 @@ function isIosSafari() {
 }
 
 function formatPaletteName(name) {
-  return String(name)
-    .split(/\s+/)
-    .filter(Boolean)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(' ');
+  return I18N.formatPaletteName(name);
 }
 
 function hexToRgb(hex) {

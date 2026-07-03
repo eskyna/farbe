@@ -1880,6 +1880,10 @@ def overview_js() -> str:
   return read_repo_text(ROOT_DIR / "overview.js")
 
 
+def i18n_js() -> str:
+  return read_repo_text(ROOT_DIR / "i18n.js")
+
+
 def palette_app_js(build_version: str) -> str:
   return read_repo_text(ROOT_DIR / "palette-app.js").replace("__ESKYNA_APP_VERSION__", build_version)
 
@@ -1982,6 +1986,7 @@ def generate(output: Path) -> None:
   write_text(farbe_dir / "palettes.js", palettes_js(palettes))
   write_text(farbe_dir / "styles.css", styles_css())
   write_text(farbe_dir / "overview.js", overview_js())
+  write_text(farbe_dir / "i18n.js", i18n_js())
   write_text(farbe_dir / "palette-app.js", palette_app_js(build_version))
   write_text(farbe_dir / "index.html", overview_html(DEFAULT_BASE_PATH))
   write_text(farbe_dir / "manifest.webmanifest", overview_manifest_json(DEFAULT_BASE_PATH))

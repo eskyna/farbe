@@ -9,6 +9,7 @@ const APP_SHELL = [
   "/farbe/styles.css",
   "/farbe/palettes.js",
   "/farbe/overview.js",
+  "/farbe/i18n.js",
   "/farbe/palette-app.js",
   "/farbe/assets/sign_gold.png",
   "/farbe/assets/splash-portrait.jpg",

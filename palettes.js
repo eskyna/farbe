@@ -68,7 +68,7 @@ window.ESKYNA_PALETTES = [
       "#DE562C",
       "#382012"
     ],
-    "appName": "ESKYNA - light cool clear"
+    "appName": "ESKYNA Farbe"
   },
   {
     "id": 2,
@@ -138,7 +138,7 @@ window.ESKYNA_PALETTES = [
       "#DA512F",
       "#241913"
     ],
-    "appName": "ESKYNA - light cool soft"
+    "appName": "ESKYNA Farbe"
   },
   {
     "id": 3,
@@ -208,7 +208,7 @@ window.ESKYNA_PALETTES = [
       "#D75541",
       "#D25E30"
     ],
-    "appName": "ESKYNA - light warm clear"
+    "appName": "ESKYNA Farbe"
   },
   {
     "id": 4,
@@ -278,7 +278,7 @@ window.ESKYNA_PALETTES = [
       "#CE3A2E",
       "#B45569"
     ],
-    "appName": "ESKYNA - light warm soft"
+    "appName": "ESKYNA Farbe"
   },
   {
     "id": 5,
@@ -348,7 +348,7 @@ window.ESKYNA_PALETTES = [
       "#574471",
       "#C85379"
     ],
-    "appName": "ESKYNA - deep cool clear"
+    "appName": "ESKYNA Farbe"
   },
   {
     "id": 6,
@@ -418,7 +418,7 @@ window.ESKYNA_PALETTES = [
       "#553E68",
       "#CB3C62"
     ],
-    "appName": "ESKYNA - deep cool soft"
+    "appName": "ESKYNA Farbe"
   },
   {
     "id": 7,
@@ -488,7 +488,7 @@ window.ESKYNA_PALETTES = [
       "#E6C497",
       "#D15D5E"
     ],
-    "appName": "ESKYNA - deep warm clear"
+    "appName": "ESKYNA Farbe"
   },
   {
     "id": 8,
@@ -558,7 +558,7 @@ window.ESKYNA_PALETTES = [
       "#EBC79B",
       "#C44D55"
     ],
-    "appName": "ESKYNA - deep warm soft"
+    "appName": "ESKYNA Farbe"
   },
   {
     "id": 9,
@@ -628,7 +628,7 @@ window.ESKYNA_PALETTES = [
       "#573A2B",
       "#29537C"
     ],
-    "appName": "ESKYNA - warm clear light"
+    "appName": "ESKYNA Farbe"
   },
   {
     "id": 10,
@@ -698,7 +698,7 @@ window.ESKYNA_PALETTES = [
       "#7B513D",
       "#1B3051"
     ],
-    "appName": "ESKYNA - warm clear deep"
+    "appName": "ESKYNA Farbe"
   },
   {
     "id": 11,
@@ -768,7 +768,7 @@ window.ESKYNA_PALETTES = [
       "#D66A8C",
       "#313E44"
     ],
-    "appName": "ESKYNA - warm soft light"
+    "appName": "ESKYNA Farbe"
   },
   {
     "id": 12,
@@ -838,7 +838,7 @@ window.ESKYNA_PALETTES = [
       "#CF587E",
       "#1F292E"
     ],
-    "appName": "ESKYNA - warm soft deep"
+    "appName": "ESKYNA Farbe"
   },
   {
     "id": 13,
@@ -908,7 +908,7 @@ window.ESKYNA_PALETTES = [
       "#D75474",
       "#1E1510"
     ],
-    "appName": "ESKYNA - cool clear light"
+    "appName": "ESKYNA Farbe"
   },
   {
     "id": 14,
@@ -978,7 +978,7 @@ window.ESKYNA_PALETTES = [
       "#DC494F",
       "#251812"
     ],
-    "appName": "ESKYNA - cool clear deep"
+    "appName": "ESKYNA Farbe"
   },
   {
     "id": 15,
@@ -1048,7 +1048,7 @@ window.ESKYNA_PALETTES = [
       "#302B25",
       "#E16E8C"
     ],
-    "appName": "ESKYNA - cool soft light"
+    "appName": "ESKYNA Farbe"
   },
   {
     "id": 16,
@@ -1118,7 +1118,7 @@ window.ESKYNA_PALETTES = [
       "#E24C69",
       "#E0446B"
     ],
-    "appName": "ESKYNA - cool soft deep"
+    "appName": "ESKYNA Farbe"
   },
   {
     "id": 17,
@@ -1188,7 +1188,7 @@ window.ESKYNA_PALETTES = [
       "#CD362F",
       "#3A3128"
     ],
-    "appName": "ESKYNA - soft cool light"
+    "appName": "ESKYNA Farbe"
   },
   {
     "id": 18,
@@ -1258,7 +1258,7 @@ window.ESKYNA_PALETTES = [
       "#CE3933",
       "#3D2C25"
     ],
-    "appName": "ESKYNA - soft cool deep"
+    "appName": "ESKYNA Farbe"
   },
   {
     "id": 19,
@@ -1328,7 +1328,7 @@ window.ESKYNA_PALETTES = [
       "#5A202F",
       "#9B385A"
     ],
-    "appName": "ESKYNA - soft warm light"
+    "appName": "ESKYNA Farbe"
   },
   {
     "id": 20,
@@ -1398,7 +1398,7 @@ window.ESKYNA_PALETTES = [
       "#C32F65",
       "#34A091"
     ],
-    "appName": "ESKYNA - soft warm deep"
+    "appName": "ESKYNA Farbe"
   },
   {
     "id": 21,
@@ -1468,7 +1468,7 @@ window.ESKYNA_PALETTES = [
       "#FAD5D2",
       "#171C2F"
     ],
-    "appName": "ESKYNA - clear cool light"
+    "appName": "ESKYNA Farbe"
   },
   {
     "id": 22,
@@ -1538,7 +1538,7 @@ window.ESKYNA_PALETTES = [
       "#F7DED9",
       "#243959"
     ],
-    "appName": "ESKYNA - clear cool deep"
+    "appName": "ESKYNA Farbe"
   },
   {
     "id": 23,
@@ -1608,7 +1608,7 @@ window.ESKYNA_PALETTES = [
       "#CD365B",
       "#24325B"
     ],
-    "appName": "ESKYNA - clear warm light"
+    "appName": "ESKYNA Farbe"
   },
   {
     "id": 24,
@@ -1678,6 +1678,6 @@ window.ESKYNA_PALETTES = [
       "#CD3553",
       "#2E3561"
     ],
-    "appName": "ESKYNA - clear warm deep"
+    "appName": "ESKYNA Farbe"
   }
 ];
