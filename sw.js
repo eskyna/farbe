@@ -1,4 +1,4 @@
-const CACHE_NAME = "eskyna-farben-v3";
+const CACHE_NAME = "eskyna-farben-v4";
 const FALLBACK_URL = "/farbe/";
 const APP_SHELL = [
   "/farbe/",

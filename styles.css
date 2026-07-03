@@ -803,3 +803,177 @@ body.palette-page.has-update .app {
     font-size: 10.5px;
   }
 }
+
+/* Farb-Erklärung im Vollbild */
+.color-fullscreen {
+  display: grid;
+  align-items: end;
+  justify-items: center;
+  padding: max(18px, env(safe-area-inset-top)) 16px max(22px, env(safe-area-inset-bottom));
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.color-fullscreen::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(255,255,255,.30), transparent 18rem),
+    radial-gradient(circle at 85% 88%, rgba(0,0,0,.16), transparent 22rem);
+  mix-blend-mode: soft-light;
+}
+.color-fullscreen-card {
+  position: relative;
+  width: min(100%, 580px);
+  margin: auto auto 0;
+  padding: 20px 20px 18px;
+  border-radius: 28px;
+  border: 1px solid rgba(154, 116, 51, .28);
+  background: linear-gradient(180deg, rgba(255, 253, 248, .94), rgba(255, 250, 240, .88));
+  color: #201b15;
+  box-shadow: 0 28px 80px rgba(29, 27, 24, .28), inset 0 1px 0 rgba(255,255,255,.70);
+  backdrop-filter: blur(18px);
+  cursor: default;
+}
+.color-fullscreen-kicker {
+  color: #9a7433;
+  font-family: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.color-fullscreen-head {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-top: 10px;
+}
+.color-fullscreen-dot {
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
+  border: 1px solid rgba(29,27,24,.18);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.22), 0 10px 24px rgba(29,27,24,.14);
+  flex: 0 0 auto;
+}
+.color-fullscreen-card h2 {
+  margin: 0;
+  font-family: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(28px, 8vw, 44px);
+  font-weight: 500;
+  letter-spacing: .01em;
+  line-height: 1.02;
+}
+.color-fullscreen-hex {
+  margin: 5px 0 0;
+  color: #746b5f;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+}
+.color-fullscreen-tone {
+  margin: 14px 0 16px;
+  color: #6d5e4f;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+.color-fullscreen-section {
+  padding: 14px 0;
+  border-top: 1px solid rgba(154, 116, 51, .22);
+}
+.color-fullscreen-section span {
+  display: block;
+  margin-bottom: 6px;
+  color: #9a7433;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.color-fullscreen-section p {
+  margin: 0;
+  color: #2a241e;
+  font-size: clamp(14px, 3.6vw, 16px);
+  line-height: 1.55;
+}
+.color-fullscreen-footnote {
+  margin: 2px 0 0;
+  color: #746b5f;
+  font-size: 12px;
+  line-height: 1.35;
+}
+.color-fullscreen-close {
+  position: fixed;
+  top: max(14px, env(safe-area-inset-top));
+  right: max(14px, env(safe-area-inset-right));
+  z-index: 1;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 253, 248, .46);
+  background: rgba(29, 27, 24, .34);
+  color: #fffdf8;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 12px 30px rgba(29,27,24,.22);
+  backdrop-filter: blur(10px);
+}
+.color-fullscreen.is-light .color-fullscreen-close {
+  border-color: rgba(29,27,24,.18);
+  background: rgba(255, 253, 248, .58);
+  color: #211a11;
+}
+@media (orientation: landscape) {
+  .color-fullscreen {
+    align-items: center;
+    justify-items: start;
+    padding: max(18px, env(safe-area-inset-top)) 7vw max(18px, env(safe-area-inset-bottom));
+  }
+  .color-fullscreen-card {
+    width: min(48vw, 600px);
+    margin: 0;
+    max-height: calc(100dvh - 40px);
+    overflow: auto;
+  }
+  .color-fullscreen-card h2 {
+    font-size: clamp(28px, 4.4vw, 42px);
+  }
+  .color-fullscreen-section p {
+    font-size: 14px;
+  }
+}
+@media (max-height: 700px) and (orientation: portrait) {
+  .color-fullscreen-card {
+    padding: 16px 16px 14px;
+    border-radius: 24px;
+  }
+  .color-fullscreen-dot {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+  }
+  .color-fullscreen-tone {
+    margin-bottom: 10px;
+  }
+  .color-fullscreen-section {
+    padding: 10px 0;
+  }
+}
+
+/* Farb-Erklärungen: klickbare Farbchips */
+button.color-chip {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 0;
+  cursor: pointer;
+}
+button.color-chip:focus-visible,
+.swatch:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(199, 163, 91, .38), inset 0 0 0 1px rgba(255,255,255,.28);
+}

@@ -1949,7 +1949,7 @@ def service_worker_js(palettes: list[dict[str, Any]], base_path: str) -> str:
     content = rewrite_base_path(read_repo_text(ROOT_DIR / "sw.js"), base_path)
     build_version = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
     return content.replace(
-        'const CACHE_NAME = "eskyna-farben-v3";',
+        'const CACHE_NAME = "eskyna-farben-v4";',
         f'const CACHE_NAME = "eskyna-farben-{build_version}";'
     )
 
