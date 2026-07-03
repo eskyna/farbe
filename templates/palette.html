@@ -23,37 +23,35 @@
       </div>
     </header>
 
-    <section class="panel palette-panel" aria-label="Farbkarte __PALETTE_NAME__">
-      <div class="panel-head">
-        <div class="install-actions">
-          <button id="installButton" class="install-button" type="button">App installieren</button>
-        </div>
-      </div>
-      <p id="installHint" class="install-hint hidden" aria-live="polite"></p>
+    <section class="palette-panel" aria-label="Farbkarte __PALETTE_NAME__">
       <div id="paletteGrid" class="palette-grid"></div>
     </section>
 
-    <section class="panel check-panel" aria-label="Kleidungsstück prüfen">
-      <div class="panel-head simple">
-        <div>
-          <p class="section-kicker">Profi-Feature</p>
-          <h2>Farbe prüfen</h2>
-        </div>
-      </div>
+    <section class="analysis-panel" aria-label="Kleidungsstück prüfen">
+      <p id="installHint" class="install-hint hidden" aria-live="polite"></p>
       <p class="hint">Foto machen oder wählen. Das Kleidungsstück muss in der Bildmitte liegen.</p>
-      <div class="action-stack">
-        <label class="file-button">
-          Foto wählen
-          <input id="photoInput" type="file" accept="image/*" capture="environment" />
-        </label>
-        <a class="secondary-button telegram-button" href="__TELEGRAM_BOT_URL__" target="_blank" rel="noopener noreferrer">Stilfrage an Natalia</a>
-      </div>
       <div id="previewWrap" class="preview-wrap hidden">
         <canvas id="previewCanvas"></canvas>
         <div class="target" aria-hidden="true"></div>
       </div>
       <div id="result" class="result hidden" aria-live="polite"></div>
     </section>
+
+    <nav class="bottom-action-bar" aria-label="Aktionen">
+      <label class="bottom-action file-button bottom-file-button">
+        <span class="camera-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" role="img" focusable="false">
+            <rect x="3" y="7" width="18" height="13" rx="2" ry="2"></rect>
+            <path d="M8 7l1.4-2h5.2L16 7"></path>
+            <circle cx="12" cy="13.5" r="3.5"></circle>
+          </svg>
+        </span>
+        <span>Foto wählen</span>
+        <input id="photoInput" type="file" accept="image/*" capture="environment" />
+      </label>
+      <a class="bottom-action secondary-button telegram-button" href="__TELEGRAM_BOT_URL__" target="_blank" rel="noopener noreferrer">Stilfrage an Natalia</a>
+      <button id="installButton" class="bottom-action install-button" type="button">App installieren</button>
+    </nav>
   </main>
   <div id="colorFullscreen" class="color-fullscreen hidden" aria-hidden="true" aria-label="Vollbild-Farbansicht"></div>
   <script>

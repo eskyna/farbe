@@ -194,6 +194,11 @@ h2 {
   border: 1px solid var(--line-soft);
   background: #ddd;
 }
+.analysis-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 .swatch {
   aspect-ratio: 1 / 1;
   border: 0;
@@ -312,13 +317,53 @@ h2 {
   cursor: pointer;
   touch-action: manipulation;
 }
+.bottom-action-bar {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  z-index: 40;
+  width: min(100%, 720px);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, rgba(247, 242, 232, .84) 0%, rgba(247, 242, 232, .96) 24%, rgba(247, 242, 232, .98) 100%);
+  backdrop-filter: blur(8px);
+}
+.bottom-action {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 10px;
+  font-size: 12px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.bottom-file-button {
+  gap: 7px;
+}
+.camera-icon {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+}
+.camera-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 .hidden { display: none !important; }
 .palette-page .app {
-  height: 100svh;
+  height: 100dvh;
   display: grid;
-  grid-template-rows: auto minmax(0, .92fr) minmax(0, 1fr);
-  gap: 10px;
-  padding: max(10px, env(safe-area-inset-top)) 12px max(10px, env(safe-area-inset-bottom));
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 8px;
+  padding: max(10px, env(safe-area-inset-top)) 12px calc(68px + env(safe-area-inset-bottom));
 }
 .palette-page .hero {
   margin: 0;
@@ -337,29 +382,15 @@ h2 {
   margin-top: 2px;
 }
 .palette-page .palette-panel,
-.palette-page .check-panel {
+.palette-page .analysis-panel {
   margin: 0;
   min-height: 0;
 }
 .palette-page .palette-panel {
-  padding: 10px;
+  padding: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-}
-.palette-page .check-panel {
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  overflow: hidden;
-}
-.palette-page .panel-head {
-  margin-bottom: 6px;
-  align-items: start;
-}
-.palette-page .panel-head.simple {
-  margin-bottom: 0;
 }
 .palette-page .install-hint,
 .palette-page .hint {
@@ -367,8 +398,12 @@ h2 {
   font-size: 11px;
 }
 .palette-page .palette-grid {
+  height: 100%;
   flex: 1;
   min-height: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 .palette-page .swatch {
   aspect-ratio: auto;
@@ -379,7 +414,7 @@ h2 {
 .palette-page .file-button,
 .palette-page .secondary-button,
 .palette-page .install-button {
-  min-height: 42px;
+  min-height: 44px;
 }
 .palette-page .action-stack {
   gap: 8px;
@@ -409,7 +444,7 @@ h2 {
   .palette-page .app {
     gap: 8px;
     padding-top: max(8px, env(safe-area-inset-top));
-    padding-bottom: max(8px, env(safe-area-inset-bottom));
+    padding-bottom: calc(64px + env(safe-area-inset-bottom));
   }
   .palette-page .hero-logo {
     width: 46px;
@@ -425,11 +460,7 @@ h2 {
     font-size: 21px;
   }
   .palette-page .palette-panel {
-    padding: 8px;
-  }
-  .palette-page .check-panel {
-    padding: 10px;
-    gap: 6px;
+    padding: 0;
   }
   .palette-page .install-hint,
   .palette-page .hint,
@@ -440,6 +471,16 @@ h2 {
   .palette-page .secondary-button,
   .palette-page .install-button {
     min-height: 40px;
+  }
+  .bottom-action-bar {
+    gap: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .bottom-action {
+    font-size: 11px;
+    padding-left: 8px;
+    padding-right: 8px;
   }
   .palette-page .preview-wrap {
     max-height: min(13dvh, 98px);
@@ -461,4 +502,20 @@ h2 {
   .palette-page h1 { font-size: 26px; }
   .palette-page h2 { font-size: 19px; }
   .palette-page .palette-subtitle { font-size: 11px; }
+  .bottom-action-bar {
+    gap: 5px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .bottom-action {
+    font-size: 10px;
+    min-height: 38px;
+  }
+  .bottom-file-button {
+    gap: 5px;
+  }
+  .camera-icon {
+    width: 14px;
+    height: 14px;
+  }
 }
