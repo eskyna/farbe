@@ -33,6 +33,10 @@ body::before {
   opacity: .065;
   pointer-events: none;
 }
+body.palette-page {
+  height: 100dvh;
+  overflow: hidden;
+}
 button, input { font: inherit; }
 a { color: inherit; }
 .app {
@@ -216,6 +220,29 @@ h2 {
   cursor: pointer;
   box-shadow: 0 16px 36px rgba(29, 27, 24, .17);
 }
+.action-stack {
+  display: grid;
+  gap: 10px;
+}
+.secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 50px;
+  border-radius: 999px;
+  border: 1px solid rgba(11, 73, 131, .18);
+  background: linear-gradient(135deg, #2c7cc1 0%, #17548b 100%);
+  color: #f8fbff;
+  font-weight: 850;
+  letter-spacing: .01em;
+  text-decoration: none;
+  box-shadow: 0 14px 28px rgba(23, 84, 139, .24);
+}
+.secondary-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(44, 124, 193, .24), 0 14px 28px rgba(23, 84, 139, .24);
+}
 .file-button input { display: none; }
 .file-button:focus-within { box-shadow: 0 0 0 4px rgba(199, 163, 91, .24); }
 .preview-wrap {
@@ -270,6 +297,128 @@ h2 {
 .result-title { font-weight: 950; font-size: 18px; line-height: 1.1; }
 .result-meta { margin-top: 4px; color: var(--muted); font-size: 13px; line-height: 1.4; }
 .hidden { display: none !important; }
+.palette-page .app {
+  height: 100dvh;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 12px;
+  padding: max(14px, env(safe-area-inset-top)) 14px max(14px, env(safe-area-inset-bottom));
+}
+.palette-page .hero {
+  margin: 0;
+  padding: 4px 2px 0;
+  gap: 12px;
+}
+.palette-page .hero-logo {
+  width: 52px;
+  height: 52px;
+}
+.palette-page h1 {
+  font-size: clamp(30px, 7vw, 42px);
+}
+.palette-page .palette-panel,
+.palette-page .check-panel {
+  margin: 0;
+  min-height: 0;
+}
+.palette-page .palette-panel {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+}
+.palette-page .check-panel {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.palette-page .panel-head {
+  margin-bottom: 8px;
+  align-items: start;
+}
+.palette-page .panel-head.simple {
+  margin-bottom: 0;
+}
+.palette-page .install-hint,
+.palette-page .hint {
+  margin: 0;
+  font-size: 12px;
+}
+.palette-page .palette-grid {
+  flex: 1;
+  min-height: 0;
+}
+.palette-page .swatch {
+  min-height: 0;
+  padding: 6px 3px;
+  font-size: clamp(9px, 2vw, 11px);
+}
+.palette-page .file-button,
+.palette-page .secondary-button,
+.palette-page .install-button {
+  min-height: 46px;
+}
+.palette-page .preview-wrap {
+  margin-top: 0;
+  max-height: min(19dvh, 168px);
+  flex: 0 0 auto;
+}
+.palette-page #previewCanvas {
+  width: auto;
+  max-width: 100%;
+  max-height: min(19dvh, 168px);
+  margin: 0 auto;
+}
+.palette-page .result {
+  margin-top: 0;
+  grid-template-columns: 48px 1fr 48px;
+  gap: 10px;
+  padding: 10px;
+}
+.palette-page .color-chip {
+  width: 48px;
+  height: 48px;
+}
+@media (max-height: 760px) {
+  .palette-page .app {
+    gap: 10px;
+    padding-top: max(10px, env(safe-area-inset-top));
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+  }
+  .palette-page .hero-logo {
+    width: 46px;
+    height: 46px;
+  }
+  .palette-page h1 {
+    font-size: clamp(26px, 6vw, 34px);
+  }
+  .palette-page h2 {
+    font-size: 21px;
+  }
+  .palette-page .palette-panel {
+    padding: 10px;
+  }
+  .palette-page .check-panel {
+    padding: 12px;
+    gap: 8px;
+  }
+  .palette-page .install-hint,
+  .palette-page .hint,
+  .palette-page .result-meta {
+    font-size: 11px;
+  }
+  .palette-page .file-button,
+  .palette-page .secondary-button,
+  .palette-page .install-button {
+    min-height: 42px;
+  }
+  .palette-page .preview-wrap {
+    max-height: min(16dvh, 132px);
+  }
+  .palette-page #previewCanvas {
+    max-height: min(16dvh, 132px);
+  }
+}
 @media (min-width: 640px) {
   .overview-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .app { padding-left: 22px; padding-right: 22px; }
@@ -279,4 +428,7 @@ h2 {
   .choice-name { font-size: 14px; min-height: 56px; }
   .swatch { min-height: 64px; font-size: 10px; }
   .hero-logo { width: 58px; height: 58px; }
+  .palette-page .hero-logo { width: 42px; height: 42px; }
+  .palette-page h1 { font-size: 26px; }
+  .palette-page h2 { font-size: 19px; }
 }

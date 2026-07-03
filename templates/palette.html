@@ -12,8 +12,8 @@
   <link rel="stylesheet" href="__BASE_PATH__styles.css" />
   <title>__APP_NAME__</title>
 </head>
-<body>
-  <main class="app">
+<body class="palette-page">
+  <main class="app palette-app-layout">
     <header class="hero" aria-label="__APP_NAME__">
       <img class="hero-logo" src="__BASE_PATH__assets/sign_gold.png" alt="ESKYNA Symbol" />
       <div class="hero-copy">
@@ -44,10 +44,13 @@
         </div>
       </div>
       <p class="hint">Foto machen oder wählen. Das Kleidungsstück muss in der Bildmitte liegen.</p>
-      <label class="file-button">
-        Foto wählen
-        <input id="photoInput" type="file" accept="image/*" capture="environment" />
-      </label>
+      <div class="action-stack">
+        <label class="file-button">
+          Foto wählen
+          <input id="photoInput" type="file" accept="image/*" capture="environment" />
+        </label>
+        <a class="secondary-button telegram-button" href="__TELEGRAM_BOT_URL__" target="_blank" rel="noopener noreferrer">Stilfrage an Natalia</a>
+      </div>
       <div id="previewWrap" class="preview-wrap hidden">
         <canvas id="previewCanvas"></canvas>
         <div class="target" aria-hidden="true"></div>

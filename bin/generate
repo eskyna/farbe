@@ -41,6 +41,7 @@ TEMPLATES_DIR = ROOT_DIR / "templates"
 DEFAULT_LOGO_PATH = ROOT_DIR / "assets" / "sign_gold.png"
 DEFAULT_BASE_PATH = "/farbe/"
 DEFAULT_PALETTE_ICONS_DIR = ROOT_DIR / "icons"
+DEFAULT_TELEGRAM_BOT_URL = "https://t.me/eskyna_bot"
 
 PALETTES_JSON = r'''[
   {
@@ -1889,6 +1890,7 @@ def palette_html(palette: dict[str, Any], base_path: str) -> str:
       "__PALETTE_NAME__": name,
       "__PALETTE_SLUG__": slug,
       "__BASE_PATH__": base_path,
+      "__TELEGRAM_BOT_URL__": DEFAULT_TELEGRAM_BOT_URL,
     },
   )
 
