@@ -21,5 +21,6 @@ Feature: PWA-Installation, Update und Branding
     Then die App nutzt das textile Hintergrundbild
     And der Splashscreen nutzt Hochkant- und Landscape-Bild
     And der Splashscreen zeigt die App-Version in der untersten Zeile
+    And das installierbare App-Icon nutzt ESKYNA Farbe, Palette und Kleeblatt
     And die Buttons verwenden Montserrat und ESKYNA-Stilelemente
 

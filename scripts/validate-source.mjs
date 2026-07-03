@@ -29,6 +29,7 @@ const REQUIRED_FILES = [
   'features/requirements_personalization.feature',
   'features/requirements_project_quality.feature',
   'assets/sign_gold.png',
+  'assets/app-icon.png',
   'assets/app-background.jpg',
   'assets/splash-portrait.jpg',
   'assets/splash-landscape.jpg'
@@ -178,6 +179,9 @@ for (const palette of palettes) {
 }
 
 const sourceTexts = ['palette-app.js', 'overview.js', 'i18n.js', 'templates/palette.html', 'index.html'].map(readText).join('\n');
+const generatorText = readText('bin/generate');
+assert(generatorText.includes('APP_ICON_PATH'), 'Generator muss das zentrale assets/app-icon.png fuer App-Icons verwenden.');
+assert(generatorText.includes('assets/app-icon.png'), 'Generator muss assets/app-icon.png in den Dist-Build kopieren.');
 assert(!/Feldnummer|field number/i.test(sourceTexts), 'UI darf keine Feldnummern erwaehnen.');
 assert(!sourceTexts.includes('Foto wählen'), 'Button-Text "Foto wählen" darf nicht mehr verwendet werden.');
 assert(sourceTexts.includes('customerName'), 'Personalisierter Kundinnenname muss im Template/Frontend verdrahtet sein.');

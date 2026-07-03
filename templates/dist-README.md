@@ -23,9 +23,10 @@ Alle wiederverwendeten Dateien liegen nur einmal zentral im Root dieses Verzeich
 - palette-app.js
 - sw.js
 - assets/sign_gold.png
+- assets/app-icon.png
 - icons/*
 
-Jede Farbkarte hat ein eigenes App-Icon. Lege vor dem Generieren die PNG-Dateien unter `./icons/<slug>.png` ab, z. B. `./icons/light_warm_soft.png`. Alternativ funktionieren auch Dateinamen mit Leerzeichen wie `./icons/light warm soft.png`. Der Generator erzeugt daraus automatisch die Manifest-Icons `192x192`, `512x512` und das iOS-Icon. Fehlt eine Datei, bricht der Lauf ab.
+Alle Farbkarten verwenden das zentrale ESKYNA-Farbe-App-Icon aus `assets/app-icon.png`. Der Generator erzeugt daraus automatisch die Manifest-Icons `192x192`, `512x512` und das iOS-Icon fuer Uebersicht und Farbkarten.
 
 Pro Farbkarte werden nur `index.html` und `manifest.webmanifest` generiert.
 

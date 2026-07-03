@@ -11,7 +11,8 @@ Python-Generator. Erzeugt den kompletten Dist-Build. Wichtige Verantwortungen:
 - Paletten-Rohdaten
 - `palettes.js` schreiben
 - Manifest-Dateien pro Palette schreiben
-- Icons/Assets kopieren
+- das zentrale App-Icon aus `assets/app-icon.png` als gemeinsame Manifest-Icons erzeugen
+- weitere Icons/Assets kopieren
 - Build-Version erzeugen
 - Template-Platzhalter ersetzen
 
@@ -67,8 +68,8 @@ Service Worker:
 
 | Datei | Prueft |
 | --- | --- |
-| `scripts/validate-source.mjs` | Quellstruktur, 24 Paletten, 24 Farben je Palette, Pflichtassets, i18n-Basics, Personalisierungs-Hooks |
-| `scripts/validate-dist.mjs` | erzeugten Build, Manifest-Dateien, Icons, Version, Platzhalterfreiheit, Personalisierungsplatz im HTML |
+| `scripts/validate-source.mjs` | Quellstruktur, 24 Paletten, 24 Farben je Palette, Pflichtassets inklusive App-Icon, i18n-Basics, Personalisierungs-Hooks |
+| `scripts/validate-dist.mjs` | erzeugten Build, Manifest-Dateien, zentrales Manifest-App-Icon, Version, Platzhalterfreiheit, Personalisierungsplatz im HTML |
 | `features/*.feature` | fachliche Akzeptanzkriterien im Behave/Cucumber-Format |
 | `features/steps/requirements_steps.py` | automatisierte Step Definitions fuer Requirements, i18n, Layout, PWA und Farbcontent |
 | `features/support/inspect-app.mjs` | browsernahes Harness fuer i18n und Farbgeschichten ohne echten Browser |
@@ -92,6 +93,15 @@ Service Worker:
 4. Resultat- und Scanner-Stile in `styles.css` pruefen.
 5. BDD-Szenarien in `features/requirements_color_guidance.feature` und Steps aktualisieren.
 6. `npm run build && npm run validate:dist` sowie Behave ausfuehren, wenn verfuegbar.
+
+
+### Das App-Icon aendern
+
+1. Neue Masterdatei als `assets/app-icon.png` ablegen.
+2. Darauf achten, dass Kleeblatt, `ESKYNA Farbe` und Farbfächer innerhalb der sicheren Icon-Mitte liegen.
+3. `bin/generate` nicht umgehen: Der Build erzeugt `icons/icon-192.png`, `icons/icon-512.png` und `icons/apple-touch-icon.png` aus dieser Masterdatei; alle Paletten-Manifeste verweisen darauf.
+4. `npm run build && npm run validate:dist` ausfuehren.
+5. Wegen PWA-Icon-Caching den kompletten Dist-Ordner deployen und auf Testgeraeten ggf. die PWA neu installieren.
 
 ### Einen Buttontext aendern
 

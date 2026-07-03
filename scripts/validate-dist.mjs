@@ -46,6 +46,7 @@ const requiredFiles = [
   'palettes.js',
   'i18n.js',
   'assets/sign_gold.png',
+  'assets/app-icon.png',
   'assets/app-background.jpg',
   'assets/splash-portrait.jpg',
   'assets/splash-landscape.jpg'
@@ -62,6 +63,8 @@ assert(readText('index.html').includes('v' + version.version), 'Uebersicht-Splas
 assert(readText('palette-app.js').includes('getColorGlossary'), 'Dist enthaelt keine detaillierten Farbglossare.');
 assert(readText('styles.css').includes('color-glossary-profile-grid'), 'Dist enthaelt keine Glossar-Profil-Stile.');
 assert(readText('i18n.js').includes('glossary:'), 'Dist enthaelt keine Glossar-Uebersetzungen.');
+assert(fileExists('icons/icon-192.png'), 'Zentrales 192px-App-Icon fehlt.');
+assert(fileExists('icons/icon-512.png'), 'Zentrales 512px-App-Icon fehlt.');
 
 const commonText = requiredFiles
   .filter((file) => /\.(html|js|css|json|webmanifest)$/.test(file))
@@ -90,6 +93,12 @@ for (const palette of palettes) {
   for (const icon of manifest.icons) {
     const iconPath = String(icon.src || '').replace(/^\.\.\//, '').replace(/^\/farbe\//, '');
     assert(fileExists(iconPath), `Palette ${palette.slug}: Manifest-Icon fehlt: ${icon.src}`);
+    if (String(icon.sizes) === '192x192') {
+      assert(iconPath === 'icons/icon-192.png', `Palette ${palette.slug}: 192px-Icon verweist nicht auf das zentrale App-Icon.`);
+    }
+    if (String(icon.sizes) === '512x512') {
+      assert(iconPath === 'icons/icon-512.png', `Palette ${palette.slug}: 512px-Icon verweist nicht auf das zentrale App-Icon.`);
+    }
   }
 
   assert(Array.isArray(palette.colors) && palette.colors.length === 24, `Palette ${palette.slug}: colors muss 24 Farben haben.`);

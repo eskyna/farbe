@@ -443,6 +443,26 @@ def step_splash_assets(context):
     assert project.path("assets/splash-portrait.jpg").exists(), "assets/splash-portrait.jpg fehlt."
 
 
+
+
+@then("das installierbare App-Icon nutzt ESKYNA Farbe, Palette und Kleeblatt")
+def step_installable_app_icon_uses_selected_brand_icon(context):
+    project = get_project(context)
+    project.ensure_dist()
+    assert project.path("assets/app-icon.png").exists(), "assets/app-icon.png fehlt."
+    assert project.path("dist/assets/app-icon.png").exists(), "dist/assets/app-icon.png fehlt."
+    assert project.path("dist/icons/icon-192.png").exists(), "dist/icons/icon-192.png fehlt."
+    assert project.path("dist/icons/icon-512.png").exists(), "dist/icons/icon-512.png fehlt."
+
+    for palette in project.palettes():
+        slug = palette["slug"]
+        manifest = project.read_json(f"dist/{slug}/manifest.webmanifest")
+        icons = manifest.get("icons", [])
+        icon_sources = {str(icon.get("sizes")): str(icon.get("src", "")).replace("/farbe/", "") for icon in icons}
+        assert icon_sources.get("192x192") == "icons/icon-192.png", f"{slug}: 192px-App-Icon verweist nicht auf das zentrale Icon."
+        assert icon_sources.get("512x512") == "icons/icon-512.png", f"{slug}: 512px-App-Icon verweist nicht auf das zentrale Icon."
+
+
 @then("die Buttons verwenden Montserrat und ESKYNA-Stilelemente")
 def step_buttons_branding(context):
     css = get_project(context).read_text("styles.css")

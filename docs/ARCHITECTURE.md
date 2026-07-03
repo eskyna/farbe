@@ -10,6 +10,7 @@ ESKYNA Farbe ist eine statische Web-App mit 24 installierbaren PWAs. Sie benoeti
 bin/generate
   ├─ liest eingebettete Paletten-Rohdaten
   ├─ kopiert gemeinsame Assets
+  ├─ erzeugt alle Manifest-Icons aus assets/app-icon.png
   ├─ erzeugt palettes.js
   ├─ erzeugt version.json
   ├─ erzeugt pro Palette index.html + manifest.webmanifest
@@ -29,7 +30,15 @@ Browser
 | `overview.js` | rendert die Auswahlseite der 24 Farbkarten |
 | `palette-app.js` | rendert Farbfelder, Farb-Erklaerung, Kamera-Farbcheck, Kundinnen-Personalisierung, Install-/Update-UI |
 | `styles.css` | responsive App-Layout, Branding, Splashscreen, Vollbild-Farbansicht |
+| `assets/app-icon.png` | zentrale Masterdatei fuer Homescreen-/Manifest-Icons aller Farbkarten |
 | `sw.js` | Offline-Cache und Update-Mechanik |
+
+
+## App-Icon-Modell
+
+Alle installierbaren Farbkarten verwenden dasselbe zentrale ESKYNA-Farbe-App-Icon. Die Masterdatei liegt in `assets/app-icon.png` und wird im Build in die benoetigten Groessen fuer Manifest und Apple-Touch-Icon umgerechnet. Das verhindert, dass Kundinnen je Farbkarte unterschiedliche technische Icons sehen, und staerkt die Wiedererkennbarkeit der App.
+
+Die Paletten-Manifeste verweisen direkt auf `icons/icon-192.png` und `icons/icon-512.png`. Dadurch gibt es kein unnoetiges Icon-Duplikat pro Farbkarte und Icon-Aenderungen bleiben zentral wartbar.
 
 ## PWA-Update-Modell
 

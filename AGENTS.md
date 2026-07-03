@@ -6,7 +6,7 @@ Dieses Projekt soll auch von KI-Agenten sicher wartbar sein. Diese Datei ist der
 
 1. **Nicht blind in `dist/` arbeiten.** `dist/` ist generiert. Aendere Quellen und fuehre danach `npm run build` aus.
 2. **Aenderungen klein halten.** Beruehre nur Dateien, die fuer die Aufgabe noetig sind.
-3. **Branding respektieren.** ESKYNA nutzt Montserrat, warme Creme-/Goldtoene, das Kleeblatt aus `assets/sign_gold.png` und eine elegante, ruhige Bildsprache.
+3. **Branding respektieren.** ESKYNA nutzt Montserrat, warme Creme-/Goldtoene, das Kleeblatt aus `assets/sign_gold.png`, das zentrale Installationsicon aus `assets/app-icon.png` und eine elegante, ruhige Bildsprache.
 4. **Drei Sprachen mitdenken.** Nutzerinnen sehen Deutsch, Englisch oder Russisch je nach Browser-/Handysprache. Neue UI-Texte gehoeren in `i18n.js`.
 5. **PWA-Update beachten.** Runtime-Aenderungen muessen nach dem Build eine neue Version in `version.json` und `sw.js` erzeugen.
 6. **Keine Feldnummern in der UI.** Farben werden ueber Namen und Stilwissen erklaert, nicht ueber Feldnummern.
@@ -42,6 +42,7 @@ npm run serve
 | Aufgabe | Datei(en) |
 | --- | --- |
 | Layout, Buttons, Header, Landscape/Portrait | `styles.css`, `templates/palette.html`, `index.html` |
+| App-Icon / PWA-Icon | `assets/app-icon.png`, `bin/generate`, `sw.js`, Manifest-Validierung |
 | UI-Texte und Uebersetzungen | `i18n.js` |
 | Farbglossar und Stilwissen | `palette-app.js`, `i18n.js`, `styles.css`, `docs/COLOR_GLOSSARY.md` |
 | Kundinnen-Personalisierung | `palette-app.js`, `i18n.js`, `templates/palette.html`, `styles.css` |
@@ -106,6 +107,15 @@ Siehe auch [`docs/CODE_MAP.md`](docs/CODE_MAP.md).
 - Glossarseiten muessen mehr Tiefe zeigen: Farbprofil, Rolle im Farbpass, Modewissen, Materialwirkung, Outfit-Rezept und Shopping-Feintuning.
 - Neue Glossar-Texte fuer `de`, `en` und `ru` ergaenzen und `features/requirements_color_guidance.feature` aktuell halten.
 - Details stehen in `docs/COLOR_GLOSSARY.md`.
+
+
+### App-Icon / PWA-Icon
+
+- Das ausgewaehlte Icon liegt zentral in `assets/app-icon.png`.
+- `bin/generate` erzeugt daraus die gemeinsamen Manifest-Icons fuer Uebersicht und Farbkarten.
+- Nicht nur einzelne Dateien in `dist/icons/` austauschen; die Quelle und der Generator muessen konsistent bleiben.
+- Nach Icon-Aenderungen `npm run build && npm run validate:dist` ausfuehren.
+- PWA-Icons koennen auf Android/Chrome laenger gecacht werden; bei Tests eventuell die installierte PWA entfernen und neu installieren.
 
 ### PWA-/Service-Worker-Aenderung
 

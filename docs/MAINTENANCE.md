@@ -127,13 +127,14 @@ Wartungsregeln:
 | Asset | Zweck |
 | --- | --- |
 | `assets/sign_gold.png` | klickbares ESKYNA Kleeblatt im Header |
+| `assets/app-icon.png` | zentrales PWA-App-Icon fuer Uebersicht und alle Farbkarten |
 | `assets/app-background.jpg` | App-Hintergrund |
 | `assets/splash-portrait.jpg` | Splashscreen Hochkant |
 | `assets/splash-landscape.jpg` | Splashscreen Landscape |
-| `icons/*.png` | App-Icon je Farbkarte |
+| `icons/*.png` | Referenz-Icons und vom Generator erzeugte Icon-Ziele; Manifeste verwenden das zentrale App-Icon |
 | `images/*.png` | Referenzbild je Farbkarte |
 
-Nach Asset-Aenderungen immer neu bauen. PWA-Caches koennen alte Bilder halten, deshalb Dist komplett deployen.
+Nach Asset-Aenderungen immer neu bauen. PWA-Caches koennen alte Bilder halten, besonders App-Icons; deshalb Dist komplett deployen und bei Icon-Tests die installierte PWA ggf. entfernen und neu installieren.
 
 ## PWA-Installationsbutton
 

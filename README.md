@@ -49,8 +49,8 @@ http://localhost:8080/
 ```text
 .
 ├── bin/generate                 # Python-Generator fuer alle statischen Dateien
-├── assets/                      # Markenlogo, App-Hintergrund, Splashscreens
-├── icons/                       # Quell-Icons je Farbkarte
+├── assets/                      # Markenlogo, zentrales App-Icon, App-Hintergrund, Splashscreens
+├── icons/                       # Referenz-Icons je Farbkarte plus generierte Icon-Vorschauen
 ├── images/                      # Referenzbilder je Farbkarte
 ├── templates/                   # HTML-/README-Templates fuer den Dist-Build
 ├── index.html                   # Uebersicht im Quellprojekt
@@ -85,6 +85,13 @@ https://eskyna.com/farbe/light_warm_soft/
 
 Wichtig fuer PWA-Updates: Immer den kompletten Dist-Inhalt austauschen, besonders `sw.js`, `version.json`, `palette-app.js`, `i18n.js`, `palettes.js`, `styles.css` und alle geaenderten Assets. Browser koennen Service Worker aggressiv cachen; `version.json` und die Build-Version helfen der App, neue Versionen zu erkennen.
 
+
+
+## App-Icon
+
+Das installierbare PWA-Icon liegt als Masterdatei unter `assets/app-icon.png`. Es zeigt das ausgewaehlte ESKYNA-Farbe-Design mit Kleeblatt, Schriftzug und Farbfächer. Der Generator erstellt daraus die gemeinsamen 192px-, 512px- und Apple-Touch-Icons fuer Uebersicht und alle Farbkarten. Dadurch sehen alle installierten Farbkarten auf dem Homescreen gleich hochwertig und wiedererkennbar aus.
+
+Die bisherigen Quell-Icons in `icons/` bleiben als Referenzmaterial erhalten. Fuer das Manifest zaehlt aber das zentrale App-Icon. Nach einem Icon-Wechsel immer `npm run build` und `npm run validate:dist` ausfuehren und beim Deployment den kompletten Dist-Ordner hochladen, weil PWA-Icons stark gecacht werden koennen.
 
 ## Farbe pruefen: Premium-Scan-Flow
 
@@ -123,7 +130,7 @@ Datenschutz: Keine Kundinnennamen in `manifest.webmanifest`, `version.json`, Ser
 - **Farben und Paletten:** `bin/generate` enthaelt die Rohdaten, `palettes.js` wird im Build daraus erzeugt.
 - **Texte und Uebersetzungen:** `i18n.js` pflegt Deutsch, Englisch und Russisch zentral.
 - **Farbnamen, Farberklaerungen und Glossarseiten:** `palette-app.js` enthaelt Nuancierung, Farbprofil und Glossar-Logik; `i18n.js` enthaelt die sichtbaren Texte.
-- **Layout und Branding:** `styles.css`, `assets/` und `templates/palette.html`.
+- **Layout und Branding:** `styles.css`, `assets/`, `templates/palette.html` und fuer das Installationsicon `assets/app-icon.png`.
 - **Personalisierte Kundinnen-Links:** `palette-app.js`, `i18n.js`, `templates/palette.html` und die Hinweise in `docs/MAINTENANCE.md`.
 - **PWA-Update-Logik:** `palette-app.js`, `sw.js`, `version.json` im Dist.
 - **Executable Requirements:** `features/requirements_*.feature`, `features/steps/requirements_steps.py` und `features/support/inspect-app.mjs`.
@@ -141,7 +148,7 @@ Die fachlichen Anforderungen aus der Entwicklung sind als Gherkin-Szenarien unte
 - 24 Farbkarten mit je 24 Farben
 - Portrait-Raster 4 x 6 und Landscape-Raster 6 x 4
 - einzeiligen Landscape-Header und lesbare Aktionsleiste
-- ESKYNA Branding, Splashscreens inklusive Versionszeile, Hintergrundbild und klickbares Kleeblatt
+- ESKYNA Branding, zentrales App-Icon, Splashscreens inklusive Versionszeile, Hintergrundbild und klickbares Kleeblatt
 - Deutsch, Englisch und Russisch inklusive Palettennamen
 - Farbnamen, Farberklaerungen, detaillierte Glossarseiten und keine doppelten Farbnamen innerhalb einer Karte
 - Premium-Scan-Flow mit Live-Kamera, Lichtqualitaet, mehreren Messpunkten, Prozentpassung und drei naechsten Farbpass-Toenen

@@ -8,11 +8,11 @@ Erzeugt eine statische Website ohne Code-Duplikation:
 - /<palette_slug>/        eine installierbare PWA pro Farbkarte
 
 Jede PWA nutzt dieselben gemeinsamen Dateien:
-styles.css, palettes.js, overview.js, palette-app.js, sw.js, assets/sign_gold.png, assets/app-background.jpg
+styles.css, palettes.js, overview.js, palette-app.js, sw.js, assets/sign_gold.png, assets/app-icon.png, assets/app-background.jpg
 
-Jede Farbkarte bekommt ihr eigenes App-Icon. Der Generator sucht standardmäßig
-in ./icons nach Dateien wie icons/light_warm_soft.png. Fehlt eine Datei, wird
-als Fallback sign_gold.png genutzt.
+Alle installierbaren Farbkarten verwenden das zentrale ESKYNA-Farbe-App-Icon
+aus assets/app-icon.png. Die alten Quell-Icons unter ./icons bleiben als
+Referenzmaterial erhalten, sind aber nicht mehr die Installationsicons.
 
 Pro Farbkarte werden nur index.html und manifest.webmanifest generiert.
 
@@ -40,6 +40,7 @@ from typing import Any
 ROOT_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES_DIR = ROOT_DIR / "templates"
 DEFAULT_LOGO_PATH = ROOT_DIR / "assets" / "sign_gold.png"
+APP_ICON_PATH = ROOT_DIR / "assets" / "app-icon.png"
 DEFAULT_BASE_PATH = "/farbe/"
 DEFAULT_PALETTE_ICONS_DIR = ROOT_DIR / "icons"
 DEFAULT_TELEGRAM_BOT_URL = "https://t.me/eskyna_bot"
@@ -1804,38 +1805,27 @@ def make_icon_png(source_bytes: bytes, size: int, *, add_background: bool = True
 
 
 def create_icons(logo_png: bytes, farbe_dir: Path, palettes: list[dict[str, Any]], palette_icons_dir: str | None) -> list[str]:
+  _ = palette_icons_dir
   assets = farbe_dir / "assets"
   icons = farbe_dir / "icons"
+  app_icon_png = APP_ICON_PATH.read_bytes() if APP_ICON_PATH.exists() else logo_png
   write_binary(assets / "sign_gold.png", logo_png)
+  write_binary(assets / "app-icon.png", app_icon_png)
 
   for asset_name in ("splash-portrait.jpg", "splash-landscape.jpg", "app-background.jpg"):
     asset_path = ROOT_DIR / "assets" / asset_name
     if asset_path.exists() and asset_path.is_file():
       write_binary(assets / asset_name, asset_path.read_bytes())
 
-  write_binary(icons / "icon-192.png", make_icon_png(logo_png, 192))
-  write_binary(icons / "icon-512.png", make_icon_png(logo_png, 512))
-  write_binary(icons / "apple-touch-icon.png", make_icon_png(logo_png, 180))
+  icon_192 = make_icon_png(app_icon_png, 192, add_background=False)
+  icon_512 = make_icon_png(app_icon_png, 512, add_background=False)
+  apple_icon = make_icon_png(app_icon_png, 180, add_background=False)
 
-  missing: list[str] = []
-  for palette in palettes:
-    slug = palette["slug"]
-    icon_file = find_palette_icon_file(slug, palette_icons_dir)
-    has_custom_icon = icon_file is not None
-    if has_custom_icon:
-      source_bytes = icon_file.read_bytes()
-    else:
-      source_bytes = logo_png
-      missing.append(slug)
+  write_binary(icons / "icon-192.png", icon_192)
+  write_binary(icons / "icon-512.png", icon_512)
+  write_binary(icons / "apple-touch-icon.png", apple_icon)
 
-    write_binary(icons / f"{slug}.png", source_bytes)
-
-    add_background = not has_custom_icon
-    write_binary(icons / f"{slug}-192.png", make_icon_png(source_bytes, 192, add_background=add_background))
-    write_binary(icons / f"{slug}-512.png", make_icon_png(source_bytes, 512, add_background=add_background))
-    write_binary(icons / f"{slug}-apple-touch-icon.png", make_icon_png(source_bytes, 180, add_background=add_background))
-
-  return missing
+  return []
 
 
 def verify_generated_icons(farbe_dir: Path, palettes: list[dict[str, Any]]) -> None:
@@ -1844,19 +1834,11 @@ def verify_generated_icons(farbe_dir: Path, palettes: list[dict[str, Any]]) -> N
     farbe_dir / "icons" / "icon-512.png",
     farbe_dir / "icons" / "apple-touch-icon.png",
     farbe_dir / "assets" / "sign_gold.png",
+    farbe_dir / "assets" / "app-icon.png",
     farbe_dir / "assets" / "splash-portrait.jpg",
     farbe_dir / "assets" / "splash-landscape.jpg",
     farbe_dir / "assets" / "app-background.jpg",
   ]
-
-  for palette in palettes:
-    slug = palette["slug"]
-    required_files.extend([
-      farbe_dir / "icons" / f"{slug}.png",
-      farbe_dir / "icons" / f"{slug}-192.png",
-      farbe_dir / "icons" / f"{slug}-512.png",
-      farbe_dir / "icons" / f"{slug}-apple-touch-icon.png",
-    ])
 
   missing_files = [str(path.relative_to(farbe_dir)) for path in required_files if not path.exists()]
   if missing_files:
@@ -1942,8 +1924,8 @@ def manifest_json(palette: dict[str, Any], base_path: str) -> str:
         "theme_color": "#f7f2e8",
         "description": f"ESKYNA Farben - {palette['name']}",
         "icons": [
-            {"src": f"{base_path}icons/{slug}-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
-            {"src": f"{base_path}icons/{slug}-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+            {"src": f"{base_path}icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+            {"src": f"{base_path}icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
         ]
     }
     return json.dumps(manifest, ensure_ascii=False, indent=2) + "\n"
@@ -2007,7 +1989,7 @@ def generate(output: Path) -> None:
       "name": p["name"],
       "appName": p["appName"],
       "url": DEFAULT_BASE_PATH + p["slug"] + "/",
-      "icon": DEFAULT_BASE_PATH + "icons/" + p["slug"] + "-512.png",
+      "icon": DEFAULT_BASE_PATH + "icons/icon-512.png",
     }
     for p in palettes
   ]

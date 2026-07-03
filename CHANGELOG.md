@@ -4,6 +4,8 @@ Alle nennenswerten Aenderungen an diesem Projekt werden hier dokumentiert.
 
 ## Unreleased
 
+- Zentrales ESKYNA-Farbe-App-Icon mit Kleeblatt, Schriftzug und Farbfächer als `assets/app-icon.png` eingebunden; alle Paletten-Manifeste verwenden daraus generierte 192px- und 512px-Icons.
+- Validierung, Behave/Cucumber-Requirement und Dokumentation fuer das neue App-Icon ergaenzt.
 - Detaillierte Farbglossarseiten fuer alle Farben ergaenzt: Farbprofil, Rolle im Farbpass, Modewissen, Materialwirkung, Outfit-Rezept, Shopping-Feintuning und kompakte Farbwerte in Deutsch, Englisch und Russisch.
 - Dokumentation und Behave/Cucumber-Requirements fuer Farbglossare ergaenzt.
 - Live-Farberkennung und Scan-Ergebnis koennen jetzt sichtbar ueber `Schliessen`, `Zur Farbkarte zurueck`, Escape oder Hintergrund-Tipp beendet werden; Kamera-Starts werden sauber abgebrochen und Vorschau/Resultat verschwinden beim Zurueckkehren zur Farbkarte.

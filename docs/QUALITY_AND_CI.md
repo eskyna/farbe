@@ -87,7 +87,7 @@ Prueft unter anderem:
 - je Palette 24 Farben
 - Quell-Grid mit 6 Zeilen x 4 Farben
 - gueltige Hex-Farben
-- Quell-Icons und Referenzbilder vorhanden
+- zentrales `assets/app-icon.png`, Quell-Icons und Referenzbilder vorhanden
 - keine Feldnummern in der UI
 - Personalisierungs-Hooks fuer Kundinnen-Links
 - Scan-Flow-Hooks fuer Lichtqualitaet, mehrere Messpunkte, drei naechste Farbpass-Toene und Splashscreen-Version
@@ -103,6 +103,7 @@ Prueft unter anderem:
 - `sw.js` enthaelt Build-Version
 - keine Template-Platzhalter im Dist
 - je Palette `index.html`, Manifest und Icons vorhanden
+- Manifest-Icons verwenden das zentrale ESKYNA-Farbe-App-Icon
 - Personalisierungsplatz im generierten Paletten-HTML vorhanden
 - Splashscreen-Version und Live-Scanner im generierten HTML vorhanden
 
