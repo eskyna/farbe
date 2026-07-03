@@ -31,8 +31,8 @@ function renderPalette() {
     tile.style.background = hex;
     tile.style.setProperty('--label', readableTextColor(hex));
     tile.style.setProperty('--text-shadow', readableTextColor(hex) === '#fff' ? '0 1px 2px rgba(0,0,0,.55)' : '0 1px 2px rgba(255,255,255,.35)');
-    tile.textContent = hex;
-    tile.title = activePalette.name + ' · Feld ' + (Math.floor(index / 4) + 1) + '/' + ((index % 4) + 1) + ' · ' + hex;
+    tile.textContent = '';
+    tile.title = activePalette.name + ' · Feld ' + (Math.floor(index / 4) + 1) + '/' + ((index % 4) + 1);
     paletteGrid.appendChild(tile);
   });
 }
@@ -78,8 +78,8 @@ function analyzeCanvas() {
     <div class="result-main">
       <div class="result-title">${isInPalette ? 'Auf dieser Palette' : 'Nicht auf dieser Palette'}</div>
       <div class="result-meta">
-        Foto: ${sampled.hex}<br>
-        Nächster Ton: ${match.hex} · Feld ${row}/${col}<br>
+        Gemessene Farbe gespeichert<br>
+        Nächster Ton: Feld ${row}/${col}<br>
         Abstand: ΔE ${match.delta.toFixed(1)}
       </div>
     </div>
@@ -143,7 +143,11 @@ function registerServiceWorker() {
 function initializeInstallPrompt() {
   if (!installButton) return;
 
+  installButton.classList.remove('hidden');
+  installButton.disabled = false;
+
   if (isStandaloneMode()) {
+    installButton.disabled = true;
     showInstallHint('Diese App ist bereits installiert.');
     return;
   }
@@ -154,23 +158,32 @@ function initializeInstallPrompt() {
     event.preventDefault();
     deferredInstallPrompt = event;
     installButton.disabled = false;
-    installButton.classList.remove('hidden');
     showInstallHint('Installieren Sie diese Palette als App auf Ihrem Gerät.');
   });
 
   window.addEventListener('appinstalled', () => {
     deferredInstallPrompt = null;
-    installButton.classList.add('hidden');
+    installButton.disabled = true;
     showInstallHint('Die App wurde installiert.');
   });
 
   if (isIosSafari()) {
-    showInstallHint('Auf iPhone oder iPad: Teilen und dann Zum Home-Bildschirm waehlen.');
+    showInstallHint('Auf iPhone oder iPad: Tippen Sie auf Teilen und dann auf Zum Home-Bildschirm.');
+    return;
   }
+
+  showInstallHint('Tippen Sie auf App installieren. Falls kein Dialog erscheint, nutzen Sie das Browser-Menue und dann Installieren oder Zum Startbildschirm hinzufuegen.');
 }
 
 async function handleInstallClick() {
-  if (!deferredInstallPrompt) return;
+  if (!deferredInstallPrompt) {
+    if (isIosSafari()) {
+      showInstallHint('Auf iPhone oder iPad: Tippen Sie auf Teilen und dann auf Zum Home-Bildschirm.');
+      return;
+    }
+    showInstallHint('Bitte nutzen Sie das Browser-Menue und waehlen Sie Installieren oder Zum Startbildschirm hinzufuegen.');
+    return;
+  }
 
   installButton.disabled = true;
   await deferredInstallPrompt.prompt();
@@ -178,7 +191,7 @@ async function handleInstallClick() {
   deferredInstallPrompt = null;
 
   if (outcome === 'accepted') {
-    installButton.classList.add('hidden');
+    installButton.disabled = true;
     showInstallHint('Die Installation wurde gestartet.');
     return;
   }

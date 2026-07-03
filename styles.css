@@ -298,11 +298,11 @@ h2 {
 .result-meta { margin-top: 4px; color: var(--muted); font-size: 13px; line-height: 1.4; }
 .hidden { display: none !important; }
 .palette-page .app {
-  height: 100dvh;
+  height: 100svh;
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) minmax(0, 1.1fr);
-  gap: 12px;
-  padding: max(14px, env(safe-area-inset-top)) 14px max(14px, env(safe-area-inset-bottom));
+  grid-template-rows: auto minmax(0, .92fr) minmax(0, 1fr);
+  gap: 10px;
+  padding: max(10px, env(safe-area-inset-top)) 12px max(10px, env(safe-area-inset-bottom));
 }
 .palette-page .hero {
   margin: 0;
@@ -322,18 +322,20 @@ h2 {
   min-height: 0;
 }
 .palette-page .palette-panel {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.palette-page .check-panel {
   padding: 12px;
   display: flex;
   flex-direction: column;
-}
-.palette-page .check-panel {
-  padding: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  gap: 8px;
+  overflow: hidden;
 }
 .palette-page .panel-head {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   align-items: start;
 }
 .palette-page .panel-head.simple {
@@ -342,31 +344,35 @@ h2 {
 .palette-page .install-hint,
 .palette-page .hint {
   margin: 0;
-  font-size: 12px;
+  font-size: 11px;
 }
 .palette-page .palette-grid {
   flex: 1;
   min-height: 0;
 }
 .palette-page .swatch {
+  aspect-ratio: auto;
   min-height: 0;
-  padding: 6px 3px;
-  font-size: clamp(9px, 2vw, 11px);
+  padding: 0;
+  font-size: 0;
 }
 .palette-page .file-button,
 .palette-page .secondary-button,
 .palette-page .install-button {
-  min-height: 46px;
+  min-height: 42px;
+}
+.palette-page .action-stack {
+  gap: 8px;
 }
 .palette-page .preview-wrap {
   margin-top: 0;
-  max-height: min(19dvh, 168px);
+  max-height: min(15dvh, 122px);
   flex: 0 0 auto;
 }
 .palette-page #previewCanvas {
   width: auto;
   max-width: 100%;
-  max-height: min(19dvh, 168px);
+  max-height: min(15dvh, 122px);
   margin: 0 auto;
 }
 .palette-page .result {
@@ -381,9 +387,9 @@ h2 {
 }
 @media (max-height: 760px) {
   .palette-page .app {
-    gap: 10px;
-    padding-top: max(10px, env(safe-area-inset-top));
-    padding-bottom: max(10px, env(safe-area-inset-bottom));
+    gap: 8px;
+    padding-top: max(8px, env(safe-area-inset-top));
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
   }
   .palette-page .hero-logo {
     width: 46px;
@@ -396,11 +402,11 @@ h2 {
     font-size: 21px;
   }
   .palette-page .palette-panel {
-    padding: 10px;
+    padding: 8px;
   }
   .palette-page .check-panel {
-    padding: 12px;
-    gap: 8px;
+    padding: 10px;
+    gap: 6px;
   }
   .palette-page .install-hint,
   .palette-page .hint,
@@ -410,13 +416,13 @@ h2 {
   .palette-page .file-button,
   .palette-page .secondary-button,
   .palette-page .install-button {
-    min-height: 42px;
+    min-height: 40px;
   }
   .palette-page .preview-wrap {
-    max-height: min(16dvh, 132px);
+    max-height: min(13dvh, 98px);
   }
   .palette-page #previewCanvas {
-    max-height: min(16dvh, 132px);
+    max-height: min(13dvh, 98px);
   }
 }
 @media (min-width: 640px) {
