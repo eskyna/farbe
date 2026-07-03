@@ -79,6 +79,11 @@ Unterstuetzte Parameter sind `name`, `kundin`, `customer` und `client`. `palette
 
 Wichtig fuer Datenschutz und PWA-Stabilitaet: Kundinnennamen gehoeren nicht in statische Manifeste, Cache-Namen, `id` oder `version.json`. Das Manifest bleibt pro Farbkarte stabil; die Personalisierung ist Laufzeit-Zustand im Browser.
 
+
+## Executable Requirements
+
+Die Requirements sind als Behave/Cucumber-Szenarien unter `features/` beschrieben. Die Step Definitions pruefen Quellen und generierten Dist-Build ohne externen Browser. Fuer browsernahe Frontend-Auswertungen nutzt `features/support/inspect-app.mjs` ein kleines DOM-Harness, damit Farbnamen, i18n und Farbgeschichten deterministisch getestet werden koennen.
+
 ## Sicherheits- und Datenschutzmodell
 
 - Die Fotoanalyse laeuft lokal im Browser auf einem Canvas.

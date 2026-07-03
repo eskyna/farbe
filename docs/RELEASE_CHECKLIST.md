@@ -3,7 +3,7 @@
 Vor dem Deployment:
 
 - [ ] `npm install` erfolgreich
-- [ ] `npm run check` erfolgreich
+- [ ] `npm run check` erfolgreich, inklusive Behave/Cucumber-Requirements
 - [ ] Sichtpruefung Portrait
 - [ ] Sichtpruefung Landscape: Header bleibt einzeilig
 - [ ] Personalisierter Link getestet, z. B. `/farbe/light_warm_clear/?name=Melissa`

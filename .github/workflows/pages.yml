@@ -36,6 +36,9 @@ jobs:
       - name: Install npm dependencies
         run: npm install
 
+      - name: Install Python dev tools
+        run: python -m pip install -r requirements-dev.txt
+
       - name: Run full project check
         run: npm run check
 

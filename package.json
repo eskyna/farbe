@@ -19,15 +19,19 @@
     "lint:js": "node scripts/lint-js.mjs",
     "lint:css": "node scripts/lint-css.mjs",
     "lint:html": "node scripts/lint-html.mjs",
-    "lint:python": "python3 -m py_compile bin/generate",
+    "lint:python": "python3 -m py_compile bin/generate && python3 -m compileall -q features",
     "validate": "node scripts/validate-source.mjs",
     "validate:dist": "node scripts/validate-dist.mjs dist",
-    "check": "npm run format:check && npm run lint && npm run validate && npm run build && npm run validate:dist",
+    "test": "npm run test:bdd:build",
+    "test:bdd": "python3 -m behave",
+    "check": "npm run format:check && npm run lint && npm run validate && npm run build && npm run validate:dist && npm run test:bdd",
     "serve": "python3 -m http.server 8080 --directory dist",
     "lint:eslint": "eslint .",
     "lint:stylelint": "stylelint \"**/*.css\"",
     "lint:htmlhint": "htmlhint \"*.html\" \"templates/**/*.html\"",
-    "format:prettier": "prettier --write \"**/*.{js,mjs,cjs,css,html,json,md,yml,yaml}\""
+    "format:prettier": "prettier --write \"**/*.{js,mjs,cjs,css,html,json,md,yml,yaml}\"",
+    "test:bdd:pretty": "python3 -m behave --format pretty",
+    "test:bdd:build": "npm run build && npm run test:bdd"
   },
   "devDependencies": {
     "@eslint/js": "^9.18.0",

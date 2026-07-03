@@ -5,7 +5,9 @@ const IGNORED_DIRS = new Set(['.git', 'node_modules', 'dist', 'coverage', '.ruff
 const TEXT_EXTENSIONS = new Set([
   '.cjs',
   '.css',
+  '.feature',
   '.html',
+  '.ini',
   '.js',
   '.json',
   '.md',

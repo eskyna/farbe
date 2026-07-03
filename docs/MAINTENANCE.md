@@ -1,5 +1,18 @@
 # Wartung
 
+
+## Akzeptanztests pflegen
+
+Behave/Cucumber-Szenarien liegen unter `features/`. Sie bilden die wichtigsten Produktanforderungen ab, die Kundinnen direkt sehen oder die fuer die PWA-Qualitaet wichtig sind.
+
+Regeln:
+
+- Neue Anforderungen als Gherkin-Szenario festhalten.
+- Sichtbare UI-Aenderungen in Portrait und Landscape abdecken, wenn sie Layout betreffen.
+- Neue i18n-Texte immer fuer Deutsch, Englisch und Russisch pruefen.
+- Farbcontent-Aenderungen mit den Szenarien in `features/requirements_color_guidance.feature` absichern.
+- Vor Release `npm run test:bdd` oder direkt `npm run check` ausfuehren.
+
 ## Paletten bearbeiten
 
 Die Paletten-Rohdaten liegen im Generator `bin/generate`. Jede Palette braucht:
@@ -13,10 +26,14 @@ Die Paletten-Rohdaten liegen im Generator `bin/generate`. Jede Palette braucht:
 Nach Aenderungen:
 
 ```bash
-npm run build
-npm run validate
-npm run validate:dist
+npm run check
 ```
+
+Die Behave/Cucumber-Suite prueft dabei auch, dass jede Palette 24 Farben hat und die generierten PWAs konsistent bleiben.
+
+## Requirements nachziehen
+
+Wenn aus Feedback eine neue Produktregel entsteht, ergaenze ein Gherkin-Szenario unter `features/`. Beispiele: neue Layout-Regel, anderer Buttontext, zusaetzliche Sprache, neues PWA-Verhalten oder strengere Anforderungen an Farberklaerungen.
 
 ## Farbnamen differenzieren
 
@@ -26,6 +43,7 @@ Kundinnen wundern sich, wenn mehrere Felder gleich heissen. Deshalb erzeugt `pal
 - Innerhalb einer Farbkarte moeglichst keine Duplikate.
 - Beispiele: `Bordeaux`, `Merlot`, `Granatrot` statt viermal `Burgunderrot`.
 - Keine Feldnummern nennen.
+- Nach Aenderungen `npm run test:bdd` ausfuehren; die Suite prueft eindeutige Farbnamen innerhalb jeder Karte.
 
 ## Farb-Erklaerungen pflegen
 
@@ -41,7 +59,7 @@ Gute Struktur:
 - kurzer Mode-/Materialfakt
 - Kombinationshilfe mit Basisfarbe, dunklem Ton und Akzent
 
-Alle sichtbaren Erklaertexte liegen in `i18n.js` unter `colorStories`.
+Alle sichtbaren Erklaertexte liegen in `i18n.js` unter `colorStories`. Behave prueft fuer alle 576 Farben, dass Name, Wirkung, Modefakt und Kombinationstipp vorhanden sind.
 
 ## Uebersetzungen pflegen
 

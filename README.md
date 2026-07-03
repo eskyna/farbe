@@ -2,7 +2,7 @@
 
 Statische PWA-Farbkarten fuer Kundinnen von ESKYNA. Das Projekt erzeugt eine Uebersichtsseite mit 24 Farbkarten und pro Farbkarte eine eigene installierbare PWA unter `https://eskyna.com/farbe/<palette>/`.
 
-Der Code ist bewusst als kleines, agentenfreundliches Projekt aufgebaut: Die fachlichen Daten liegen zentral, der Generator erzeugt daraus die auslieferbaren Dateien, und CI prueft Format, Linting, Build und Dist-Integritaet.
+Der Code ist bewusst als kleines, agentenfreundliches Projekt aufgebaut: Die fachlichen Daten liegen zentral, der Generator erzeugt daraus die auslieferbaren Dateien, und CI prueft Format, Linting, Build, Dist-Integritaet und Behave/Cucumber-Requirements.
 
 ## Schnellstart
 
@@ -14,6 +14,7 @@ Voraussetzungen:
 
 ```bash
 npm install
+python3 -m pip install -r requirements-dev.txt
 npm run check
 npm run serve
 ```
@@ -33,9 +34,12 @@ http://localhost:8080/
 | `npm run format` | normalisiert Zeilenenden, finalen Zeilenumbruch und entfernt Trailing Whitespace |
 | `npm run format:check` | prueft Formatierung ohne Aenderungen |
 | `npm run lint` | prueft JS-, CSS-, HTML- und Python-Syntax mit projektinternen Checks |
-| `npm run validate` | prueft Quellstruktur, Paletten, Pflichtdateien und i18n |
+| `npm run validate` | prueft Quellstruktur, Paletten, Pflichtdateien, i18n und BDD-Struktur |
 | `npm run validate:dist` | prueft einen generierten Dist-Build |
-| `npm run check` | vollstaendige lokale Qualitaetspruefung wie in CI |
+| `npm run test:bdd` | fuehrt Behave/Cucumber-Requirements gegen den Build aus |
+| `npm run test:bdd:build` | baut `dist/` neu und fuehrt danach Behave aus |
+| `npm run test:bdd:pretty` | fuehrt Behave mit lesbarer Szenarioausgabe aus |
+| `npm run check` | vollstaendige lokale Qualitaetspruefung inklusive BDD wie in CI |
 | `npm run serve` | startet lokalen statischen Server fuer `dist/` |
 | `npm run format:prettier` | optionaler Vollformat-Lauf mit Prettier nach `npm install` |
 | `npm run lint:eslint` / `lint:stylelint` / `lint:htmlhint` | optionale Standard-Lints nach `npm install` |
@@ -57,8 +61,9 @@ http://localhost:8080/
 ├── styles.css                   # komplettes UI-Styling
 ├── sw.js                        # Service Worker fuer Offline/Update
 ├── scripts/                     # Validierungs-Skripte fuer CI und Agenten
+├── features/                    # Behave/Cucumber-Requirements, Steps und Harness
 ├── docs/                        # Architektur, Wartung, QA, Release-Prozess
-└── .github/                     # CI, Dependabot, Pull-Request-Vorlagen
+└── .github/                     # CI, Pages, Dependabot, Pull-Request-Vorlagen
 ```
 
 `dist/` ist generiert und wird nicht versioniert. Fuer ein Deployment wird der Inhalt von `dist/` nach `/farbe/` auf dem Webserver hochgeladen.
@@ -67,8 +72,8 @@ http://localhost:8080/
 
 ```bash
 npm install
-npm run build
-npm run validate:dist
+python3 -m pip install -r requirements-dev.txt
+npm run check
 ```
 
 Dann den Inhalt von `dist/` so deployen, dass diese URLs funktionieren:
@@ -90,7 +95,7 @@ https://eskyna.com/farbe/light_warm_clear/?name=Melissa
 
 Alternativ werden auch `?kundin=Melissa`, `?customer=Melissa` und `?client=Melissa` akzeptiert. Die App zeigt dann im Header zum Beispiel `ESKYNA Farbe fuer Melissa` und speichert den Namen lokal fuer diese Farbkarte. Wenn die Kundin die PWA von diesem Link aus installiert, bleibt der Name innerhalb der installierten App sichtbar, auch wenn Android/Chrome die PWA spaeter ueber die normale `start_url` ohne Query-Parameter startet.
 
-Datenschutz: Keine Kundinnennamen in `manifest.webmanifest` oder `version.json` schreiben. Die Personalisierung ist nur clientseitig ueber URL-Parameter plus `localStorage` umgesetzt. Je nach Browser kann der Name der App auf dem Homescreen weiter generisch bleiben; in der App selbst ist der Kundinnenname sichtbar.
+Datenschutz: Keine Kundinnennamen in `manifest.webmanifest`, `version.json`, Service-Worker-Caches oder statische Build-Dateien schreiben. Die Personalisierung ist nur clientseitig ueber URL-Parameter plus `localStorage` umgesetzt. Je nach Browser kann der Name der App auf dem Homescreen weiter generisch bleiben; in der App selbst ist der Kundinnenname sichtbar.
 
 ## Inhalte bearbeiten
 
@@ -100,12 +105,44 @@ Datenschutz: Keine Kundinnennamen in `manifest.webmanifest` oder `version.json` 
 - **Layout und Branding:** `styles.css`, `assets/` und `templates/palette.html`.
 - **Personalisierte Kundinnen-Links:** `palette-app.js`, `i18n.js`, `templates/palette.html` und die Hinweise in `docs/MAINTENANCE.md`.
 - **PWA-Update-Logik:** `palette-app.js`, `sw.js`, `version.json` im Dist.
+- **Executable Requirements:** `features/requirements_*.feature`, `features/steps/requirements_steps.py` und `features/support/inspect-app.mjs`.
 
 Nach jeder inhaltlichen Aenderung:
 
 ```bash
 npm run check
 ```
+
+## Behave/Cucumber-Requirements
+
+Die fachlichen Anforderungen aus der Entwicklung sind als Gherkin-Szenarien unter `features/requirements_*.feature` dokumentiert und automatisiert pruefbar. Sie testen unter anderem:
+
+- 24 Farbkarten mit je 24 Farben
+- Portrait-Raster 4 x 6 und Landscape-Raster 6 x 4
+- einzeiligen Landscape-Header und lesbare Aktionsleiste
+- ESKYNA Branding, Splashscreens, Hintergrundbild und klickbares Kleeblatt
+- Deutsch, Englisch und Russisch inklusive Palettennamen
+- Farbnamen, Farberklaerungen und keine doppelten Farbnamen innerhalb einer Karte
+- kundinnentaugliche Farbpruefungs-Ergebnisse ohne technische Abstandswerte
+- PWA-Installations- und Update-Logik
+- personalisierte Kundinnen-Links ohne personenbezogene Daten in Manifesten
+- CI, Dependabot und Agenten-Dokumentation
+
+Ausfuehren:
+
+```bash
+python3 -m pip install -r requirements-dev.txt
+npm run build
+npm run test:bdd
+```
+
+Fuer eine gut lesbare Szenarioausgabe:
+
+```bash
+npm run test:bdd:pretty
+```
+
+`npm test` baut den Dist-Ordner automatisch neu und startet danach Behave. `npm run check` fuehrt die BDD-Tests automatisch nach Build und Dist-Validierung aus. Wenn eine neue Produktanforderung hinzukommt, soll mindestens ein bestehendes Szenario angepasst oder ein neues Szenario ergaenzt werden.
 
 ## Dokumentation fuer Menschen und KI-Agenten
 
@@ -115,7 +152,7 @@ Startpunkte:
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) - technische Architektur
 - [`docs/CODE_MAP.md`](docs/CODE_MAP.md) - wo welche Aenderung gemacht wird
 - [`docs/MAINTENANCE.md`](docs/MAINTENANCE.md) - Wartung von Farben, Texten und Assets
-- [`docs/QUALITY_AND_CI.md`](docs/QUALITY_AND_CI.md) - Linting, Formatierung, CI und Dependabot
+- [`docs/QUALITY_AND_CI.md`](docs/QUALITY_AND_CI.md) - Linting, Formatierung, Behave/Cucumber, CI und Dependabot
 - [`docs/RELEASE_CHECKLIST.md`](docs/RELEASE_CHECKLIST.md) - Checkliste vor Deployment
 
 ## CI und Dependabot
@@ -127,7 +164,8 @@ Die GitHub Actions pruefen bei Pushes und Pull Requests:
 3. Source-Validierung
 4. Build
 5. Dist-Validierung
-6. Upload des generierten `dist/` als CI-Artefakt
+6. Behave/Cucumber-Requirements
+7. Upload des generierten `dist/` als CI-Artefakt
 
 Dependabot ist fuer npm-Abhaengigkeiten, Python-Dev-Abhaengigkeiten und GitHub Actions konfiguriert.
 

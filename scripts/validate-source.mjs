@@ -17,6 +17,17 @@ const REQUIRED_FILES = [
   'palettes.js',
   'i18n.js',
   'sw.js',
+  'behave.ini',
+  'features/README.md',
+  'features/environment.py',
+  'features/steps/requirements_steps.py',
+  'features/support/inspect-app.mjs',
+  'features/requirements_palette_content.feature',
+  'features/requirements_color_guidance.feature',
+  'features/requirements_responsive_layout.feature',
+  'features/requirements_pwa_behavior.feature',
+  'features/requirements_personalization.feature',
+  'features/requirements_project_quality.feature',
   'assets/sign_gold.png',
   'assets/app-background.jpg',
   'assets/splash-portrait.jpg',
@@ -26,6 +37,7 @@ const REQUIRED_FILES = [
 const UI_TRANSLATION_KEYS = [
   'ui.brandWord',
   'ui.customerFor',
+  'ui.brandAria',
   'ui.brandAriaFor',
   'ui.pageTitleFor',
   'ui.colorCheck',
@@ -97,6 +109,16 @@ for (const file of REQUIRED_FILES) {
   assert(fileExists(file), `Pflichtdatei fehlt: ${file}`);
 }
 
+const packageJson = JSON.parse(readText('package.json'));
+const requirementsText = readText('requirements-dev.txt');
+const ciText = readText('.github/workflows/ci.yml');
+const featureFiles = fs.readdirSync(path.join(rootDir, 'features')).filter((file) => /^requirements_.*\.feature$/.test(file));
+assert(requirementsText.includes('behave=='), 'requirements-dev.txt muss Behave als Python-Dev-Abhaengigkeit enthalten.');
+assert(packageJson.scripts?.['test:bdd']?.includes('behave'), 'package.json braucht ein test:bdd-Skript fuer Behave.');
+assert(packageJson.scripts?.check?.includes('npm run test:bdd'), 'npm run check muss die Behave-Cucumber-Tests ausfuehren.');
+assert(ciText.includes('npm run check'), 'CI muss npm run check und damit die Behave-Cucumber-Tests ausfuehren.');
+assert(featureFiles.length >= 5, `Mindestens 5 Requirement-Feature-Dateien erwartet, gefunden: ${featureFiles.length}.`);
+
 const palettes = evaluatePalettes();
 assert(Array.isArray(palettes), 'window.ESKYNA_PALETTES wurde nicht gefunden.');
 assert(palettes.length === 24, `Es muessen genau 24 Paletten sein, gefunden: ${palettes.length}.`);
@@ -147,7 +169,7 @@ for (const language of SUPPORTED_LANGUAGES) {
   const i18n = evaluateI18n(language);
   assert(i18n?.getLanguage?.() === language, `i18n erkennt '${language}' nicht korrekt.`);
   for (const key of UI_TRANSLATION_KEYS) {
-    const value = i18n.t(key, { label: 'Test' });
+    const value = i18n.t(key, { label: 'Test', name: 'Melissa' });
     assert(typeof value === 'string' && value && value !== key, `i18n ${language}: Key fehlt: ${key}`);
   }
   for (const palette of palettes.slice(0, 3)) {
@@ -157,6 +179,6 @@ for (const language of SUPPORTED_LANGUAGES) {
 }
 
 if (!process.exitCode) {
-  console.log(`validate-source: OK (${palettes.length} Paletten, ${SUPPORTED_LANGUAGES.length} Sprachen).`);
+  console.log(`validate-source: OK (${palettes.length} Paletten, ${SUPPORTED_LANGUAGES.length} Sprachen, ${featureFiles.length} Feature-Dateien).`);
 }
 

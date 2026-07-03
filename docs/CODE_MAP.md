@@ -56,14 +56,29 @@ Service Worker:
 - Cache-first fuer stabile Assets
 - `SKIP_WAITING` fuer explizites Update
 
+## Behave/Cucumber
+
+`features/*.feature` enthaelt die executable Requirements. `features/steps/requirements_steps.py` prueft diese Anforderungen gegen Quellen und `dist/`. Die Tests sind bewusst offline und statisch gehalten, damit KI-Agenten sie zuverlaessig ausfuehren und erweitern koennen.
+
 ## Validierung
 
 | Datei | Prueft |
 | --- | --- |
 | `scripts/validate-source.mjs` | Quellstruktur, 24 Paletten, 24 Farben je Palette, Pflichtassets, i18n-Basics, Personalisierungs-Hooks |
 | `scripts/validate-dist.mjs` | erzeugten Build, Manifest-Dateien, Icons, Version, Platzhalterfreiheit, Personalisierungsplatz im HTML |
+| `features/*.feature` | fachliche Akzeptanzkriterien im Behave/Cucumber-Format |
+| `features/steps/requirements_steps.py` | automatisierte Step Definitions fuer Requirements, i18n, Layout, PWA und Farbcontent |
+| `features/support/inspect-app.mjs` | browsernahes Harness fuer i18n und Farbgeschichten ohne echten Browser |
 
 ## Aenderungsmuster
+
+
+### Eine neue Anforderung absichern
+
+1. Passendes Feature unter `features/` suchen oder neues Szenario schreiben.
+2. Step Definition in `features/steps/requirements_steps.py` ergaenzen.
+3. Wenn echte Frontend-Logik ausgewertet werden muss, ein kleines Harness unter `features/support/` verwenden.
+4. `npm run test:bdd` und danach `npm run check` ausfuehren.
 
 ### Einen Buttontext aendern
 
@@ -83,7 +98,8 @@ Service Worker:
 1. `@media (orientation: landscape)` in `styles.css` suchen.
 2. Header, Grid und Bottom-Bar zusammen betrachten.
 3. Auf kleinen Hoehen testen, besonders `max-height: 430px`.
-4. `npm run lint:css` und Sichtpruefung.
+4. Passende Szenarien in `features/requirements_responsive_layout.feature` ergaenzen oder pruefen.
+5. `npm run lint:css`, `npm run test:bdd` und Sichtpruefung.
 
 
 ### Personalisierte Kundinnen-Links aendern

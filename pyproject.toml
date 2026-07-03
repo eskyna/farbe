@@ -7,3 +7,10 @@ exclude = ["dist", "node_modules"]
 select = ["E9", "F"]
 ignore = []
 
+
+[tool.behave]
+paths = ["features"]
+format = "progress"
+show_skipped = false
+summary = true
+

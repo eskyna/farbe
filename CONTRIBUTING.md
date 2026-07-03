@@ -6,6 +6,7 @@ Danke fuer jede Verbesserung an ESKYNA Farbe.
 
 ```bash
 npm install
+python3 -m pip install -r requirements-dev.txt
 npm run check
 ```
 
@@ -24,7 +25,7 @@ npm run format
 npm run check
 ```
 
-Bei sichtbaren Aenderungen bitte Screenshots oder eine kurze Beschreibung der Sichtpruefung in Portrait und Landscape ergaenzen.
+Bei sichtbaren Aenderungen bitte Screenshots oder eine kurze Beschreibung der Sichtpruefung in Portrait und Landscape ergaenzen. Bei neuen oder geaenderten Produktanforderungen bitte ein passendes Behave/Cucumber-Szenario unter `features/requirements_*.feature` ergaenzen oder anpassen.
 
 ## Coding-Regeln
 
@@ -33,4 +34,6 @@ Bei sichtbaren Aenderungen bitte Screenshots oder eine kurze Beschreibung der Si
 - `dist/` nicht manuell bearbeiten.
 - Keine Tokens, API-Schluessel oder privaten Kundinnendaten committen.
 - Neue Abhaengigkeiten nur mit klarem Nutzen.
+- Neue fachliche Anforderungen mit Behave/Cucumber-Szenarien absichern.
+- Requirement-Aenderungen muessen in den BDD-Szenarien nachvollziehbar bleiben, damit Menschen und KI-Agenten sie spaeter sicher pruefen koennen.
 
