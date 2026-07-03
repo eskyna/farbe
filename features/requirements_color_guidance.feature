@@ -26,8 +26,11 @@ Feature: Kundinnentaugliche Farberklaerungen
 
   Scenario: Farbe pruefen ist ein ehrlicher Premium-Scan-Flow
     Then der Scan-Flow nutzt Live-Kamera oder Bildfallback
+    And die Farberkennung kann geschlossen werden und kehrt zur Farbkarte zurueck
     And die App bewertet Tageslicht, Dunkelheit, Gelbstich und Schatten
     And die Messung nutzt mehrere Messpunkte im Kreis
     And das Ergebnis zeigt Prozent, Helligkeit, Waerme und Klarheit
     And die App zeigt die drei naechsten Farben aus dem Farbpass
     And schlechte Bedingungen werden als unsicher gekennzeichnet
+    And die Farberkennung kann geschlossen werden und blendet Ergebnis und Vorschau aus
+

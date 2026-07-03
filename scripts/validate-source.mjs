@@ -49,6 +49,9 @@ const UI_TRANSLATION_KEYS = [
   'ui.combine',
   'ui.fitMeter',
   'scan.scannerAria',
+  'scan.close',
+  'scan.closeShort',
+  'scan.cancel',
   'scan.light.good',
   'scan.light.tooDark',
   'scan.light.tooYellow',
@@ -176,6 +179,10 @@ assert(sourceTexts.includes('splash-version'), 'Splashscreen muss die App-Versio
 assert(sourceTexts.includes('SCAN_POINT_LAYOUT'), 'Farbe pruefen muss mehrere Messpunkte statt einzelner Pixel auswerten.');
 assert(sourceTexts.includes('findNearestColors(sampled, activePalette, 3)'), 'Farbe pruefen muss die drei naechsten Farbpass-Toene zeigen.');
 assert(sourceTexts.includes('assessLightQuality'), 'Farbe pruefen muss Lichtqualitaet bewerten.');
+assert(sourceTexts.includes('scannerCancel'), 'Farbe pruefen braucht einen sichtbaren Zurueck-zur-Farbkarte-Button.');
+assert(sourceTexts.includes('scanResultClose'), 'Farberkennung braucht einen sichtbaren Button zurueck zur Farbkarte.');
+assert(sourceTexts.includes('closeScanResult'), 'Farberkennung muss Ergebnis und Vorschau wieder ausblenden koennen.');
+assert(sourceTexts.includes('scannerSessionId'), 'Farbe pruefen muss laufende Kamera-Starts beim Schliessen sauber abbrechen.');
 
 for (const language of SUPPORTED_LANGUAGES) {
   const i18n = evaluateI18n(language);

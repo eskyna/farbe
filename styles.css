@@ -1370,6 +1370,7 @@ body.scanner-open {
 .scanner-target::after { width: 1px; height: 38px; }
 .scanner-topline {
   position: absolute;
+  z-index: 4;
   left: 14px;
   right: 14px;
   top: 14px;
@@ -1377,6 +1378,7 @@ body.scanner-open {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
+  pointer-events: none;
 }
 .scanner-quality,
 .scan-quality-pill {
@@ -1394,22 +1396,39 @@ body.scanner-open {
   font-weight: 650;
   letter-spacing: .035em;
   box-shadow: 0 10px 26px rgba(0, 0, 0, .18);
+  pointer-events: auto;
 }
 .quality-good { background: rgba(245, 250, 238, .92); color: #314224; }
 .quality-warning { background: rgba(255, 246, 221, .94); color: #77561f; }
 .quality-bad { background: rgba(255, 234, 229, .95); color: #76342c; }
 .quality-neutral { background: rgba(255, 250, 240, .88); color: #4f4437; }
 .scanner-close {
-  width: 38px;
-  height: 38px;
-  border: 1px solid rgba(245, 211, 127, .32);
+  display: inline-flex;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 13px;
+  border: 1px solid rgba(245, 211, 127, .38);
   border-radius: 999px;
-  background: rgba(23, 21, 18, .62);
+  background: rgba(23, 21, 18, .78);
   color: #fffaf0;
-  font-size: 25px;
+  font-family: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  font-size: 24px;
+  font-weight: 500;
   line-height: 1;
   cursor: pointer;
   backdrop-filter: blur(10px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, .24);
+  pointer-events: auto;
+  touch-action: manipulation;
+}
+.scanner-close-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
 }
 .scanner-hint {
   position: absolute;
@@ -1430,15 +1449,17 @@ body.scanner-open {
 }
 .scanner-actions {
   position: absolute;
+  z-index: 4;
   left: 14px;
   right: 14px;
   bottom: 14px;
   display: grid;
-  grid-template-columns: 1.3fr .9fr;
-  gap: 10px;
+  grid-template-columns: 1.25fr .95fr;
+  gap: 9px;
 }
 .scanner-capture,
-.scanner-file-fallback {
+.scanner-file-fallback,
+.scanner-cancel {
   min-height: 48px;
   border-radius: 999px;
   font-family: "Montserrat", ui-sans-serif, system-ui, sans-serif;
@@ -1446,6 +1467,10 @@ body.scanner-open {
   font-weight: 750;
   letter-spacing: .03em;
   cursor: pointer;
+  touch-action: manipulation;
+}
+.scanner-capture {
+  grid-column: 1 / -1;
 }
 .scanner-capture {
   border: 1px solid rgba(143, 105, 48, .55);
@@ -1453,10 +1478,31 @@ body.scanner-open {
   color: #211a11;
   box-shadow: 0 16px 34px rgba(0, 0, 0, .25);
 }
-.scanner-file-fallback {
+.scanner-file-fallback,
+.scanner-cancel {
   border: 1px solid rgba(245, 211, 127, .28);
   background: rgba(255, 250, 240, .88);
   color: #211a11;
+}
+.scanner-cancel {
+  background: rgba(23, 21, 18, .58);
+  color: #fffaf0;
+}
+
+
+@media (max-width: 390px) {
+  .scanner-close-label {
+    display: none;
+  }
+  .scanner-actions {
+    grid-template-columns: 1fr;
+  }
+  .scanner-capture {
+    grid-column: auto;
+  }
+  .scanner-hint {
+    bottom: 168px;
+  }
 }
 
 /* Neuer Scan-Result: ehrlich, prozentual, mit drei naechsten Farbpass-Toenen */
@@ -1573,6 +1619,73 @@ body.scanner-open {
   background: linear-gradient(90deg, #7a6b5c 0%, #bfa976 100%);
 }
 
+/* Scan-Ergebnis schliessbar halten: zur normalen Farbkarte zurueck */
+.scan-session-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 7px 9px;
+  border: 1px solid rgba(154, 116, 51, .18);
+  border-radius: 999px;
+  background: rgba(255, 253, 248, .72);
+  box-shadow: 0 10px 26px rgba(67, 50, 25, .07);
+}
+.scan-session-title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #9a7433;
+  font-family: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+.scan-result-close {
+  flex: 0 0 auto;
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid rgba(245, 211, 127, .34);
+  border-radius: 999px;
+  background: rgba(29, 27, 24, .88);
+  color: #fffaf0;
+  font-family: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.result {
+  position: relative;
+}
+.scan-result-inline-close {
+  position: absolute;
+  z-index: 2;
+  top: 7px;
+  right: 7px;
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(154, 116, 51, .22);
+  border-radius: 999px;
+  background: rgba(255, 253, 248, .88);
+  color: #5b4b38;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(67, 50, 25, .10);
+  touch-action: manipulation;
+}
+.scan-result-close:focus-visible,
+.scan-result-inline-close:focus-visible,
+.scanner-cancel:focus-visible,
+.scanner-close:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(199, 163, 91, .30), 0 10px 26px rgba(67, 50, 25, .12);
+}
+
 @media (max-width: 380px) {
   .result-swatch-stack {
     font-size: 8px;
@@ -1583,6 +1696,14 @@ body.scanner-open {
   }
   .nearest-name {
     font-size: 11px;
+  }
+  .scan-session-toolbar {
+    padding: 6px 7px;
+  }
+  .scan-result-close {
+    min-height: 30px;
+    padding: 0 10px;
+    font-size: 10px;
   }
 }
 
@@ -1596,6 +1717,13 @@ body.scanner-open {
     height: min(32vw, 240px);
   }
   .scanner-hint {
-    bottom: 76px;
+    bottom: 126px;
+  }
+  .scanner-actions {
+    grid-template-columns: 1.1fr 1fr 1fr;
+  }
+  .scanner-capture {
+    grid-column: auto;
   }
 }
+

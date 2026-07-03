@@ -19,7 +19,7 @@ Regeln:
 Der Flow ist ein Kernfeature der App. Er besteht aus:
 
 - Button `Farbe pruefen`
-- Live-Scanner mit Zielkreis und Bildfallback
+- Live-Scanner mit Zielkreis, sichtbarem Schliessen/Zurueck, schliessbarem Ergebnis und Bildfallback
 - Lichtqualitaetsbewertung
 - Sampling mehrerer Messpunkte im Kreis
 - Lab/CIEDE2000-Vergleich gegen die aktive Farbkarte

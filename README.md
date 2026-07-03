@@ -88,7 +88,7 @@ Wichtig fuer PWA-Updates: Immer den kompletten Dist-Inhalt austauschen, besonder
 
 ## Farbe pruefen: Premium-Scan-Flow
 
-Der zentrale Kundinnen-Flow startet ueber **Farbe pruefen**. Auf Geraeten mit Kamera oeffnet die App einen Live-Scanner mit Zielkreis. Wenn die Kamera nicht verfuegbar ist, faellt die App auf die Bildauswahl zurueck. Die Messung nutzt mehrere Punkte innerhalb des Kreises, bewertet die Lichtqualitaet und vergleicht wahrnehmungsnah in Lab/CIEDE2000 statt mit naiver Hex-Distanz.
+Der zentrale Kundinnen-Flow startet ueber **Farbe pruefen**. Auf Geraeten mit Kamera oeffnet die App einen Live-Scanner mit Zielkreis. Der Scanner kann jederzeit ueber den Schliessen-Button, `Zur Farbkarte zurueck`, Escape oder einen Tipp auf den dunklen Hintergrund verlassen werden. Nach einer Messung kann auch das Ergebnis ueber `Zur Farbkarte zurueck` oder das kleine Schliessen-Symbol ausgeblendet werden, sodass die normale Palettenansicht wieder frei ist. Wenn die Kamera nicht verfuegbar ist, faellt die App auf die Bildauswahl zurueck. Die Messung nutzt mehrere Punkte innerhalb des Kreises, bewertet die Lichtqualitaet und vergleicht wahrnehmungsnah in Lab/CIEDE2000 statt mit naiver Hex-Distanz.
 
 Das Ergebnis zeigt bewusst kundinnenfreundlich:
 

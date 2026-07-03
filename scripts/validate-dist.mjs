@@ -77,6 +77,8 @@ for (const palette of palettes) {
   assert(paletteHtml.includes('customerName'), `Palette ${palette.slug}: Personalisierungsplatz fehlt im HTML.`);
   assert(paletteHtml.includes('v' + version.version), `Palette ${palette.slug}: Splashscreen zeigt nicht die aktuelle Version.`);
   assert(paletteHtml.includes('cameraScanner'), `Palette ${palette.slug}: Live-Scanner fehlt im HTML.`);
+  assert(paletteHtml.includes('scannerCancel'), `Palette ${palette.slug}: Scanner-Abbrechen-Button fehlt im HTML.`);
+  assert(paletteHtml.includes('scanResultClose'), `Palette ${palette.slug}: Ergebnis-Schliessen-Button fehlt im HTML.`);
 
   const manifest = readJson(`${palette.slug}/manifest.webmanifest`);
   assert(manifest.start_url?.includes(`/${palette.slug}/`), `Palette ${palette.slug}: start_url zeigt nicht auf die Palette.`);

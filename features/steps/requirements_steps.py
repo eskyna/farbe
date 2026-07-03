@@ -571,6 +571,19 @@ def step_scan_flow_has_camera_and_fallback(context):
     assert_contains(source, "scannerFileFallback", "palette-app.js")
 
 
+@then("die Farberkennung kann geschlossen werden und kehrt zur Farbkarte zurueck")
+def step_scan_flow_can_be_closed(context):
+    source = get_project(context).read_text("palette-app.js")
+    template = get_project(context).read_text("templates/palette.html")
+    styles = get_project(context).read_text("styles.css")
+    assert_contains(template, 'id="scannerClose"', "templates/palette.html")
+    assert_contains(template, 'id="scannerCancel"', "templates/palette.html")
+    assert_contains(source, "closeCameraScanner", "palette-app.js")
+    assert_contains(source, "scannerSessionId", "palette-app.js")
+    assert_contains(source, "scannerCancel.addEventListener", "palette-app.js")
+    assert_contains(styles, ".scanner-cancel", "styles.css")
+
+
 @then("die App bewertet Tageslicht, Dunkelheit, Gelbstich und Schatten")
 def step_scan_flow_assesses_light(context):
     source = get_project(context).read_text("palette-app.js")
@@ -619,6 +632,23 @@ def step_scan_is_honest_when_uncertain(context):
     assert_contains(i18n, "Ich bin bei diesem Foto nicht sicher", "i18n.js")
 
 
+@then("die Farberkennung kann geschlossen werden und blendet Ergebnis und Vorschau aus")
+def step_scan_result_can_be_closed(context):
+    project = get_project(context)
+    template = project.read_text("templates/palette.html")
+    source = project.read_text("palette-app.js")
+    css = project.read_text("styles.css")
+    assert_contains(template, 'id="scanResultClose"', "templates/palette.html")
+    assert_contains(template, 'id="scannerCancel"', "templates/palette.html")
+    assert_contains(source, "function closeScanResult", "palette-app.js")
+    assert_contains(source, "scanResultClose.addEventListener('click', closeScanResult)", "palette-app.js")
+    assert_contains(source, "previewWrap.classList.add('hidden')", "palette-app.js")
+    assert_contains(source, "result.className = 'result hidden'", "palette-app.js")
+    assert_contains(source, "document.body.classList.remove('scan-result-open')", "palette-app.js")
+    assert_contains(css, ".scan-result-close", "styles.css")
+    assert_contains(css, ".scan-result-inline-close", "styles.css")
+
+
 @then("der Splashscreen zeigt die App-Version in der untersten Zeile")
 def step_splash_shows_version(context):
     project = get_project(context)
@@ -630,3 +660,4 @@ def step_splash_shows_version(context):
     assert_contains(template, "__ESKYNA_APP_VERSION__", "templates/palette.html")
     assert_contains(css, ".splash-version", "styles.css")
     assert_contains(css, "bottom: calc(10px + env(safe-area-inset-bottom));", "styles.css")
+

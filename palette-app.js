@@ -3,6 +3,9 @@ const photoInput = document.getElementById('photoInput');
 const scanButton = document.getElementById('scanButton');
 const previewWrap = document.getElementById('previewWrap');
 const previewCanvas = document.getElementById('previewCanvas');
+const scanSessionToolbar = document.getElementById('scanSessionToolbar');
+const scanSessionTitle = document.getElementById('scanSessionTitle');
+const scanResultClose = document.getElementById('scanResultClose');
 const result = document.getElementById('result');
 const installButton = document.getElementById('installButton');
 const updateButton = document.getElementById('updateButton');
@@ -15,6 +18,8 @@ const scannerCanvas = document.getElementById('scannerCanvas');
 const scannerQuality = document.getElementById('scannerQuality');
 const scannerHint = document.getElementById('scannerHint');
 const scannerClose = document.getElementById('scannerClose');
+const scannerCloseLabel = scannerClose ? scannerClose.querySelector('.scanner-close-label') : null;
+const scannerCancel = document.getElementById('scannerCancel');
 const scannerCapture = document.getElementById('scannerCapture');
 const scannerFileFallback = document.getElementById('scannerFileFallback');
 const ctx = previewCanvas.getContext('2d', { willReadFrequently: true });
@@ -51,6 +56,7 @@ let serviceWorkerRegistration = null;
 let updateCheckTimer = null;
 let cameraStream = null;
 let scannerQualityTimer = null;
+let scannerSessionId = 0;
 
 const slugFromPage = window.ESKYNA_PALETTE_SLUG || location.pathname.split('/').filter(Boolean).pop();
 const activePalette = window.ESKYNA_PALETTES.find((p) => p.slug === slugFromPage) || window.ESKYNA_PALETTES[0];
@@ -1154,6 +1160,10 @@ function applyStaticTranslations() {
   if (scannerQuality) scannerQuality.textContent = I18N.t('scan.light.checking');
   if (scannerHint) scannerHint.textContent = I18N.t('scan.hint');
   if (scannerClose) scannerClose.setAttribute('aria-label', I18N.t('scan.close'));
+  if (scannerCloseLabel) scannerCloseLabel.textContent = I18N.t('scan.closeShort');
+  if (scannerCancel) scannerCancel.textContent = I18N.t('scan.cancel');
+  if (scanSessionTitle) scanSessionTitle.textContent = I18N.t('ui.resultEyebrow');
+  if (scanResultClose) scanResultClose.textContent = I18N.t('scan.cancel');
   if (scannerCapture) scannerCapture.textContent = I18N.t('scan.capture');
   if (scannerFileFallback) scannerFileFallback.textContent = I18N.t('scan.fileFallback');
   if (installButton) installButton.textContent = I18N.t('ui.installApp');
@@ -1201,6 +1211,8 @@ function createFallbackI18n() {
         'scan.scannerAria': 'Farbe live prüfen',
         'scan.hint': 'Kleidungsstück glatt in den Kreis halten.',
         'scan.close': 'Scanner schließen',
+        'scan.closeShort': 'Schließen',
+        'scan.cancel': 'Zur Farbkarte zurück',
         'scan.capture': 'Jetzt Farbe prüfen',
         'scan.fileFallback': 'Bild auswählen',
         'scan.cameraFallback': 'Kamera nicht verfügbar. Du kannst ein Bild auswählen.',
@@ -1659,6 +1671,18 @@ function escapeHtml(value) {
 function initializeScanFlow() {
   if (scanButton) scanButton.addEventListener('click', handleScanButtonClick);
   if (scannerClose) scannerClose.addEventListener('click', closeCameraScanner);
+  if (scannerCancel) scannerCancel.addEventListener('click', closeCameraScanner);
+  if (scanResultClose) scanResultClose.addEventListener('click', closeScanResult);
+  if (result) {
+    result.addEventListener('click', (event) => {
+      if (event.target.closest('[data-close-scan-result]')) closeScanResult();
+    });
+  }
+  if (cameraScanner) {
+    cameraScanner.addEventListener('click', (event) => {
+      if (event.target === cameraScanner) closeCameraScanner();
+    });
+  }
   if (scannerCapture) scannerCapture.addEventListener('click', captureScannerFrame);
   if (scannerFileFallback) scannerFileFallback.addEventListener('click', () => {
     closeCameraScanner();
@@ -1706,14 +1730,16 @@ async function openCameraScanner() {
     return;
   }
 
-  closeCameraScanner({ keepHidden: true });
+  const currentSessionId = scannerSessionId + 1;
+  closeCameraScanner({ prepareForOpen: true });
+  scannerSessionId = currentSessionId;
   cameraScanner.classList.remove('hidden');
   cameraScanner.setAttribute('aria-hidden', 'false');
   document.body.classList.add('scanner-open');
   updateScannerQualityBadge({ label: I18N.t('scan.light.checking'), level: 'neutral' });
 
   try {
-    cameraStream = await navigator.mediaDevices.getUserMedia({
+    const stream = await navigator.mediaDevices.getUserMedia({
       audio: false,
       video: {
         facingMode: { ideal: 'environment' },
@@ -1721,10 +1747,24 @@ async function openCameraScanner() {
         height: { ideal: 720 }
       }
     });
+
+    if (scannerSessionId !== currentSessionId || cameraScanner.classList.contains('hidden')) {
+      stream.getTracks().forEach((track) => track.stop());
+      return;
+    }
+
+    cameraStream = stream;
     scannerVideo.srcObject = cameraStream;
     await scannerVideo.play();
+
+    if (scannerSessionId !== currentSessionId || cameraScanner.classList.contains('hidden')) {
+      closeCameraScanner();
+      return;
+    }
+
     startScannerQualityLoop();
   } catch (error) {
+    if (scannerSessionId !== currentSessionId || cameraScanner.classList.contains('hidden')) return;
     closeCameraScanner();
     showInstallHint(I18N.t('scan.cameraFallback'));
     triggerPhotoInput();
@@ -1771,6 +1811,8 @@ function captureScannerFrame() {
 }
 
 function closeCameraScanner(options = {}) {
+  const prepareForOpen = Boolean(options && options.prepareForOpen);
+  if (!prepareForOpen) scannerSessionId += 1;
   stopScannerQualityLoop();
 
   if (cameraStream) {
@@ -1787,10 +1829,38 @@ function closeCameraScanner(options = {}) {
     scannerVideo.srcObject = null;
   }
 
-  if (!options.keepHidden && cameraScanner) {
+  if (!prepareForOpen && cameraScanner) {
     cameraScanner.classList.add('hidden');
     cameraScanner.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('scanner-open');
+  }
+}
+
+function closeScanResult() {
+  closeCameraScanner();
+  closeColorFullscreen();
+
+  if (previewWrap) previewWrap.classList.add('hidden');
+  if (scanSessionToolbar) scanSessionToolbar.classList.add('hidden');
+
+  if (result) {
+    result.className = 'result hidden';
+    result.innerHTML = '';
+  }
+
+  if (previewCanvas && ctx) {
+    ctx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+  }
+
+  if (photoInput) photoInput.value = '';
+  document.body.classList.remove('scan-result-open');
+
+  if (scanButton && typeof scanButton.focus === 'function') {
+    try {
+      scanButton.focus({ preventScroll: true });
+    } catch (error) {
+      scanButton.focus();
+    }
   }
 }
 
@@ -1840,8 +1910,11 @@ function analyzeCanvas() {
   const sampledName = describeColor(sampled.hex).name;
   const matchName = describeColor(match.hex, match.index, activePalette).name;
 
+  if (scanSessionToolbar) scanSessionToolbar.classList.remove('hidden');
+  document.body.classList.add('scan-result-open');
   result.className = `result ${fit.className}`;
   result.innerHTML = `
+    <button class="scan-result-inline-close" type="button" data-close-scan-result aria-label="${escapeHtml(I18N.t('scan.cancel'))}">×</button>
     <div class="result-swatch-stack">
       <button class="color-chip result-sample-chip" type="button" style="background:${sampled.hex}" title="${escapeHtml(I18N.t('ui.resultColorTitle', { color: sampledName }))}" aria-label="${escapeHtml(I18N.t('ui.resultSampleAria', { color: sampledName }))}" data-fullscreen-color="${sampled.hex}" data-fullscreen-index="-1"></button>
       <span>${escapeHtml(I18N.t('scan.measuredShort'))}</span>

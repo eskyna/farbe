@@ -41,6 +41,10 @@
 
     <section class="analysis-panel" aria-label="Kleidungsstück prüfen">
       <p id="installHint" class="install-hint hidden" aria-live="polite"></p>
+      <div id="scanSessionToolbar" class="scan-session-toolbar hidden" aria-live="polite">
+        <span id="scanSessionTitle" class="scan-session-title">Dein Farbcheck</span>
+        <button id="scanResultClose" class="scan-result-close" type="button" aria-controls="previewWrap result">Zur Farbkarte zurück</button>
+      </div>
       <div id="previewWrap" class="preview-wrap hidden">
         <canvas id="previewCanvas"></canvas>
         <div class="target" aria-hidden="true"></div>
@@ -72,12 +76,16 @@
       <div class="scanner-target" aria-hidden="true"></div>
       <div class="scanner-topline">
         <span id="scannerQuality" class="scanner-quality">Licht wird geprüft ...</span>
-        <button id="scannerClose" class="scanner-close" type="button" aria-label="Scanner schließen">×</button>
+        <button id="scannerClose" class="scanner-close" type="button" aria-label="Scanner schließen">
+          <span aria-hidden="true">×</span>
+          <span id="scannerCloseLabel" class="scanner-close-label">Schließen</span>
+        </button>
       </div>
       <p id="scannerHint" class="scanner-hint">Kleidungsstück glatt in den Kreis halten.</p>
       <div class="scanner-actions">
         <button id="scannerCapture" class="scanner-capture" type="button">Jetzt Farbe prüfen</button>
         <button id="scannerFileFallback" class="scanner-file-fallback" type="button">Bild auswählen</button>
+        <button id="scannerCancel" class="scanner-cancel" type="button">Zur Farbkarte zurück</button>
       </div>
     </div>
   </section>

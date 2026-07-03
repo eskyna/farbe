@@ -87,6 +87,7 @@ Siehe auch [`docs/CODE_MAP.md`](docs/CODE_MAP.md).
 - Die Messung darf nicht auf einem einzelnen Pixel basieren. `SCAN_POINT_LAYOUT`, Kreis-Sampling und robuste Mittelung muessen erhalten bleiben.
 - Das Ergebnis zeigt Prozent, Lichtqualitaet, Helligkeit, Waerme, Klarheit, ehrliche Confidence-Hinweise und drei naechste Farbpass-Toene.
 - Bei Dunkelheit, Gelbstich, Schatten oder unstabiler Messung lieber unsicher formulieren und erneute Messung empfehlen.
+- Der Live-Scanner und das Scan-Ergebnis muessen jederzeit sichtbar schliessbar bleiben; nach dem Schliessen muessen Kamera-Streams stoppen und Vorschau/Resultat verschwinden.
 - Neue sichtbare Scan-Texte immer in Deutsch, Englisch und Russisch pflegen.
 
 ### Neue UI-Texte
