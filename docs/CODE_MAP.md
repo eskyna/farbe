@@ -68,7 +68,7 @@ Service Worker:
 
 | Datei | Prueft |
 | --- | --- |
-| `scripts/validate-source.mjs` | Quellstruktur, 24 Paletten, 24 Farben je Palette, Pflichtassets inklusive App-Icon, i18n-Basics, Personalisierungs-Hooks |
+| `scripts/validate-source.mjs` | Quellstruktur, 12 Paletten, 24 Farben je Palette, Pflichtassets inklusive App-Icon, i18n-Basics, Personalisierungs-Hooks |
 | `scripts/validate-dist.mjs` | erzeugten Build, Manifest-Dateien, zentrales Manifest-App-Icon, Version, Platzhalterfreiheit, Personalisierungsplatz im HTML |
 | `features/*.feature` | fachliche Akzeptanzkriterien im Behave/Cucumber-Format |
 | `features/steps/requirements_steps.py` | automatisierte Step Definitions fuer Requirements, i18n, Layout, PWA und Farbcontent |
@@ -131,7 +131,7 @@ Service Worker:
 2. Sichtbare Texte in `i18n.js` fuer `de`, `en`, `ru` pflegen.
 3. Header-Markup in `templates/palette.html` und CSS-Regeln fuer `.customer-title` beachten.
 4. Keine Namen in Manifest, Cache-Schluessel oder Build-Dateien schreiben.
-5. Mit `/farbe/light_warm_clear/?name=Melissa`, Landscape und installierter PWA testen.
+5. Mit `/farbe/hell_warm/?name=Melissa`, Landscape und installierter PWA testen.
 
 
 ## Farbglossar

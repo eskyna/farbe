@@ -1,195 +1,98 @@
 [
   {
     "number": 1,
-    "slug": "light_cool_clear",
-    "name": "light cool clear",
+    "slug": "hell_kalt",
+    "name": "hell kalt",
     "appName": "ESKYNA Farbe",
-    "url": "/farbe/light_cool_clear/",
-    "icon": "/farbe/icons/light_cool_clear-512.png"
+    "url": "/farbe/hell_kalt/",
+    "icon": "/farbe/icons/icon-512.png"
   },
   {
     "number": 2,
-    "slug": "light_cool_soft",
-    "name": "light cool soft",
+    "slug": "hell_warm",
+    "name": "hell warm",
     "appName": "ESKYNA Farbe",
-    "url": "/farbe/light_cool_soft/",
-    "icon": "/farbe/icons/light_cool_soft-512.png"
+    "url": "/farbe/hell_warm/",
+    "icon": "/farbe/icons/icon-512.png"
   },
   {
     "number": 3,
-    "slug": "light_warm_clear",
-    "name": "light warm clear",
+    "slug": "tief_kalt",
+    "name": "tief kalt",
     "appName": "ESKYNA Farbe",
-    "url": "/farbe/light_warm_clear/",
-    "icon": "/farbe/icons/light_warm_clear-512.png"
+    "url": "/farbe/tief_kalt/",
+    "icon": "/farbe/icons/icon-512.png"
   },
   {
     "number": 4,
-    "slug": "light_warm_soft",
-    "name": "light warm soft",
+    "slug": "tief_warm",
+    "name": "tief warm",
     "appName": "ESKYNA Farbe",
-    "url": "/farbe/light_warm_soft/",
-    "icon": "/farbe/icons/light_warm_soft-512.png"
+    "url": "/farbe/tief_warm/",
+    "icon": "/farbe/icons/icon-512.png"
   },
   {
     "number": 5,
-    "slug": "deep_cool_clear",
-    "name": "deep cool clear",
+    "slug": "kalt_sanft",
+    "name": "kalt sanft",
     "appName": "ESKYNA Farbe",
-    "url": "/farbe/deep_cool_clear/",
-    "icon": "/farbe/icons/deep_cool_clear-512.png"
+    "url": "/farbe/kalt_sanft/",
+    "icon": "/farbe/icons/icon-512.png"
   },
   {
     "number": 6,
-    "slug": "deep_cool_soft",
-    "name": "deep cool soft",
+    "slug": "kalt_rein",
+    "name": "kalt rein",
     "appName": "ESKYNA Farbe",
-    "url": "/farbe/deep_cool_soft/",
-    "icon": "/farbe/icons/deep_cool_soft-512.png"
+    "url": "/farbe/kalt_rein/",
+    "icon": "/farbe/icons/icon-512.png"
   },
   {
     "number": 7,
-    "slug": "deep_warm_clear",
-    "name": "deep warm clear",
+    "slug": "warm_sanft",
+    "name": "warm sanft",
     "appName": "ESKYNA Farbe",
-    "url": "/farbe/deep_warm_clear/",
-    "icon": "/farbe/icons/deep_warm_clear-512.png"
+    "url": "/farbe/warm_sanft/",
+    "icon": "/farbe/icons/icon-512.png"
   },
   {
     "number": 8,
-    "slug": "deep_warm_soft",
-    "name": "deep warm soft",
+    "slug": "warm_rein",
+    "name": "warm rein",
     "appName": "ESKYNA Farbe",
-    "url": "/farbe/deep_warm_soft/",
-    "icon": "/farbe/icons/deep_warm_soft-512.png"
+    "url": "/farbe/warm_rein/",
+    "icon": "/farbe/icons/icon-512.png"
   },
   {
     "number": 9,
-    "slug": "warm_clear_light",
-    "name": "warm clear light",
+    "slug": "sanft_warm",
+    "name": "sanft warm",
     "appName": "ESKYNA Farbe",
-    "url": "/farbe/warm_clear_light/",
-    "icon": "/farbe/icons/warm_clear_light-512.png"
+    "url": "/farbe/sanft_warm/",
+    "icon": "/farbe/icons/icon-512.png"
   },
   {
     "number": 10,
-    "slug": "warm_clear_deep",
-    "name": "warm clear deep",
+    "slug": "sanft_kalt",
+    "name": "sanft kalt",
     "appName": "ESKYNA Farbe",
-    "url": "/farbe/warm_clear_deep/",
-    "icon": "/farbe/icons/warm_clear_deep-512.png"
+    "url": "/farbe/sanft_kalt/",
+    "icon": "/farbe/icons/icon-512.png"
   },
   {
     "number": 11,
-    "slug": "warm_soft_light",
-    "name": "warm soft light",
+    "slug": "rein_warm",
+    "name": "rein warm",
     "appName": "ESKYNA Farbe",
-    "url": "/farbe/warm_soft_light/",
-    "icon": "/farbe/icons/warm_soft_light-512.png"
+    "url": "/farbe/rein_warm/",
+    "icon": "/farbe/icons/icon-512.png"
   },
   {
     "number": 12,
-    "slug": "warm_soft_deep",
-    "name": "warm soft deep",
+    "slug": "rein_kalt",
+    "name": "rein kalt",
     "appName": "ESKYNA Farbe",
-    "url": "/farbe/warm_soft_deep/",
-    "icon": "/farbe/icons/warm_soft_deep-512.png"
-  },
-  {
-    "number": 13,
-    "slug": "cool_clear_light",
-    "name": "cool clear light",
-    "appName": "ESKYNA Farbe",
-    "url": "/farbe/cool_clear_light/",
-    "icon": "/farbe/icons/cool_clear_light-512.png"
-  },
-  {
-    "number": 14,
-    "slug": "cool_clear_deep",
-    "name": "cool clear deep",
-    "appName": "ESKYNA Farbe",
-    "url": "/farbe/cool_clear_deep/",
-    "icon": "/farbe/icons/cool_clear_deep-512.png"
-  },
-  {
-    "number": 15,
-    "slug": "cool_soft_light",
-    "name": "cool soft light",
-    "appName": "ESKYNA Farbe",
-    "url": "/farbe/cool_soft_light/",
-    "icon": "/farbe/icons/cool_soft_light-512.png"
-  },
-  {
-    "number": 16,
-    "slug": "cool_soft_deep",
-    "name": "cool soft deep",
-    "appName": "ESKYNA Farbe",
-    "url": "/farbe/cool_soft_deep/",
-    "icon": "/farbe/icons/cool_soft_deep-512.png"
-  },
-  {
-    "number": 17,
-    "slug": "soft_cool_light",
-    "name": "soft cool light",
-    "appName": "ESKYNA Farbe",
-    "url": "/farbe/soft_cool_light/",
-    "icon": "/farbe/icons/soft_cool_light-512.png"
-  },
-  {
-    "number": 18,
-    "slug": "soft_cool_deep",
-    "name": "soft cool deep",
-    "appName": "ESKYNA Farbe",
-    "url": "/farbe/soft_cool_deep/",
-    "icon": "/farbe/icons/soft_cool_deep-512.png"
-  },
-  {
-    "number": 19,
-    "slug": "soft_warm_light",
-    "name": "soft warm light",
-    "appName": "ESKYNA Farbe",
-    "url": "/farbe/soft_warm_light/",
-    "icon": "/farbe/icons/soft_warm_light-512.png"
-  },
-  {
-    "number": 20,
-    "slug": "soft_warm_deep",
-    "name": "soft warm deep",
-    "appName": "ESKYNA Farbe",
-    "url": "/farbe/soft_warm_deep/",
-    "icon": "/farbe/icons/soft_warm_deep-512.png"
-  },
-  {
-    "number": 21,
-    "slug": "clear_cool_light",
-    "name": "clear cool light",
-    "appName": "ESKYNA Farbe",
-    "url": "/farbe/clear_cool_light/",
-    "icon": "/farbe/icons/clear_cool_light-512.png"
-  },
-  {
-    "number": 22,
-    "slug": "clear_cool_deep",
-    "name": "clear cool deep",
-    "appName": "ESKYNA Farbe",
-    "url": "/farbe/clear_cool_deep/",
-    "icon": "/farbe/icons/clear_cool_deep-512.png"
-  },
-  {
-    "number": 23,
-    "slug": "clear_warm_light",
-    "name": "clear warm light",
-    "appName": "ESKYNA Farbe",
-    "url": "/farbe/clear_warm_light/",
-    "icon": "/farbe/icons/clear_warm_light-512.png"
-  },
-  {
-    "number": 24,
-    "slug": "clear_warm_deep",
-    "name": "clear warm deep",
-    "appName": "ESKYNA Farbe",
-    "url": "/farbe/clear_warm_deep/",
-    "icon": "/farbe/icons/clear_warm_deep-512.png"
+    "url": "/farbe/rein_kalt/",
+    "icon": "/farbe/icons/icon-512.png"
   }
 ]
-

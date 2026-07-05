@@ -72,7 +72,7 @@ function initializeSplashScreen() {
 }
 
 function createOverviewFallbackI18n() {
-  const paletteTerms = { light: 'Light', cool: 'Cool', clear: 'Clear', deep: 'Deep', warm: 'Warm', soft: 'Soft' };
+  const paletteTerms = { hell: 'Light', kalt: 'Cool', warm: 'Warm', tief: 'Deep', sanft: 'Soft', rein: 'Pure', light: 'Light', cool: 'Cool', clear: 'Clear', deep: 'Deep', soft: 'Soft' };
   return {
     applyDocumentLanguage() {},
     getOverviewTitle() { return 'ESKYNA Farbe'; },

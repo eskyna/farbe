@@ -1194,7 +1194,7 @@ function applyStaticTranslations() {
 }
 
 function createFallbackI18n() {
-  const paletteTerms = { light: 'Light', cool: 'Cool', clear: 'Clear', deep: 'Deep', warm: 'Warm', soft: 'Soft' };
+  const paletteTerms = { hell: 'Light', kalt: 'Cool', warm: 'Warm', tief: 'Deep', sanft: 'Soft', rein: 'Pure', light: 'Light', cool: 'Cool', clear: 'Clear', deep: 'Deep', soft: 'Soft' };
   const genericStory = {
     name: 'Color Tone',
     tone: 'individual and expressive',
@@ -1749,7 +1749,7 @@ function getGlossaryRoleKey(hsl) {
 function getGlossaryNeutralText(palette) {
   const name = String(palette && palette.name ? palette.name : '').toLowerCase();
   if (name.includes('warm')) return I18N.t('glossary.neutralWarm');
-  if (name.includes('cool')) return I18N.t('glossary.neutralCool');
+  if (['cool', 'kalt', 'kühl', 'kuehl'].some((term) => name.includes(term))) return I18N.t('glossary.neutralCool');
   return I18N.t('glossary.neutralNeutral');
 }
 

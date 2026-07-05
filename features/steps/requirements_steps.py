@@ -121,10 +121,10 @@ def step_language_active(context, language):
     context.i18n_report = project.i18n_report(language)
 
 
-@then("gibt es genau 24 Farbkarten")
-def step_24_palettes(context):
+@then("gibt es genau 12 Farbkarten")
+def step_12_palettes(context):
     palettes = get_project(context).palettes()
-    assert len(palettes) == 24, f"Erwartet wurden 24 Paletten, gefunden: {len(palettes)}"
+    assert len(palettes) == 12, f"Erwartet wurden 12 Paletten, gefunden: {len(palettes)}"
 
 
 @then("jede Farbkarte hat 24 Farben")
@@ -174,8 +174,8 @@ def step_ui_texts_available(context, language):
 def step_palette_name_translated(context, language):
     report = context.i18n_report if getattr(context, "active_language", None) == language else get_project(context).i18n_report(language)
     name = report["paletteName"]
-    assert name and len(name.split()) >= 3, f"Palettenname in {language} wirkt unvollstaendig: {name!r}"
-    assert name != "light warm clear", f"Palettenname wurde in {language} nicht formatiert."
+    assert name and len(name.split()) >= 2, f"Palettenname in {language} wirkt unvollstaendig: {name!r}"
+    assert name != "hell warm", f"Palettenname wurde in {language} nicht formatiert."
 
 
 @then('personalisierte Seitentitel sind in "{language}" vorhanden')
@@ -183,13 +183,13 @@ def step_personalized_titles_available(context, language):
     report = context.i18n_report if getattr(context, "active_language", None) == language else get_project(context).i18n_report(language)
     title = report["pageTitleFor"]
     assert "Melissa" in title, f"Personalisierter Titel in {language} enthaelt den Namen nicht: {title!r}"
-    assert "light warm clear" not in title, f"Personalisierter Titel in {language} nutzt den Rohslug: {title!r}"
+    assert "hell warm" not in title, f"Personalisierter Titel in {language} nutzt den Rohnamen: {title!r}"
 
 
 @then('jede Farbe auf jeder Farbkarte hat einen Farbnamen in "{language}"')
 def step_every_color_has_name(context, language):
     report = get_project(context).color_report(language)
-    assert len(report) == 24, f"Color-Report fuer {language} enthaelt {len(report)} Paletten."
+    assert len(report) == 12, f"Color-Report fuer {language} enthaelt {len(report)} Paletten."
     for palette in report:
         names = palette.get("names", [])
         assert len(names) == 24, f"{palette.get('slug')} hat {len(names)} Farbnamen."

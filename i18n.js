@@ -65,11 +65,16 @@
         glossaryRelated: 'Nahe Farbpass-Töne'
       },
       paletteTerms: {
+        hell: 'Hell',
+        kalt: 'Kalt',
+        warm: 'Warm',
+        tief: 'Tief',
+        sanft: 'Sanft',
+        rein: 'Rein',
         light: 'Hell',
         cool: 'Kühl',
         clear: 'Klar',
         deep: 'Tief',
-        warm: 'Warm',
         soft: 'Sanft'
       },
       fit: {
@@ -243,10 +248,10 @@
         warm: 'In einer warmen Palette wirken Creme, Gold, Camel, Cognac und warme Naturtöne besonders verbindend.',
         cool: 'In einer kühlen Palette verbinden Weiß, Silber, Taupe, Navy und kühle Rosé- oder Beerentöne den Look besonders sauber.',
         neutral: 'Wähle dazu einen hellen und einen dunklen Ton aus deiner Farbkarte, damit der Look bewusst und nicht zufällig wirkt.',
-        light: 'Bei Light-Paletten bleiben große Flächen am schönsten hell; dunkle Töne lieber als Kontur einsetzen.',
-        deep: 'Bei Deep-Paletten darf der Kontrast spürbar sein; helle Töne funktionieren besonders gut als Lichtakzent.',
-        clear: 'Clear-Paletten vertragen klare Kanten, glatte Stoffe und bewusst gesetzte Kontraste.',
-        soft: 'Soft-Paletten wirken besonders edel mit Ton-in-Ton, matteren Stoffen und sanften Übergängen.'
+        light: 'Bei hellen Paletten bleiben große Flächen am schönsten leicht; dunkle Töne lieber als Kontur einsetzen.',
+        deep: 'Bei tiefen Paletten darf der Kontrast spürbar sein; helle Töne funktionieren besonders gut als Lichtakzent.',
+        clear: 'Reine Paletten vertragen klare Kanten, glatte Stoffe und bewusst gesetzte Kontraste.',
+        soft: 'Sanfte Paletten wirken besonders edel mit Ton-in-Ton, matteren Stoffen und weichen Übergängen.'
       },
       colorStories: {
         whiteClear: { name: 'Klares Weiß', tone: 'hell, leicht und sehr neutral', fact: 'Weiß bringt optische Ruhe in eine Palette und macht kräftige Farben sofort moderner. In der Mode wirkt Weiß besonders hochwertig, wenn Stoffstruktur sichtbar bleibt - etwa bei Baumwolle, Seide oder Leinen.', combinations: 'Kombiniere es als Frischefläche zu fast jedem Ton der Palette. Besonders edel wirkt es mit Camel, Gold, Marine, Espresso oder einem einzigen kräftigen Akzent.' },
@@ -348,11 +353,16 @@
         glossaryRelated: 'Nearby color-card tones'
       },
       paletteTerms: {
+        hell: 'Light',
+        kalt: 'Cool',
+        warm: 'Warm',
+        tief: 'Deep',
+        sanft: 'Soft',
+        rein: 'Pure',
         light: 'Light',
         cool: 'Cool',
         clear: 'Clear',
         deep: 'Deep',
-        warm: 'Warm',
         soft: 'Soft'
       },
       fit: {
@@ -611,11 +621,16 @@
         glossaryRelated: 'Близкие тона цветового паспорта'
       },
       paletteTerms: {
+        hell: 'Светлая',
+        kalt: 'Холодная',
+        warm: 'Тёплая',
+        tief: 'Глубокая',
+        sanft: 'Мягкая',
+        rein: 'Чистая',
         light: 'Светлая',
         cool: 'Холодная',
         clear: 'Чистая',
         deep: 'Глубокая',
-        warm: 'Тёплая',
         soft: 'Мягкая'
       },
       fit: {
@@ -903,20 +918,24 @@
     };
   }
 
+  function paletteNameHas(value, terms) {
+    return terms.some((term) => value.includes(term));
+  }
+
   function getPaletteCombinationNote(name) {
     const value = String(name || '').toLowerCase();
-    if (value.includes('warm')) return t('paletteNotes.warm');
-    if (value.includes('cool')) return t('paletteNotes.cool');
+    if (paletteNameHas(value, ['warm'])) return t('paletteNotes.warm');
+    if (paletteNameHas(value, ['cool', 'kalt', 'kühl', 'kuehl'])) return t('paletteNotes.cool');
     return t('paletteNotes.neutral');
   }
 
   function getPaletteDepthNote(name) {
     const value = String(name || '').toLowerCase();
     const notes = [];
-    if (value.includes('light')) notes.push(t('paletteNotes.light'));
-    if (value.includes('deep')) notes.push(t('paletteNotes.deep'));
-    if (value.includes('clear')) notes.push(t('paletteNotes.clear'));
-    if (value.includes('soft')) notes.push(t('paletteNotes.soft'));
+    if (paletteNameHas(value, ['light', 'hell'])) notes.push(t('paletteNotes.light'));
+    if (paletteNameHas(value, ['deep', 'tief'])) notes.push(t('paletteNotes.deep'));
+    if (paletteNameHas(value, ['clear', 'klar', 'rein'])) notes.push(t('paletteNotes.clear'));
+    if (paletteNameHas(value, ['soft', 'sanft'])) notes.push(t('paletteNotes.soft'));
     return notes.join(' ');
   }
 

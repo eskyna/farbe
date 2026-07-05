@@ -6,7 +6,7 @@ Feature: Farbkarten-Inhalte und Sprache
     And der Dist-Build existiert
 
   Scenario: Alle Farbkarten sind vollstaendig
-    Then gibt es genau 24 Farbkarten
+    Then gibt es genau 12 Farbkarten
     And jede Farbkarte hat 24 Farben
     And jede Farbkarte ist im Quellmodell 4 Farben breit und 6 Farben hoch
     And jede generierte Farbkarte besitzt HTML, Manifest und Icons

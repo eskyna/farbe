@@ -47,4 +47,4 @@ Eine gute Glossarseite beantwortet sieben Fragen:
 
 ## Akzeptanzkriterien
 
-Die Behave/Cucumber-Suite prueft, dass jede der 576 Farben eine Glossarseite mit Farbprofil, Rolle, Material, Kombination, Shopping-Hilfe und Modewissen hat. Die Source-Validierung prueft zusaetzlich, dass Glossar-Logik, Profil-Stile und Uebersetzungs-Keys vorhanden sind.
+Die Behave/Cucumber-Suite prueft, dass jede der 288 Farben eine Glossarseite mit Farbprofil, Rolle, Material, Kombination, Shopping-Hilfe und Modewissen hat. Die Source-Validierung prueft zusaetzlich, dass Glossar-Logik, Profil-Stile und Uebersetzungs-Keys vorhanden sind.

@@ -4,6 +4,8 @@ import vm from 'node:vm';
 
 const distDir = path.resolve(process.argv[2] || 'dist');
 const HEX_PATTERN = /^#[0-9a-f]{6}$/i;
+const EXPECTED_PALETTE_COUNT = 12;
+const EXPECTED_PALETTE_SLUGS = ['hell_kalt', 'hell_warm', 'tief_kalt', 'tief_warm', 'kalt_sanft', 'kalt_rein', 'warm_sanft', 'warm_rein', 'sanft_warm', 'sanft_kalt', 'rein_warm', 'rein_kalt'];
 
 function fail(message) {
   console.error(`validate-dist: ${message}`);
@@ -81,7 +83,8 @@ const commonText = requiredFiles
 assert(!/__[A-Z0-9_]+__/.test(commonText), 'Dist enthaelt noch Template-Platzhalter.');
 
 const palettes = evaluatePalettes();
-assert(Array.isArray(palettes) && palettes.length === 24, `Dist muss 24 Paletten enthalten, gefunden: ${palettes?.length}.`);
+assert(Array.isArray(palettes) && palettes.length === EXPECTED_PALETTE_COUNT, `Dist muss ${EXPECTED_PALETTE_COUNT} Paletten enthalten, gefunden: ${palettes?.length}.`);
+assert(palettes.map((palette) => palette.slug).join('|') === EXPECTED_PALETTE_SLUGS.join('|'), 'Dist-Paletten entsprechen nicht der neuen 12er-Struktur.');
 
 for (const palette of palettes) {
   assert(fileExists(`${palette.slug}/index.html`), `Palette ${palette.slug}: index.html fehlt.`);

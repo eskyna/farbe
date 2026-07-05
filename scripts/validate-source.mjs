@@ -77,7 +77,9 @@ const UI_TRANSLATION_KEYS = [
 ];
 
 const SUPPORTED_LANGUAGES = ['de', 'en', 'ru'];
-const PALETTE_TERMS = new Set(['light', 'cool', 'clear', 'deep', 'warm', 'soft']);
+const EXPECTED_PALETTE_COUNT = 12;
+const EXPECTED_PALETTE_SLUGS = ['hell_kalt', 'hell_warm', 'tief_kalt', 'tief_warm', 'kalt_sanft', 'kalt_rein', 'warm_sanft', 'warm_rein', 'sanft_warm', 'sanft_kalt', 'rein_warm', 'rein_kalt'];
+const PALETTE_TERMS = new Set(['hell', 'kalt', 'warm', 'tief', 'sanft', 'rein']);
 const HEX_PATTERN = /^#[0-9a-f]{6}$/i;
 
 function fail(message) {
@@ -147,7 +149,8 @@ assert(featureFiles.length >= 5, `Mindestens 5 Requirement-Feature-Dateien erwar
 
 const palettes = evaluatePalettes();
 assert(Array.isArray(palettes), 'window.ESKYNA_PALETTES wurde nicht gefunden.');
-assert(palettes.length === 24, `Es muessen genau 24 Paletten sein, gefunden: ${palettes.length}.`);
+assert(palettes.length === EXPECTED_PALETTE_COUNT, `Es muessen genau ${EXPECTED_PALETTE_COUNT} Paletten sein, gefunden: ${palettes.length}.`);
+assert(palettes.map((palette) => palette.slug).join('|') === EXPECTED_PALETTE_SLUGS.join('|'), 'Paletten-Reihenfolge oder Umbenennung passt nicht zur 12er-Anforderung.');
 
 const slugs = new Set();
 const ids = new Set();
@@ -217,7 +220,7 @@ for (const language of SUPPORTED_LANGUAGES) {
   }
   for (const palette of palettes.slice(0, 3)) {
     const label = i18n.formatPaletteName(palette.name);
-    assert(typeof label === 'string' && label.split(/\s+/).length === 3, `i18n ${language}: Palettenname wirkt unvollstaendig.`);
+    assert(typeof label === 'string' && label.split(/\s+/).length >= 2, `i18n ${language}: Palettenname wirkt unvollstaendig.`);
   }
 }
 

@@ -4,7 +4,7 @@
 Generator für die ESKYNA Farben PWAs.
 
 Erzeugt eine statische Website ohne Code-Duplikation:
-- /                       Übersicht mit genau 24 Farbkarten
+- /                       Übersicht mit genau 12 Farbkarten
 - /<palette_slug>/        eine installierbare PWA pro Farbkarte
 
 Jede PWA nutzt dieselben gemeinsamen Dateien:
@@ -44,357 +44,41 @@ APP_ICON_PATH = ROOT_DIR / "assets" / "app-icon.png"
 DEFAULT_BASE_PATH = "/farbe/"
 DEFAULT_PALETTE_ICONS_DIR = ROOT_DIR / "icons"
 DEFAULT_TELEGRAM_BOT_URL = "https://t.me/eskyna_bot"
+EXPECTED_PALETTE_COUNT = 12
+LEGACY_PALETTE_REDIRECTS = {
+  "light_cool_clear": "",
+  "light_cool_soft": "warm_rein",
+  "light_warm_clear": "",
+  "light_warm_soft": "warm_sanft",
+  "deep_cool_clear": "",
+  "deep_cool_soft": "hell_kalt",
+  "deep_warm_clear": "hell_warm",
+  "deep_warm_soft": "",
+  "warm_clear_light": "",
+  "warm_clear_deep": "sanft_warm",
+  "warm_soft_light": "",
+  "warm_soft_deep": "sanft_kalt",
+  "cool_clear_light": "",
+  "cool_clear_deep": "rein_warm",
+  "cool_soft_light": "",
+  "cool_soft_deep": "rein_kalt",
+  "soft_cool_light": "",
+  "soft_cool_deep": "tief_warm",
+  "soft_warm_light": "",
+  "soft_warm_deep": "tief_kalt",
+  "clear_cool_light": "kalt_sanft",
+  "clear_cool_deep": "",
+  "clear_warm_light": "kalt_rein",
+  "clear_warm_deep": ""
+}
 
 PALETTES_JSON = r'''[
   {
     "id": 1,
-    "slug": "light_cool_clear",
-    "name": "light cool clear",
-    "grid": [
-      [
-        "#D96340",
-        "#D54B65",
-        "#F5C69C",
-        "#FFEB4C"
-      ],
-      [
-        "#53933E",
-        "#EEBCC6",
-        "#492E24",
-        "#F8F8F6"
-      ],
-      [
-        "#26723C",
-        "#6C2152",
-        "#E36A36",
-        "#C6D64F"
-      ],
-      [
-        "#714A3A",
-        "#112A1C",
-        "#D23530",
-        "#B3CA3E"
-      ],
-      [
-        "#7F2423",
-        "#087C95",
-        "#92723D",
-        "#55561D"
-      ],
-      [
-        "#3C5D28",
-        "#0B448E",
-        "#DE562C",
-        "#382012"
-      ]
-    ],
-    "colors": [
-      "#D96340",
-      "#D54B65",
-      "#F5C69C",
-      "#FFEB4C",
-      "#53933E",
-      "#EEBCC6",
-      "#492E24",
-      "#F8F8F6",
-      "#26723C",
-      "#6C2152",
-      "#E36A36",
-      "#C6D64F",
-      "#714A3A",
-      "#112A1C",
-      "#D23530",
-      "#B3CA3E",
-      "#7F2423",
-      "#087C95",
-      "#92723D",
-      "#55561D",
-      "#3C5D28",
-      "#0B448E",
-      "#DE562C",
-      "#382012"
-    ]
-  },
-  {
-    "id": 2,
-    "slug": "light_cool_soft",
-    "name": "light cool soft",
-    "grid": [
-      [
-        "#D64C32",
-        "#D84756",
-        "#F2BAA1",
-        "#FFE84A"
-      ],
-      [
-        "#428840",
-        "#EDADC5",
-        "#6A2B24",
-        "#FCFBF9"
-      ],
-      [
-        "#236035",
-        "#652654",
-        "#E26535",
-        "#336333"
-      ],
-      [
-        "#54321F",
-        "#193221",
-        "#D23930",
-        "#B3CB3F"
-      ],
-      [
-        "#7A2A25",
-        "#0D88B3",
-        "#794A29",
-        "#383E1C"
-      ],
-      [
-        "#283718",
-        "#163867",
-        "#DA512F",
-        "#241913"
-      ]
-    ],
-    "colors": [
-      "#D64C32",
-      "#D84756",
-      "#F2BAA1",
-      "#FFE84A",
-      "#428840",
-      "#EDADC5",
-      "#6A2B24",
-      "#FCFBF9",
-      "#236035",
-      "#652654",
-      "#E26535",
-      "#336333",
-      "#54321F",
-      "#193221",
-      "#D23930",
-      "#B3CB3F",
-      "#7A2A25",
-      "#0D88B3",
-      "#794A29",
-      "#383E1C",
-      "#283718",
-      "#163867",
-      "#DA512F",
-      "#241913"
-    ]
-  },
-  {
-    "id": 3,
-    "slug": "light_warm_clear",
-    "name": "light warm clear",
-    "grid": [
-      [
-        "#CE4F2F",
-        "#D5504A",
-        "#EBBD96",
-        "#EFEEEB"
-      ],
-      [
-        "#889368",
-        "#EAAE8A",
-        "#957645",
-        "#F1E4AC"
-      ],
-      [
-        "#1F532D",
-        "#7E2535",
-        "#C5682D",
-        "#B8B459"
-      ],
-      [
-        "#6EA347",
-        "#532237",
-        "#673D1C",
-        "#F0C835"
-      ],
-      [
-        "#CA3D34",
-        "#187587",
-        "#69321D",
-        "#9E8F2A"
-      ],
-      [
-        "#3A4638",
-        "#B8C17F",
-        "#D75541",
-        "#D25E30"
-      ]
-    ],
-    "colors": [
-      "#CE4F2F",
-      "#D5504A",
-      "#EBBD96",
-      "#EFEEEB",
-      "#889368",
-      "#EAAE8A",
-      "#957645",
-      "#F1E4AC",
-      "#1F532D",
-      "#7E2535",
-      "#C5682D",
-      "#B8B459",
-      "#6EA347",
-      "#532237",
-      "#673D1C",
-      "#F0C835",
-      "#CA3D34",
-      "#187587",
-      "#69321D",
-      "#9E8F2A",
-      "#3A4638",
-      "#B8C17F",
-      "#D75541",
-      "#D25E30"
-    ]
-  },
-  {
-    "id": 4,
-    "slug": "light_warm_soft",
-    "name": "light warm soft",
-    "grid": [
-      [
-        "#B23823",
-        "#D03930",
-        "#E7A97A",
-        "#EDECEA"
-      ],
-      [
-        "#1D200F",
-        "#E39C88",
-        "#362414",
-        "#EFDE84"
-      ],
-      [
-        "#173B21",
-        "#4D1820",
-        "#612C1A",
-        "#837B31"
-      ],
-      [
-        "#5D9045",
-        "#271115",
-        "#4F2E16",
-        "#EAB133"
-      ],
-      [
-        "#C83D2B",
-        "#136866",
-        "#3F1D13",
-        "#524A1B"
-      ],
-      [
-        "#423A30",
-        "#66632D",
-        "#CE3A2E",
-        "#B45569"
-      ]
-    ],
-    "colors": [
-      "#B23823",
-      "#D03930",
-      "#E7A97A",
-      "#EDECEA",
-      "#1D200F",
-      "#E39C88",
-      "#362414",
-      "#EFDE84",
-      "#173B21",
-      "#4D1820",
-      "#612C1A",
-      "#837B31",
-      "#5D9045",
-      "#271115",
-      "#4F2E16",
-      "#EAB133",
-      "#C83D2B",
-      "#136866",
-      "#3F1D13",
-      "#524A1B",
-      "#423A30",
-      "#66632D",
-      "#CE3A2E",
-      "#B45569"
-    ]
-  },
-  {
-    "id": 5,
-    "slug": "deep_cool_clear",
-    "name": "deep cool clear",
-    "grid": [
-      [
-        "#5D5C58",
-        "#E8CCCB",
-        "#C49C81",
-        "#C07599"
-      ],
-      [
-        "#C0BEB1",
-        "#194F78",
-        "#CD395B",
-        "#A4D4EB"
-      ],
-      [
-        "#112945",
-        "#83C2B1",
-        "#D84A6A",
-        "#336F6D"
-      ],
-      [
-        "#191B1A",
-        "#1D533F",
-        "#F5D2D9",
-        "#F9D5D5"
-      ],
-      [
-        "#2C2723",
-        "#78B59C",
-        "#AA5E7A",
-        "#ECAFBE"
-      ],
-      [
-        "#FCF8ED",
-        "#82BFDE",
-        "#574471",
-        "#C85379"
-      ]
-    ],
-    "colors": [
-      "#5D5C58",
-      "#E8CCCB",
-      "#C49C81",
-      "#C07599",
-      "#C0BEB1",
-      "#194F78",
-      "#CD395B",
-      "#A4D4EB",
-      "#112945",
-      "#83C2B1",
-      "#D84A6A",
-      "#336F6D",
-      "#191B1A",
-      "#1D533F",
-      "#F5D2D9",
-      "#F9D5D5",
-      "#2C2723",
-      "#78B59C",
-      "#AA5E7A",
-      "#ECAFBE",
-      "#FCF8ED",
-      "#82BFDE",
-      "#574471",
-      "#C85379"
-    ]
-  },
-  {
-    "id": 6,
-    "slug": "deep_cool_soft",
-    "name": "deep cool soft",
+    "slug": "hell_kalt",
+    "name": "hell kalt",
+    "legacySlug": "deep_cool_soft",
+    "legacyName": "deep cool soft",
     "grid": [
       [
         "#888D89",
@@ -461,9 +145,11 @@ PALETTES_JSON = r'''[
     ]
   },
   {
-    "id": 7,
-    "slug": "deep_warm_clear",
-    "name": "deep warm clear",
+    "id": 2,
+    "slug": "hell_warm",
+    "name": "hell warm",
+    "legacySlug": "deep_warm_clear",
+    "legacyName": "deep warm clear",
     "grid": [
       [
         "#D0454F",
@@ -530,837 +216,11 @@ PALETTES_JSON = r'''[
     ]
   },
   {
-    "id": 8,
-    "slug": "deep_warm_soft",
-    "name": "deep warm soft",
-    "grid": [
-      [
-        "#C73854",
-        "#1A4127",
-        "#E18C89",
-        "#F7F3E8"
-      ],
-      [
-        "#122644",
-        "#B0A086",
-        "#EAB291",
-        "#F5EEB7"
-      ],
-      [
-        "#C6434A",
-        "#5F5647",
-        "#C34134",
-        "#FAEB70"
-      ],
-      [
-        "#D26B5C",
-        "#2C251C",
-        "#E9B5B6",
-        "#287EB1"
-      ],
-      [
-        "#E6AC7C",
-        "#5E3B25",
-        "#BA3832",
-        "#1C689B"
-      ],
-      [
-        "#316C35",
-        "#26150E",
-        "#EBC79B",
-        "#C44D55"
-      ]
-    ],
-    "colors": [
-      "#C73854",
-      "#1A4127",
-      "#E18C89",
-      "#F7F3E8",
-      "#122644",
-      "#B0A086",
-      "#EAB291",
-      "#F5EEB7",
-      "#C6434A",
-      "#5F5647",
-      "#C34134",
-      "#FAEB70",
-      "#D26B5C",
-      "#2C251C",
-      "#E9B5B6",
-      "#287EB1",
-      "#E6AC7C",
-      "#5E3B25",
-      "#BA3832",
-      "#1C689B",
-      "#316C35",
-      "#26150E",
-      "#EBC79B",
-      "#C44D55"
-    ]
-  },
-  {
-    "id": 9,
-    "slug": "warm_clear_light",
-    "name": "warm clear light",
-    "grid": [
-      [
-        "#193F24",
-        "#3C251D",
-        "#E89275",
-        "#FCF8EF"
-      ],
-      [
-        "#8BBEA1",
-        "#C48F63",
-        "#EDA49B",
-        "#F7BD50"
-      ],
-      [
-        "#4D512E",
-        "#B7764E",
-        "#DE6365",
-        "#F8C494"
-      ],
-      [
-        "#D44E35",
-        "#B12A24",
-        "#FAEBAA",
-        "#5E241D"
-      ],
-      [
-        "#D44B52",
-        "#99281E",
-        "#3F3428",
-        "#6B6733"
-      ],
-      [
-        "#35764B",
-        "#D14358",
-        "#573A2B",
-        "#29537C"
-      ]
-    ],
-    "colors": [
-      "#193F24",
-      "#3C251D",
-      "#E89275",
-      "#FCF8EF",
-      "#8BBEA1",
-      "#C48F63",
-      "#EDA49B",
-      "#F7BD50",
-      "#4D512E",
-      "#B7764E",
-      "#DE6365",
-      "#F8C494",
-      "#D44E35",
-      "#B12A24",
-      "#FAEBAA",
-      "#5E241D",
-      "#D44B52",
-      "#99281E",
-      "#3F3428",
-      "#6B6733",
-      "#35764B",
-      "#D14358",
-      "#573A2B",
-      "#29537C"
-    ]
-  },
-  {
-    "id": 10,
-    "slug": "warm_clear_deep",
-    "name": "warm clear deep",
-    "grid": [
-      [
-        "#162B1C",
-        "#281A13",
-        "#EA7E6D",
-        "#FFFDF4"
-      ],
-      [
-        "#5FA57B",
-        "#AC7144",
-        "#E05B4C",
-        "#F4A647"
-      ],
-      [
-        "#272914",
-        "#78352A",
-        "#DB4A49",
-        "#F6D5AB"
-      ],
-      [
-        "#D64331",
-        "#D43A30",
-        "#F7BC91",
-        "#87312C"
-      ],
-      [
-        "#B63839",
-        "#772E1E",
-        "#2A2218",
-        "#313419"
-      ],
-      [
-        "#184126",
-        "#DB4550",
-        "#7B513D",
-        "#1B3051"
-      ]
-    ],
-    "colors": [
-      "#162B1C",
-      "#281A13",
-      "#EA7E6D",
-      "#FFFDF4",
-      "#5FA57B",
-      "#AC7144",
-      "#E05B4C",
-      "#F4A647",
-      "#272914",
-      "#78352A",
-      "#DB4A49",
-      "#F6D5AB",
-      "#D64331",
-      "#D43A30",
-      "#F7BC91",
-      "#87312C",
-      "#B63839",
-      "#772E1E",
-      "#2A2218",
-      "#313419",
-      "#184126",
-      "#DB4550",
-      "#7B513D",
-      "#1B3051"
-    ]
-  },
-  {
-    "id": 11,
-    "slug": "warm_soft_light",
-    "name": "warm soft light",
-    "grid": [
-      [
-        "#81B9A2",
-        "#944464",
-        "#806E6C",
-        "#F4F4EC"
-      ],
-      [
-        "#193026",
-        "#D34B5F",
-        "#322828",
-        "#98BCDB"
-      ],
-      [
-        "#4C4A5F",
-        "#E38691",
-        "#7691BB",
-        "#A22C32"
-      ],
-      [
-        "#684959",
-        "#7B6887",
-        "#7F7F77",
-        "#74B49A"
-      ],
-      [
-        "#CD423F",
-        "#225E5D",
-        "#2B2C28",
-        "#172941"
-      ],
-      [
-        "#C8383D",
-        "#2A4C7F",
-        "#D66A8C",
-        "#313E44"
-      ]
-    ],
-    "colors": [
-      "#81B9A2",
-      "#944464",
-      "#806E6C",
-      "#F4F4EC",
-      "#193026",
-      "#D34B5F",
-      "#322828",
-      "#98BCDB",
-      "#4C4A5F",
-      "#E38691",
-      "#7691BB",
-      "#A22C32",
-      "#684959",
-      "#7B6887",
-      "#7F7F77",
-      "#74B49A",
-      "#CD423F",
-      "#225E5D",
-      "#2B2C28",
-      "#172941",
-      "#C8383D",
-      "#2A4C7F",
-      "#D66A8C",
-      "#313E44"
-    ]
-  },
-  {
-    "id": 12,
-    "slug": "warm_soft_deep",
-    "name": "warm soft deep",
-    "grid": [
-      [
-        "#6AB395",
-        "#561C32",
-        "#877372",
-        "#FAF7EE"
-      ],
-      [
-        "#0E2819",
-        "#D93E5E",
-        "#423434",
-        "#ADC5DD"
-      ],
-      [
-        "#1C1A2F",
-        "#DA717C",
-        "#6875A5",
-        "#BF3542"
-      ],
-      [
-        "#422736",
-        "#484B4A",
-        "#5B5A56",
-        "#1D3B31"
-      ],
-      [
-        "#B5342F",
-        "#463957",
-        "#BDBFB8",
-        "#111A25"
-      ],
-      [
-        "#CF3839",
-        "#23315E",
-        "#CF587E",
-        "#1F292E"
-      ]
-    ],
-    "colors": [
-      "#6AB395",
-      "#561C32",
-      "#877372",
-      "#FAF7EE",
-      "#0E2819",
-      "#D93E5E",
-      "#423434",
-      "#ADC5DD",
-      "#1C1A2F",
-      "#DA717C",
-      "#6875A5",
-      "#BF3542",
-      "#422736",
-      "#484B4A",
-      "#5B5A56",
-      "#1D3B31",
-      "#B5342F",
-      "#463957",
-      "#BDBFB8",
-      "#111A25",
-      "#CF3839",
-      "#23315E",
-      "#CF587E",
-      "#1F292E"
-    ]
-  },
-  {
-    "id": 13,
-    "slug": "cool_clear_light",
-    "name": "cool clear light",
-    "grid": [
-      [
-        "#3A7640",
-        "#6C203F",
-        "#CB4526",
-        "#392115"
-      ],
-      [
-        "#C33431",
-        "#B4CEA5",
-        "#C63729",
-        "#F9E14B"
-      ],
-      [
-        "#763C30",
-        "#1C2B54",
-        "#2C1410",
-        "#D24848"
-      ],
-      [
-        "#2A6D36",
-        "#1D7E9E",
-        "#C8323A",
-        "#432215"
-      ],
-      [
-        "#121A10",
-        "#F0E9D9",
-        "#371E3C",
-        "#EEB291"
-      ],
-      [
-        "#CB4529",
-        "#9FCBCE",
-        "#D75474",
-        "#1E1510"
-      ]
-    ],
-    "colors": [
-      "#3A7640",
-      "#6C203F",
-      "#CB4526",
-      "#392115",
-      "#C33431",
-      "#B4CEA5",
-      "#C63729",
-      "#F9E14B",
-      "#763C30",
-      "#1C2B54",
-      "#2C1410",
-      "#D24848",
-      "#2A6D36",
-      "#1D7E9E",
-      "#C8323A",
-      "#432215",
-      "#121A10",
-      "#F0E9D9",
-      "#371E3C",
-      "#EEB291",
-      "#CB4529",
-      "#9FCBCE",
-      "#D75474",
-      "#1E1510"
-    ]
-  },
-  {
-    "id": 14,
-    "slug": "cool_clear_deep",
-    "name": "cool clear deep",
-    "grid": [
-      [
-        "#347C3A",
-        "#622345",
-        "#D4512F",
-        "#12110C"
-      ],
-      [
-        "#CA353B",
-        "#B0D198",
-        "#222749",
-        "#FEEF39"
-      ],
-      [
-        "#432114",
-        "#C83C2D",
-        "#298583",
-        "#D73E39"
-      ],
-      [
-        "#214827",
-        "#1B76AB",
-        "#FEE83B",
-        "#322419"
-      ],
-      [
-        "#151D13",
-        "#F7F1DF",
-        "#3A223F",
-        "#F1B78F"
-      ],
-      [
-        "#CF4229",
-        "#8DC6C4",
-        "#DC494F",
-        "#251812"
-      ]
-    ],
-    "colors": [
-      "#347C3A",
-      "#622345",
-      "#D4512F",
-      "#12110C",
-      "#CA353B",
-      "#B0D198",
-      "#222749",
-      "#FEEF39",
-      "#432114",
-      "#C83C2D",
-      "#298583",
-      "#D73E39",
-      "#214827",
-      "#1B76AB",
-      "#FEE83B",
-      "#322419",
-      "#151D13",
-      "#F7F1DF",
-      "#3A223F",
-      "#F1B78F",
-      "#CF4229",
-      "#8DC6C4",
-      "#DC494F",
-      "#251812"
-    ]
-  },
-  {
-    "id": 15,
-    "slug": "cool_soft_light",
-    "name": "cool soft light",
-    "grid": [
-      [
-        "#CB2B58",
-        "#167781",
-        "#F1B3C1",
-        "#8C8D87"
-      ],
-      [
-        "#0B1225",
-        "#CFE4E2",
-        "#1D8EB4",
-        "#D8577D"
-      ],
-      [
-        "#1A729C",
-        "#534E77",
-        "#0A0E12",
-        "#76BFDB"
-      ],
-      [
-        "#296A52",
-        "#A39289",
-        "#F7F1E1",
-        "#3E355F"
-      ],
-      [
-        "#C73E5A",
-        "#C5C5CD",
-        "#23244B",
-        "#A7D2D8"
-      ],
-      [
-        "#C3373E",
-        "#3C456C",
-        "#302B25",
-        "#E16E8C"
-      ]
-    ],
-    "colors": [
-      "#CB2B58",
-      "#167781",
-      "#F1B3C1",
-      "#8C8D87",
-      "#0B1225",
-      "#CFE4E2",
-      "#1D8EB4",
-      "#D8577D",
-      "#1A729C",
-      "#534E77",
-      "#0A0E12",
-      "#76BFDB",
-      "#296A52",
-      "#A39289",
-      "#F7F1E1",
-      "#3E355F",
-      "#C73E5A",
-      "#C5C5CD",
-      "#23244B",
-      "#A7D2D8",
-      "#C3373E",
-      "#3C456C",
-      "#302B25",
-      "#E16E8C"
-    ]
-  },
-  {
-    "id": 16,
-    "slug": "cool_soft_deep",
-    "name": "cool soft deep",
-    "grid": [
-      [
-        "#C42B5E",
-        "#26726F",
-        "#FAB5BE",
-        "#6D665C"
-      ],
-      [
-        "#0D0F1C",
-        "#D4DEE5",
-        "#DE3949",
-        "#282C2C"
-      ],
-      [
-        "#0D82B0",
-        "#3C2F5C",
-        "#101314",
-        "#61BBE0"
-      ],
-      [
-        "#247D67",
-        "#8D7672",
-        "#FFFAE7",
-        "#1B7FB7"
-      ],
-      [
-        "#1D5055",
-        "#E6CBD0",
-        "#272041",
-        "#87CAE4"
-      ],
-      [
-        "#D9413E",
-        "#293B69",
-        "#E24C69",
-        "#E0446B"
-      ]
-    ],
-    "colors": [
-      "#C42B5E",
-      "#26726F",
-      "#FAB5BE",
-      "#6D665C",
-      "#0D0F1C",
-      "#D4DEE5",
-      "#DE3949",
-      "#282C2C",
-      "#0D82B0",
-      "#3C2F5C",
-      "#101314",
-      "#61BBE0",
-      "#247D67",
-      "#8D7672",
-      "#FFFAE7",
-      "#1B7FB7",
-      "#1D5055",
-      "#E6CBD0",
-      "#272041",
-      "#87CAE4",
-      "#D9413E",
-      "#293B69",
-      "#E24C69",
-      "#E0446B"
-    ]
-  },
-  {
-    "id": 17,
-    "slug": "soft_cool_light",
-    "name": "soft cool light",
-    "grid": [
-      [
-        "#121F17",
-        "#3F1C18",
-        "#8A5530",
-        "#241D15"
-      ],
-      [
-        "#1C3725",
-        "#EB5352",
-        "#2D1817",
-        "#C1353D"
-      ],
-      [
-        "#346A30",
-        "#31161D",
-        "#E34238",
-        "#E34D34"
-      ],
-      [
-        "#211E17",
-        "#1F1937",
-        "#412420",
-        "#FCC093"
-      ],
-      [
-        "#EA7830",
-        "#10313A",
-        "#4D2221",
-        "#FDFFD2"
-      ],
-      [
-        "#DF4557",
-        "#0C1618",
-        "#CD362F",
-        "#3A3128"
-      ]
-    ],
-    "colors": [
-      "#121F17",
-      "#3F1C18",
-      "#8A5530",
-      "#241D15",
-      "#1C3725",
-      "#EB5352",
-      "#2D1817",
-      "#C1353D",
-      "#346A30",
-      "#31161D",
-      "#E34238",
-      "#E34D34",
-      "#211E17",
-      "#1F1937",
-      "#412420",
-      "#FCC093",
-      "#EA7830",
-      "#10313A",
-      "#4D2221",
-      "#FDFFD2",
-      "#DF4557",
-      "#0C1618",
-      "#CD362F",
-      "#3A3128"
-    ]
-  },
-  {
-    "id": 18,
-    "slug": "soft_cool_deep",
-    "name": "soft cool deep",
-    "grid": [
-      [
-        "#162017",
-        "#3F1D1C",
-        "#B76438",
-        "#1D1412"
-      ],
-      [
-        "#213D27",
-        "#E85051",
-        "#2F1B1A",
-        "#CD3947"
-      ],
-      [
-        "#2E6231",
-        "#652C63",
-        "#DF3E34",
-        "#E54E7F"
-      ],
-      [
-        "#221D18",
-        "#2F2651",
-        "#382019",
-        "#FBC099"
-      ],
-      [
-        "#FFEF37",
-        "#1D414A",
-        "#7C3227",
-        "#FFFCBC"
-      ],
-      [
-        "#E2373C",
-        "#151F20",
-        "#CE3933",
-        "#3D2C25"
-      ]
-    ],
-    "colors": [
-      "#162017",
-      "#3F1D1C",
-      "#B76438",
-      "#1D1412",
-      "#213D27",
-      "#E85051",
-      "#2F1B1A",
-      "#CD3947",
-      "#2E6231",
-      "#652C63",
-      "#DF3E34",
-      "#E54E7F",
-      "#221D18",
-      "#2F2651",
-      "#382019",
-      "#FBC099",
-      "#FFEF37",
-      "#1D414A",
-      "#7C3227",
-      "#FFFCBC",
-      "#E2373C",
-      "#151F20",
-      "#CE3933",
-      "#3D2C25"
-    ]
-  },
-  {
-    "id": 19,
-    "slug": "soft_warm_light",
-    "name": "soft warm light",
-    "grid": [
-      [
-        "#1E6A4E",
-        "#D72957",
-        "#0D1B1F",
-        "#0E1112"
-      ],
-      [
-        "#131514",
-        "#1B1B52",
-        "#2A1526",
-        "#FFFFFB"
-      ],
-      [
-        "#31312F",
-        "#5D4874",
-        "#49152B",
-        "#6A2D4E"
-      ],
-      [
-        "#183136",
-        "#B33539",
-        "#D23870",
-        "#2B3239"
-      ],
-      [
-        "#262455",
-        "#A79FC4",
-        "#22181D",
-        "#7DC3D5"
-      ],
-      [
-        "#DD638B",
-        "#192922",
-        "#5A202F",
-        "#9B385A"
-      ]
-    ],
-    "colors": [
-      "#1E6A4E",
-      "#D72957",
-      "#0D1B1F",
-      "#0E1112",
-      "#131514",
-      "#1B1B52",
-      "#2A1526",
-      "#FFFFFB",
-      "#31312F",
-      "#5D4874",
-      "#49152B",
-      "#6A2D4E",
-      "#183136",
-      "#B33539",
-      "#D23870",
-      "#2B3239",
-      "#262455",
-      "#A79FC4",
-      "#22181D",
-      "#7DC3D5",
-      "#DD638B",
-      "#192922",
-      "#5A202F",
-      "#9B385A"
-    ]
-  },
-  {
-    "id": 20,
-    "slug": "soft_warm_deep",
-    "name": "soft warm deep",
+    "id": 3,
+    "slug": "tief_kalt",
+    "name": "tief kalt",
+    "legacySlug": "soft_warm_deep",
+    "legacyName": "soft warm deep",
     "grid": [
       [
         "#191A47",
@@ -1427,9 +287,82 @@ PALETTES_JSON = r'''[
     ]
   },
   {
-    "id": 21,
-    "slug": "clear_cool_light",
-    "name": "clear cool light",
+    "id": 4,
+    "slug": "tief_warm",
+    "name": "tief warm",
+    "legacySlug": "soft_cool_deep",
+    "legacyName": "soft cool deep",
+    "grid": [
+      [
+        "#162017",
+        "#3F1D1C",
+        "#B76438",
+        "#1D1412"
+      ],
+      [
+        "#213D27",
+        "#E85051",
+        "#2F1B1A",
+        "#CD3947"
+      ],
+      [
+        "#2E6231",
+        "#652C63",
+        "#DF3E34",
+        "#E54E7F"
+      ],
+      [
+        "#221D18",
+        "#2F2651",
+        "#382019",
+        "#FBC099"
+      ],
+      [
+        "#FFEF37",
+        "#1D414A",
+        "#7C3227",
+        "#FFFCBC"
+      ],
+      [
+        "#E2373C",
+        "#151F20",
+        "#CE3933",
+        "#3D2C25"
+      ]
+    ],
+    "colors": [
+      "#162017",
+      "#3F1D1C",
+      "#B76438",
+      "#1D1412",
+      "#213D27",
+      "#E85051",
+      "#2F1B1A",
+      "#CD3947",
+      "#2E6231",
+      "#652C63",
+      "#DF3E34",
+      "#E54E7F",
+      "#221D18",
+      "#2F2651",
+      "#382019",
+      "#FBC099",
+      "#FFEF37",
+      "#1D414A",
+      "#7C3227",
+      "#FFFCBC",
+      "#E2373C",
+      "#151F20",
+      "#CE3933",
+      "#3D2C25"
+    ]
+  },
+  {
+    "id": 5,
+    "slug": "kalt_sanft",
+    "name": "kalt sanft",
+    "legacySlug": "clear_cool_light",
+    "legacyName": "clear cool light",
     "grid": [
       [
         "#321819",
@@ -1496,78 +429,11 @@ PALETTES_JSON = r'''[
     ]
   },
   {
-    "id": 22,
-    "slug": "clear_cool_deep",
-    "name": "clear cool deep",
-    "grid": [
-      [
-        "#481F26",
-        "#F3AABB",
-        "#355F97",
-        "#FDF8EA"
-      ],
-      [
-        "#192E25",
-        "#D34575",
-        "#A7B2C6",
-        "#101616"
-      ],
-      [
-        "#C2B0A6",
-        "#943346",
-        "#2A2B42",
-        "#45AEDE"
-      ],
-      [
-        "#575A57",
-        "#F7C4C1",
-        "#8390AB",
-        "#23526A"
-      ],
-      [
-        "#39464C",
-        "#BF767D",
-        "#C85782",
-        "#49A78F"
-      ],
-      [
-        "#49A890",
-        "#D9BCBA",
-        "#F7DED9",
-        "#243959"
-      ]
-    ],
-    "colors": [
-      "#481F26",
-      "#F3AABB",
-      "#355F97",
-      "#FDF8EA",
-      "#192E25",
-      "#D34575",
-      "#A7B2C6",
-      "#101616",
-      "#C2B0A6",
-      "#943346",
-      "#2A2B42",
-      "#45AEDE",
-      "#575A57",
-      "#F7C4C1",
-      "#8390AB",
-      "#23526A",
-      "#39464C",
-      "#BF767D",
-      "#C85782",
-      "#49A78F",
-      "#49A890",
-      "#D9BCBA",
-      "#F7DED9",
-      "#243959"
-    ]
-  },
-  {
-    "id": 23,
-    "slug": "clear_warm_light",
-    "name": "clear warm light",
+    "id": 6,
+    "slug": "kalt_rein",
+    "name": "kalt rein",
+    "legacySlug": "clear_warm_light",
+    "legacyName": "clear warm light",
     "grid": [
       [
         "#0C0D12",
@@ -1634,72 +500,429 @@ PALETTES_JSON = r'''[
     ]
   },
   {
-    "id": 24,
-    "slug": "clear_warm_deep",
-    "name": "clear warm deep",
+    "id": 7,
+    "slug": "warm_sanft",
+    "name": "warm sanft",
+    "legacySlug": "light_warm_soft",
+    "legacyName": "light warm soft",
     "grid": [
       [
-        "#0C0C0C",
-        "#812951",
-        "#7BC1DB",
-        "#F8F2E2"
+        "#B23823",
+        "#D03930",
+        "#E7A97A",
+        "#EDECEA"
       ],
       [
-        "#132A4A",
-        "#E893A6",
-        "#242045",
-        "#28826B"
+        "#1D200F",
+        "#E39C88",
+        "#362414",
+        "#EFDE84"
       ],
       [
-        "#D23738",
-        "#EEC7C8",
-        "#635782",
-        "#1E655F"
+        "#173B21",
+        "#4D1820",
+        "#612C1A",
+        "#837B31"
       ],
       [
-        "#D53561",
-        "#D6D3C0",
-        "#3F2449",
-        "#162F22"
+        "#5D9045",
+        "#271115",
+        "#4F2E16",
+        "#EAB133"
       ],
       [
-        "#571F2A",
-        "#8E938C",
-        "#E3BDC7",
-        "#152A29"
+        "#C83D2B",
+        "#136866",
+        "#3F1D13",
+        "#524A1B"
       ],
       [
-        "#95BDD3",
-        "#384345",
-        "#CD3553",
-        "#2E3561"
+        "#423A30",
+        "#66632D",
+        "#CE3A2E",
+        "#B45569"
       ]
     ],
     "colors": [
-      "#0C0C0C",
-      "#812951",
-      "#7BC1DB",
-      "#F8F2E2",
-      "#132A4A",
-      "#E893A6",
-      "#242045",
-      "#28826B",
-      "#D23738",
-      "#EEC7C8",
-      "#635782",
-      "#1E655F",
-      "#D53561",
-      "#D6D3C0",
-      "#3F2449",
-      "#162F22",
-      "#571F2A",
-      "#8E938C",
-      "#E3BDC7",
-      "#152A29",
-      "#95BDD3",
-      "#384345",
-      "#CD3553",
-      "#2E3561"
+      "#B23823",
+      "#D03930",
+      "#E7A97A",
+      "#EDECEA",
+      "#1D200F",
+      "#E39C88",
+      "#362414",
+      "#EFDE84",
+      "#173B21",
+      "#4D1820",
+      "#612C1A",
+      "#837B31",
+      "#5D9045",
+      "#271115",
+      "#4F2E16",
+      "#EAB133",
+      "#C83D2B",
+      "#136866",
+      "#3F1D13",
+      "#524A1B",
+      "#423A30",
+      "#66632D",
+      "#CE3A2E",
+      "#B45569"
+    ]
+  },
+  {
+    "id": 8,
+    "slug": "warm_rein",
+    "name": "warm rein",
+    "legacySlug": "light_cool_soft",
+    "legacyName": "light cool soft",
+    "grid": [
+      [
+        "#D64C32",
+        "#D84756",
+        "#F2BAA1",
+        "#FFE84A"
+      ],
+      [
+        "#428840",
+        "#EDADC5",
+        "#6A2B24",
+        "#FCFBF9"
+      ],
+      [
+        "#236035",
+        "#652654",
+        "#E26535",
+        "#336333"
+      ],
+      [
+        "#54321F",
+        "#193221",
+        "#D23930",
+        "#B3CB3F"
+      ],
+      [
+        "#7A2A25",
+        "#0D88B3",
+        "#794A29",
+        "#383E1C"
+      ],
+      [
+        "#283718",
+        "#163867",
+        "#DA512F",
+        "#241913"
+      ]
+    ],
+    "colors": [
+      "#D64C32",
+      "#D84756",
+      "#F2BAA1",
+      "#FFE84A",
+      "#428840",
+      "#EDADC5",
+      "#6A2B24",
+      "#FCFBF9",
+      "#236035",
+      "#652654",
+      "#E26535",
+      "#336333",
+      "#54321F",
+      "#193221",
+      "#D23930",
+      "#B3CB3F",
+      "#7A2A25",
+      "#0D88B3",
+      "#794A29",
+      "#383E1C",
+      "#283718",
+      "#163867",
+      "#DA512F",
+      "#241913"
+    ]
+  },
+  {
+    "id": 9,
+    "slug": "sanft_warm",
+    "name": "sanft warm",
+    "legacySlug": "warm_clear_deep",
+    "legacyName": "warm clear deep",
+    "grid": [
+      [
+        "#162B1C",
+        "#281A13",
+        "#EA7E6D",
+        "#FFFDF4"
+      ],
+      [
+        "#5FA57B",
+        "#AC7144",
+        "#E05B4C",
+        "#F4A647"
+      ],
+      [
+        "#272914",
+        "#78352A",
+        "#DB4A49",
+        "#F6D5AB"
+      ],
+      [
+        "#D64331",
+        "#D43A30",
+        "#F7BC91",
+        "#87312C"
+      ],
+      [
+        "#B63839",
+        "#772E1E",
+        "#2A2218",
+        "#313419"
+      ],
+      [
+        "#184126",
+        "#DB4550",
+        "#7B513D",
+        "#1B3051"
+      ]
+    ],
+    "colors": [
+      "#162B1C",
+      "#281A13",
+      "#EA7E6D",
+      "#FFFDF4",
+      "#5FA57B",
+      "#AC7144",
+      "#E05B4C",
+      "#F4A647",
+      "#272914",
+      "#78352A",
+      "#DB4A49",
+      "#F6D5AB",
+      "#D64331",
+      "#D43A30",
+      "#F7BC91",
+      "#87312C",
+      "#B63839",
+      "#772E1E",
+      "#2A2218",
+      "#313419",
+      "#184126",
+      "#DB4550",
+      "#7B513D",
+      "#1B3051"
+    ]
+  },
+  {
+    "id": 10,
+    "slug": "sanft_kalt",
+    "name": "sanft kalt",
+    "legacySlug": "warm_soft_deep",
+    "legacyName": "warm soft deep",
+    "grid": [
+      [
+        "#6AB395",
+        "#561C32",
+        "#877372",
+        "#FAF7EE"
+      ],
+      [
+        "#0E2819",
+        "#D93E5E",
+        "#423434",
+        "#ADC5DD"
+      ],
+      [
+        "#1C1A2F",
+        "#DA717C",
+        "#6875A5",
+        "#BF3542"
+      ],
+      [
+        "#422736",
+        "#484B4A",
+        "#5B5A56",
+        "#1D3B31"
+      ],
+      [
+        "#B5342F",
+        "#463957",
+        "#BDBFB8",
+        "#111A25"
+      ],
+      [
+        "#CF3839",
+        "#23315E",
+        "#CF587E",
+        "#1F292E"
+      ]
+    ],
+    "colors": [
+      "#6AB395",
+      "#561C32",
+      "#877372",
+      "#FAF7EE",
+      "#0E2819",
+      "#D93E5E",
+      "#423434",
+      "#ADC5DD",
+      "#1C1A2F",
+      "#DA717C",
+      "#6875A5",
+      "#BF3542",
+      "#422736",
+      "#484B4A",
+      "#5B5A56",
+      "#1D3B31",
+      "#B5342F",
+      "#463957",
+      "#BDBFB8",
+      "#111A25",
+      "#CF3839",
+      "#23315E",
+      "#CF587E",
+      "#1F292E"
+    ]
+  },
+  {
+    "id": 11,
+    "slug": "rein_warm",
+    "name": "rein warm",
+    "legacySlug": "cool_clear_deep",
+    "legacyName": "cool clear deep",
+    "grid": [
+      [
+        "#347C3A",
+        "#622345",
+        "#D4512F",
+        "#12110C"
+      ],
+      [
+        "#CA353B",
+        "#B0D198",
+        "#222749",
+        "#FEEF39"
+      ],
+      [
+        "#432114",
+        "#C83C2D",
+        "#298583",
+        "#D73E39"
+      ],
+      [
+        "#214827",
+        "#1B76AB",
+        "#FEE83B",
+        "#322419"
+      ],
+      [
+        "#151D13",
+        "#F7F1DF",
+        "#3A223F",
+        "#F1B78F"
+      ],
+      [
+        "#CF4229",
+        "#8DC6C4",
+        "#DC494F",
+        "#251812"
+      ]
+    ],
+    "colors": [
+      "#347C3A",
+      "#622345",
+      "#D4512F",
+      "#12110C",
+      "#CA353B",
+      "#B0D198",
+      "#222749",
+      "#FEEF39",
+      "#432114",
+      "#C83C2D",
+      "#298583",
+      "#D73E39",
+      "#214827",
+      "#1B76AB",
+      "#FEE83B",
+      "#322419",
+      "#151D13",
+      "#F7F1DF",
+      "#3A223F",
+      "#F1B78F",
+      "#CF4229",
+      "#8DC6C4",
+      "#DC494F",
+      "#251812"
+    ]
+  },
+  {
+    "id": 12,
+    "slug": "rein_kalt",
+    "name": "rein kalt",
+    "legacySlug": "cool_soft_deep",
+    "legacyName": "cool soft deep",
+    "grid": [
+      [
+        "#C42B5E",
+        "#26726F",
+        "#FAB5BE",
+        "#6D665C"
+      ],
+      [
+        "#0D0F1C",
+        "#D4DEE5",
+        "#DE3949",
+        "#282C2C"
+      ],
+      [
+        "#0D82B0",
+        "#3C2F5C",
+        "#101314",
+        "#61BBE0"
+      ],
+      [
+        "#247D67",
+        "#8D7672",
+        "#FFFAE7",
+        "#1B7FB7"
+      ],
+      [
+        "#1D5055",
+        "#E6CBD0",
+        "#272041",
+        "#87CAE4"
+      ],
+      [
+        "#D9413E",
+        "#293B69",
+        "#E24C69",
+        "#E0446B"
+      ]
+    ],
+    "colors": [
+      "#C42B5E",
+      "#26726F",
+      "#FAB5BE",
+      "#6D665C",
+      "#0D0F1C",
+      "#D4DEE5",
+      "#DE3949",
+      "#282C2C",
+      "#0D82B0",
+      "#3C2F5C",
+      "#101314",
+      "#61BBE0",
+      "#247D67",
+      "#8D7672",
+      "#FFFAE7",
+      "#1B7FB7",
+      "#1D5055",
+      "#E6CBD0",
+      "#272041",
+      "#87CAE4",
+      "#D9413E",
+      "#293B69",
+      "#E24C69",
+      "#E0446B"
     ]
   }
 ]'''
@@ -1740,8 +963,8 @@ def clean_output(path: Path) -> None:
 
 def load_palettes() -> list[dict[str, Any]]:
   palettes = json.loads(PALETTES_JSON)
-  if len(palettes) != 24:
-    raise RuntimeError(f"Erwartet 24 Paletten, gefunden: {len(palettes)}")
+  if len(palettes) != EXPECTED_PALETTE_COUNT:
+    raise RuntimeError(f"Erwartet {EXPECTED_PALETTE_COUNT} Paletten, gefunden: {len(palettes)}")
   for palette in palettes:
     grid = palette.get("grid")
     if len(grid) != 6 or any(len(row) != 4 for row in grid):
@@ -1840,11 +1063,11 @@ def create_icons(logo_png: bytes, farbe_dir: Path, palettes: list[dict[str, Any]
 
   # Backwards compatibility for Android/Chrome installations that still have
   # an older cached palette manifest. Earlier builds referenced per-palette icon
-  # URLs like /farbe/icons/light_warm_clear-512.png. Keeping these files online
+  # URLs like /farbe/icons/hell_warm-512.png. Keeping these files online
   # prevents installability from breaking while Chrome refreshes its manifest
   # and icon cache. The actual current manifest uses the central icon files.
-  for palette in palettes:
-    slug = str(palette["slug"])
+  legacy_icon_slugs = sorted({str(palette["slug"]) for palette in palettes} | set(LEGACY_PALETTE_REDIRECTS.keys()))
+  for slug in legacy_icon_slugs:
     write_binary(icons / f"{slug}.png", icon_512)
     write_binary(icons / f"{slug}-192.png", icon_192)
     write_binary(icons / f"{slug}-512.png", icon_512)
@@ -1947,6 +1170,31 @@ def overview_manifest_json(base_path: str) -> str:
   return json.dumps(manifest, ensure_ascii=False, indent=2) + "\n"
 
 
+def legacy_redirect_html(legacy_slug: str, target_slug: str, base_path: str, build_version: str) -> str:
+    target_path = base_path + (target_slug + "/" if target_slug else "")
+    title = "ESKYNA Farbe"
+    message = "Diese Farbkarte wurde umbenannt. Du wirst weitergeleitet."
+    return f"""<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <meta http-equiv="refresh" content="0; url={escape(target_path)}" />
+  <title>{escape(title)}</title>
+  <script>
+    window.__ESKYNA_LEGACY_REDIRECT__ = {{ legacySlug: {json.dumps(legacy_slug)}, targetPath: {json.dumps(target_path)}, version: {json.dumps(build_version)} }};
+    const target = window.__ESKYNA_LEGACY_REDIRECT__.targetPath + window.location.search + window.location.hash;
+    window.location.replace(target);
+  </script>
+</head>
+<body>
+  <p>{escape(message)} <a href="{escape(target_path)}">Zur Farbkarte</a></p>
+</body>
+</html>
+"""
+
+
 def manifest_json(palette: dict[str, Any], base_path: str) -> str:
     app_name = palette["appName"]
     slug = palette["slug"]
@@ -1965,10 +1213,22 @@ def manifest_json(palette: dict[str, Any], base_path: str) -> str:
     return json.dumps(manifest, ensure_ascii=False, indent=2) + "\n"
 
 
+def palette_shell_urls(palettes: list[dict[str, Any]], base_path: str) -> list[str]:
+    urls: list[str] = []
+    for palette in palettes:
+        palette_base = f"{base_path}{palette['slug']}/"
+        urls.extend([palette_base, palette_base + "index.html", palette_base + "manifest.webmanifest"])
+
+    for legacy_slug in LEGACY_PALETTE_REDIRECTS:
+        legacy_base = f"{base_path}{legacy_slug}/"
+        urls.extend([legacy_base, legacy_base + "index.html"])
+    return urls
+
+
 def service_worker_js(palettes: list[dict[str, Any]], base_path: str, build_version: str) -> str:
-    _ = palettes
+    palette_shell = json.dumps(palette_shell_urls(palettes, base_path), ensure_ascii=False, indent=2)
     content = rewrite_base_path(read_repo_text(ROOT_DIR / "sw.js"), base_path)
-    return content.replace("__ESKYNA_APP_VERSION__", build_version)
+    return content.replace("__ESKYNA_PALETTE_SHELL__", palette_shell).replace("__ESKYNA_APP_VERSION__", build_version)
 
 
 def version_json(build_version: str) -> str:
@@ -2016,6 +1276,14 @@ def generate(output: Path) -> None:
     write_text(palette_dir / "index.html", palette_html(palette, DEFAULT_BASE_PATH, build_version))
     write_text(palette_dir / "manifest.webmanifest", manifest_json(palette, DEFAULT_BASE_PATH))
 
+  generated_slugs = {str(palette["slug"]) for palette in palettes}
+  for legacy_slug, target_slug in LEGACY_PALETTE_REDIRECTS.items():
+    if legacy_slug in generated_slugs:
+      continue
+    legacy_dir = farbe_dir / legacy_slug
+    legacy_dir.mkdir(parents=True, exist_ok=True)
+    write_text(legacy_dir / "index.html", legacy_redirect_html(legacy_slug, target_slug, DEFAULT_BASE_PATH, build_version))
+
   url_map = [
     {
       "number": p["id"],
@@ -2032,7 +1300,7 @@ def generate(output: Path) -> None:
 
 
 def main() -> int:
-  parser = argparse.ArgumentParser(description="Generiert die 24 ESKYNA Farben PWAs als statische GitHub-Pages-Website.")
+  parser = argparse.ArgumentParser(description="Generiert die 12 ESKYNA Farben PWAs als statische GitHub-Pages-Website.")
   parser.add_argument("--output", default="./dist", help="Zielordner. Standard: ./dist")
   args = parser.parse_args()
 
@@ -2046,7 +1314,7 @@ def main() -> int:
 
   print(f"Fertig: {output}")
   print(f"Übersicht: {DEFAULT_BASE_PATH}")
-  print(f"Beispiel: {DEFAULT_BASE_PATH}light_warm_soft/")
+  print(f"Beispiel: {DEFAULT_BASE_PATH}hell_warm/")
   return 0
 
 

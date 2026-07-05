@@ -17,7 +17,7 @@ bin/generate
   └─ erzeugt Dist-README
 
 Browser
-  ├─ index.html + overview.js zeigen 24 Farbkarten
+  ├─ index.html + overview.js zeigen 12 Farbkarten
   └─ <palette>/index.html + palette-app.js zeigen eine Farbkarte als PWA
 ```
 
@@ -27,7 +27,7 @@ Browser
 | --- | --- |
 | `i18n.js` | Sprachwahl nach `?lang=`, Browser-/Handysprache, Fallback Deutsch |
 | `palettes.js` | zentrale Palette-Daten fuer Uebersicht und einzelne PWA |
-| `overview.js` | rendert die Auswahlseite der 24 Farbkarten |
+| `overview.js` | rendert die Auswahlseite der 12 Farbkarten |
 | `palette-app.js` | rendert Farbfelder, Farb-Erklaerung, Kamera-Farbcheck, Kundinnen-Personalisierung, Install-/Update-UI |
 | `styles.css` | responsive App-Layout, Branding, Splashscreen, Vollbild-Farbansicht |
 | `assets/app-icon.png` | zentrale Masterdatei fuer Homescreen-/Manifest-Icons aller Farbkarten |
@@ -81,7 +81,7 @@ Prioritaet:
 Farbkarten koennen mit einem Namen personalisiert gestartet werden, zum Beispiel:
 
 ```text
-/farbe/light_warm_clear/?name=Melissa
+/farbe/hell_warm/?name=Melissa
 ```
 
 Unterstuetzte Parameter sind `name`, `kundin`, `customer` und `client`. `palette-app.js` bereinigt den Namen, zeigt ihn im Header als `ESKYNA Farbe fuer Melissa` und speichert ihn pro Farbkarte in `localStorage`. Dadurch bleibt der Name innerhalb der installierten App sichtbar, auch wenn die PWA spaeter ueber die manifest-basierte `start_url` ohne Query-Parameter startet.

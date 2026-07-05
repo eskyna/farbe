@@ -80,7 +80,7 @@ Gute Struktur:
 - kurzer Mode-/Materialfakt
 - Kombinationshilfe mit Basisfarbe, dunklem Ton und Akzent
 
-Alle sichtbaren Erklaertexte liegen in `i18n.js` unter `colorStories`. Behave prueft fuer alle 576 Farben, dass Name, Wirkung, Modefakt und Kombinationstipp vorhanden sind.
+Alle sichtbaren Erklaertexte liegen in `i18n.js` unter `colorStories`. Behave prueft fuer alle 288 Farben, dass Name, Wirkung, Modefakt und Kombinationstipp vorhanden sind.
 
 ## Farbglossare pflegen
 
@@ -100,8 +100,8 @@ Wartungsregeln:
 Unterstuetzt sind `de`, `en`, `ru`. Neue sichtbare Texte muessen fuer alle drei Sprachen ergaenzt werden. Fuer Tests kann die Sprache erzwungen werden:
 
 ```text
-/farbe/light_warm_clear/?lang=en
-/farbe/light_warm_clear/?lang=ru
+/farbe/hell_warm/?lang=en
+/farbe/hell_warm/?lang=ru
 ```
 
 ## Kundinnen-Links pflegen
@@ -109,8 +109,8 @@ Unterstuetzt sind `de`, `en`, `ru`. Neue sichtbare Texte muessen fuer alle drei 
 Personalisierte Links nutzen Query-Parameter:
 
 ```text
-/farbe/light_warm_clear/?name=Melissa
-/farbe/light_warm_clear/?kundin=Melissa
+/farbe/hell_warm/?name=Melissa
+/farbe/hell_warm/?kundin=Melissa
 ```
 
 Der Name wird in `palette-app.js` gelesen, bereinigt, im Header angezeigt und pro Farbkarte in `localStorage` gespeichert. Sichtbare Texte wie `fuer`, `for` oder `для` liegen in `i18n.js` unter `ui.customerFor`, `ui.brandAriaFor` und `ui.pageTitleFor`.
@@ -156,3 +156,7 @@ Bei Update-Problemen zuerst pruefen:
 3. Enthalten `version.json` und `sw.js` dieselbe neue Version?
 4. Wurde die alte PWA komplett geschlossen und neu geoeffnet?
 
+
+### Paletten umbenennen oder reduzieren
+
+Die aktive Palettenliste ist das 12er-Modell in `bin/generate` und `palettes.js`. Neue Slugs muessen aus dem sichtbaren Namen ableitbar sein, zum Beispiel `hell warm` -> `hell_warm`. Wenn alte Kundinnenlinks weiter funktionieren sollen, die Zuordnung in `LEGACY_PALETTE_REDIRECTS` im Generator pflegen. Der Service Worker bekommt seine Paletten-URLs nicht mehr hart codiert, sondern ueber `__ESKYNA_PALETTE_SHELL__` aus dem Generator.

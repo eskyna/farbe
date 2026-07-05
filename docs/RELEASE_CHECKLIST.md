@@ -6,7 +6,7 @@ Vor dem Deployment:
 - [ ] `npm run check` erfolgreich, inklusive Behave/Cucumber-Requirements
 - [ ] Sichtpruefung Portrait
 - [ ] Sichtpruefung Landscape: Header bleibt einzeilig
-- [ ] Personalisierter Link getestet, z. B. `/farbe/light_warm_clear/?name=Melissa`
+- [ ] Personalisierter Link getestet, z. B. `/farbe/hell_warm/?name=Melissa`
 - [ ] Personalisierter Link im Landscape-Modus getestet
 - [ ] Sprache Deutsch getestet
 - [ ] Sprache Englisch mit `?lang=en` getestet
@@ -23,7 +23,7 @@ Vor dem Deployment:
 Nach dem Deployment:
 
 - [ ] `https://eskyna.com/farbe/` oeffnet die Uebersicht
-- [ ] eine Beispiel-Palette oeffnet direkt, z. B. `/farbe/light_warm_soft/`
+- [ ] eine Beispiel-Palette oeffnet direkt, z. B. `/farbe/hell_warm/`
 - [ ] Service Worker ist aktiv
 - [ ] Manifest wird geladen
 - [ ] Icons werden geladen

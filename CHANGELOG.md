@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- Palettenmodell von 24 auf 12 aktive Farbkarten reduziert.
+- Paletten nach Kundinnen-Nomenklatur umbenannt: Hell/Kalt, Hell/Warm, Tief/Kalt, Tief/Warm, Kalt/Sanft, Kalt/Rein, Warm/Sanft, Warm/Rein, Sanft/Warm, Sanft/Kalt, Rein/Warm, Rein/Kalt.
+- Legacy-Redirects fuer alte 24er-Paletten-URLs ergaenzt.
+- Service-Worker-Palettenliste wird jetzt aus dem Generator erzeugt statt hart codiert.
+
+
 Alle nennenswerten Aenderungen an diesem Projekt werden hier dokumentiert.
 
 ## Unreleased

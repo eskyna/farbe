@@ -1,6 +1,6 @@
 # ESKYNA Farbe
 
-Statische PWA-Farbkarten fuer Kundinnen von ESKYNA. Das Projekt erzeugt eine Uebersichtsseite mit 24 Farbkarten und pro Farbkarte eine eigene installierbare PWA unter `https://eskyna.com/farbe/<palette>/`.
+Statische PWA-Farbkarten fuer Kundinnen von ESKYNA. Das Projekt erzeugt eine Uebersichtsseite mit 12 Farbkarten und pro Farbkarte eine eigene installierbare PWA unter `https://eskyna.com/farbe/<palette>/`.
 
 Der Code ist bewusst als kleines, agentenfreundliches Projekt aufgebaut: Die fachlichen Daten liegen zentral, der Generator erzeugt daraus die auslieferbaren Dateien, und CI prueft Format, Linting, Build, Dist-Integritaet und Behave/Cucumber-Requirements.
 
@@ -80,7 +80,7 @@ Dann den Inhalt von `dist/` so deployen, dass diese URLs funktionieren:
 
 ```text
 https://eskyna.com/farbe/
-https://eskyna.com/farbe/light_warm_soft/
+https://eskyna.com/farbe/hell_warm/
 ```
 
 Wichtig fuer PWA-Updates: Immer den kompletten Dist-Inhalt austauschen, besonders `sw.js`, `version.json`, `palette-app.js`, `i18n.js`, `palettes.js`, `styles.css` und alle geaenderten Assets. Browser koennen Service Worker aggressiv cachen; `version.json` und die Build-Version helfen der App, neue Versionen zu erkennen.
@@ -91,7 +91,7 @@ Wichtig fuer PWA-Updates: Immer den kompletten Dist-Inhalt austauschen, besonder
 
 Das installierbare PWA-Icon liegt als Masterdatei unter `assets/app-icon.png`. Es zeigt das ausgewaehlte ESKYNA-Farbe-Design mit Kleeblatt, Schriftzug und Farbfächer. Der Generator erstellt daraus gemeinsame 192px-, 512px-, maskierbare Android-Icons und Apple-Touch-Icons fuer Uebersicht und alle Farbkarten. Dadurch sehen alle installierten Farbkarten auf dem Homescreen gleich hochwertig und wiedererkennbar aus.
 
-Die Manifeste trennen bewusst `purpose: any` und `purpose: maskable`, damit Android/Chrome die Installierbarkeit stabil erkennt und das Icon sauber maskieren kann. Zusaetzlich erzeugt der Build weiterhin Legacy-Dateien wie `icons/light_warm_clear-512.png`. Diese Dateien sind wichtig fuer Android-Geraete, die vor einem Update noch ein aelteres Manifest im Cache haben. Nach einem Icon-Wechsel immer `npm run build` und `npm run validate:dist` ausfuehren und beim Deployment den kompletten Dist-Ordner hochladen, weil PWA-Icons und Manifeste stark gecacht werden koennen.
+Die Manifeste trennen bewusst `purpose: any` und `purpose: maskable`, damit Android/Chrome die Installierbarkeit stabil erkennt und das Icon sauber maskieren kann. Zusaetzlich erzeugt der Build weiterhin Legacy-Dateien wie `icons/hell_warm-512.png`. Diese Dateien sind wichtig fuer Android-Geraete, die vor einem Update noch ein aelteres Manifest im Cache haben. Nach einem Icon-Wechsel immer `npm run build` und `npm run validate:dist` ausfuehren und beim Deployment den kompletten Dist-Ordner hochladen, weil PWA-Icons und Manifeste stark gecacht werden koennen.
 
 
 ## Installation auf Android, iPhone und iPad
@@ -118,14 +118,36 @@ Bei schlechten Bedingungen zeigt die App lieber `Unsicher` und empfiehlt eine ne
 
 Jedes Farbfeld oeffnet eine detaillierte Glossarseite. Die Seite zeigt Kundinnen, dass in einem Farbton mehr steckt als ein Name: Temperatur, Helligkeit, Klarheit, Rolle im Farbpass, Materialwirkung, Modewissen, Outfit-Rezept, Shopping-Feintuning und ein kompaktes Farbprofil.
 
-Die Glossarseiten werden dynamisch fuer alle 576 Farben erzeugt. Sichtbare Texte liegen mehrsprachig in `i18n.js`; die Logik fuer Profil, Rolle, Material und Shopping-Hinweise liegt in `palette-app.js` unter `getColorGlossary()`. Details zur Informationsarchitektur stehen in [`docs/COLOR_GLOSSARY.md`](docs/COLOR_GLOSSARY.md).
+Die Glossarseiten werden dynamisch fuer alle 288 Farben erzeugt. Sichtbare Texte liegen mehrsprachig in `i18n.js`; die Logik fuer Profil, Rolle, Material und Shopping-Hinweise liegt in `palette-app.js` unter `getColorGlossary()`. Details zur Informationsarchitektur stehen in [`docs/COLOR_GLOSSARY.md`](docs/COLOR_GLOSSARY.md).
+
+
+## Aktuelles 12er-Palettenmodell
+
+Die App zeigt bewusst nur noch 12 Kundinnen-Paletten. Intern werden deutsche kanonische Palettennamen verwendet, weil die sichtbare Produktlogik deutsch gefuehrt ist; `i18n.js` uebersetzt sie automatisch nach Englisch und Russisch.
+
+| Vorherige Palette | Neue Palette | Neuer Slug |
+|---|---|---|
+| tief kuehl sanft | Hell Kalt | `hell_kalt` |
+| tief warm klar | Hell Warm | `hell_warm` |
+| sanft warm tief | Tief Kalt | `tief_kalt` |
+| sanft kuehl tief | Tief Warm | `tief_warm` |
+| klar kuehl hell | Kalt Sanft | `kalt_sanft` |
+| klar warm hell | Kalt Rein | `kalt_rein` |
+| hell warm sanft | Warm Sanft | `warm_sanft` |
+| hell kuehl sanft | Warm Rein | `warm_rein` |
+| warm klar tief | Sanft Warm | `sanft_warm` |
+| warm sanft tief | Sanft Kalt | `sanft_kalt` |
+| kuehl klar tief | Rein Warm | `rein_warm` |
+| kuehl sanft tief | Rein Kalt | `rein_kalt` |
+
+Legacy-URLs aus dem frueheren 24er-Modell werden im Dist als schlanke Redirect-Seiten erzeugt. Sichtbar im Ueberblick und in `palettes.js` sind nur die 12 aktiven Paletten.
 
 ## Personalisierte Kundinnen-Links
 
 Eine Farbkarte kann mit Kundinnenname geoeffnet werden:
 
 ```text
-https://eskyna.com/farbe/light_warm_clear/?name=Melissa
+https://eskyna.com/farbe/hell_warm/?name=Melissa
 ```
 
 Alternativ werden auch `?kundin=Melissa`, `?customer=Melissa` und `?client=Melissa` akzeptiert. Die App zeigt dann im Header zum Beispiel `ESKYNA Farbe fuer Melissa` und speichert den Namen lokal fuer diese Farbkarte. Wenn die Kundin die PWA von diesem Link aus installiert, bleibt der Name innerhalb der installierten App sichtbar, auch wenn Android/Chrome die PWA spaeter ueber die normale `start_url` ohne Query-Parameter startet.
@@ -152,7 +174,7 @@ npm run check
 
 Die fachlichen Anforderungen aus der Entwicklung sind als Gherkin-Szenarien unter `features/requirements_*.feature` dokumentiert und automatisiert pruefbar. Sie testen unter anderem:
 
-- 24 Farbkarten mit je 24 Farben
+- 12 Farbkarten mit je 24 Farben
 - Portrait-Raster 4 x 6 und Landscape-Raster 6 x 4
 - einzeiligen Landscape-Header und lesbare Aktionsleiste
 - ESKYNA Branding, zentrales App-Icon mit Android-maskable Icons, Apple-Touch-Icons und Legacy-Icon-Pfaden, Splashscreens inklusive Versionszeile, Hintergrundbild und klickbares Kleeblatt

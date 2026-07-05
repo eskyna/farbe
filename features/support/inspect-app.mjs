@@ -5,7 +5,7 @@ import vm from 'node:vm';
 const rootDir = process.cwd();
 const command = process.argv[2] || '';
 const language = process.argv[3] || 'de';
-const slug = process.argv[4] || 'light_warm_clear';
+const slug = process.argv[4] || 'hell_warm';
 
 function readText(relativePath) {
   return fs.readFileSync(path.join(rootDir, relativePath), 'utf8');
@@ -180,8 +180,8 @@ function evaluateI18n(activeLanguage) {
       glossaryShopping: i18n.t('ui.glossaryShopping'),
       glossaryRelated: i18n.t('ui.glossaryRelated')
     },
-    paletteName: i18n.formatPaletteName('light warm clear'),
-    pageTitleFor: i18n.getPageTitle('light warm clear', 'Melissa'),
+    paletteName: i18n.formatPaletteName('hell warm'),
+    pageTitleFor: i18n.getPageTitle('hell warm', 'Melissa'),
     fitPerfect: i18n.getFit('perfect'),
     fitAway: i18n.getFit('away')
   };
