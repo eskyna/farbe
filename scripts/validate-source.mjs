@@ -45,6 +45,13 @@ const UI_TRANSLATION_KEYS = [
   'ui.styleQuestion',
   'ui.installApp',
   'ui.updateApp',
+  'ui.iosInstallApp',
+  'ui.iosInstallTitle',
+  'ui.iosInstallIntroSafari',
+  'ui.iosInstallIntroOther',
+  'ui.iosInstallStepShare',
+  'ui.iosInstallStepAdd',
+  'ui.iosInstallCopy',
   'ui.colorKnowledge',
   'ui.styleKnowledge',
   'ui.combine',
@@ -197,6 +204,9 @@ assert(sourceTexts.includes('scannerSessionId'), 'Farbe pruefen muss laufende Ka
 assert(sourceTexts.includes('getColorGlossary'), 'Vollbild-Farben muessen detaillierte Glossarseiten erzeugen.');
 assert(sourceTexts.includes('color-glossary-profile-grid'), 'Glossarseiten muessen ein Farbprofil anzeigen.');
 assert(sourceTexts.includes('renderGlossaryRelatedColors'), 'Glossarseiten muessen nahe Farbpass-Toene anzeigen.');
+assert(sourceTexts.includes('isIosDevice'), 'iPhone/iPad muessen als eigene Installationsplattform erkannt werden.');
+assert(sourceTexts.includes('iosInstallSheet'), 'iPhone/iPad brauchen eine manuelle Safari-Installationsanleitung.');
+assert(sourceTexts.includes('apple-mobile-web-app-status-bar-style'), 'iOS-PWA-Metadaten muessen den Standalone-Status-Bar-Stil setzen.');
 
 for (const language of SUPPORTED_LANGUAGES) {
   const i18n = evaluateI18n(language);

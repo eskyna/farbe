@@ -5,9 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#f7f2e8" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="__APP_NAME__" />
   <link rel="manifest" href="manifest.webmanifest?v=__ESKYNA_APP_VERSION__" />
   <link rel="apple-touch-icon" href="__BASE_PATH__icons/apple-touch-icon.png" />
+  <link rel="apple-touch-icon" sizes="120x120" href="__BASE_PATH__icons/apple-touch-icon-120.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="__BASE_PATH__icons/apple-touch-icon-152.png" />
+  <link rel="apple-touch-icon" sizes="167x167" href="__BASE_PATH__icons/apple-touch-icon-167.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="__BASE_PATH__icons/apple-touch-icon-180.png" />
   <link rel="icon" href="__BASE_PATH__icons/icon-192.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -90,6 +95,26 @@
     </div>
   </section>
   <div id="colorFullscreen" class="color-fullscreen hidden" aria-hidden="true" aria-label="Vollbild-Farbansicht"></div>
+
+  <section id="iosInstallSheet" class="install-sheet hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="iosInstallTitle">
+    <div class="install-sheet-card" role="document">
+      <button id="iosInstallClose" class="install-sheet-close" type="button" aria-label="Installationshinweis schließen">×</button>
+      <p id="iosInstallKicker" class="install-sheet-kicker">iPhone & iPad</p>
+      <h2 id="iosInstallTitle">App installieren</h2>
+      <p id="iosInstallIntro" class="install-sheet-intro">Öffne diese Farbkarte in Safari und füge sie über das Teilen-Menü zum Home-Bildschirm hinzu.</p>
+      <ol class="install-steps">
+        <li id="iosInstallStepOpenSafari">Diese Seite in Safari öffnen.</li>
+        <li id="iosInstallStepShare">Auf das Teilen-Symbol tippen.</li>
+        <li id="iosInstallStepAdd">„Zum Home-Bildschirm hinzufügen“ wählen. Falls der Punkt fehlt: ganz nach unten scrollen, „Aktionen bearbeiten“ öffnen und aktivieren.</li>
+        <li id="iosInstallStepConfirm">Mit „Hinzufügen“ bestätigen.</li>
+      </ol>
+      <p id="iosInstallSafariNote" class="install-sheet-note hidden">Auf iPhone und iPad funktioniert die Installation über Safari. Kopiere den Link, öffne ihn in Safari und füge die Farbkarte dann zum Home-Bildschirm hinzu.</p>
+      <div class="install-sheet-actions">
+        <button id="iosInstallCopy" class="install-sheet-copy" type="button">Link kopieren</button>
+        <button id="iosInstallDone" class="install-sheet-done" type="button">Verstanden</button>
+      </div>
+    </div>
+  </section>
   <script>
     window.ESKYNA_PALETTE_SLUG = "__PALETTE_SLUG__";
     window.ESKYNA_BASE_PATH = "__BASE_PATH__";

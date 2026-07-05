@@ -5,9 +5,10 @@ Feature: PWA-Installation, Update und Branding
     Given das Projekt wurde geladen
     And der Dist-Build existiert
 
-  Scenario: Installationsbutton erscheint nur wenn die App installierbar ist
+  Scenario: Installation ist fuer Android und iPhone/iPad verstaendlich verdrahtet
     Then der Installationsbutton ist im Template versteckt
-    And der Runtime-Code zeigt den Installationsbutton nur nach dem Browser-Installationsereignis
+    And der Runtime-Code zeigt die Android-Installation nur nach dem Browser-Installationsereignis
+    And iPhone und iPad erhalten eine manuelle Safari-Installationsanleitung
     And der Runtime-Code entfernt den Installationsbutton nach Installation oder Updatezustand
     And der alte Installationshinweistext ist entfernt
 

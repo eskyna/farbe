@@ -4,6 +4,7 @@ Alle nennenswerten Aenderungen an diesem Projekt werden hier dokumentiert.
 
 ## Unreleased
 
+- iPhone/iPad-Installation robuster gemacht: Apple-Touch-Icons in mehreren Groessen, iOS-Standalone-Metadaten und eine eigene Safari-Installationsanleitung mit Link-kopieren-Funktion ergaenzt.
 - Android/PWA-Installierbarkeit nach dem App-Icon-Update stabilisiert: Manifeste nutzen jetzt getrennte `any`- und `maskable`-Icons, HTML-Manifest-Links bekommen eine Build-Version und Legacy-Icon-Pfade bleiben fuer gecachte Android-Manifeste erhalten.
 
 - Zentrales ESKYNA-Farbe-App-Icon mit Kleeblatt, Schriftzug und Farbfächer als `assets/app-icon.png` eingebunden; alle Paletten-Manifeste verwenden daraus generierte 192px- und 512px-Icons.

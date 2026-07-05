@@ -67,6 +67,12 @@ assert(fileExists('icons/icon-192.png'), 'Zentrales 192px-App-Icon fehlt.');
 assert(fileExists('icons/icon-512.png'), 'Zentrales 512px-App-Icon fehlt.');
 assert(fileExists('icons/icon-maskable-192.png'), 'Zentrales maskierbares 192px-App-Icon fehlt.');
 assert(fileExists('icons/icon-maskable-512.png'), 'Zentrales maskierbares 512px-App-Icon fehlt.');
+for (const size of [120, 152, 167, 180]) {
+  assert(fileExists(`icons/apple-touch-icon-${size}.png`), `Apple Touch Icon ${size}px fehlt.`);
+}
+assert(readText('index.html').includes('apple-mobile-web-app-status-bar-style'), 'Uebersicht enthaelt keine iOS-Standalone-Metadaten.');
+assert(readText('palette-app.js').includes('isIosDevice'), 'Dist enthaelt keine iOS-Installationserkennung.');
+assert(readText('palette-app.js').includes('openIosInstallSheet'), 'Dist enthaelt keine iOS-Installationsanleitung.');
 
 const commonText = requiredFiles
   .filter((file) => /\.(html|js|css|json|webmanifest)$/.test(file))
@@ -87,6 +93,9 @@ for (const palette of palettes) {
   assert(paletteHtml.includes('cameraScanner'), `Palette ${palette.slug}: Live-Scanner fehlt im HTML.`);
   assert(paletteHtml.includes('scannerCancel'), `Palette ${palette.slug}: Scanner-Abbrechen-Button fehlt im HTML.`);
   assert(paletteHtml.includes('scanResultClose'), `Palette ${palette.slug}: Ergebnis-Schliessen-Button fehlt im HTML.`);
+  assert(paletteHtml.includes('iosInstallSheet'), `Palette ${palette.slug}: iOS-Installationsdialog fehlt im HTML.`);
+  assert(paletteHtml.includes('apple-touch-icon-180.png'), `Palette ${palette.slug}: Apple-Touch-Icons fehlen im HTML.`);
+  assert(paletteHtml.includes('apple-mobile-web-app-status-bar-style'), `Palette ${palette.slug}: iOS-Standalone-Metadaten fehlen.`);
 
   const manifest = readJson(`${palette.slug}/manifest.webmanifest`);
   assert(manifest.start_url?.includes(`/${palette.slug}/`), `Palette ${palette.slug}: start_url zeigt nicht auf die Palette.`);

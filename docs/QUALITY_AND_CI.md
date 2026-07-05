@@ -44,7 +44,7 @@ Die Gherkin-Szenarien liegen unter `features/requirements_*.feature`. Sie dokume
 - kompakter einzeiliger Landscape-Header
 - lesbare Bottom-Buttons bei drei Aktionen
 - ESKYNA Branding, klickbares Kleeblatt, Splashscreen mit Versionszeile und Hintergrundbild
-- PWA-Installation nur bei Browser-Prompt und Update-Hinweis bei neuer Version
+- Android-PWA-Installation nur bei Browser-Prompt, iOS/iPadOS mit manueller Safari-Anleitung und Update-Hinweis bei neuer Version
 - Deutsch, Englisch und Russisch inklusive Palettennamen
 - personalisierte Kundinnen-Links ohne personenbezogene Manifestdaten
 - Farberklaerungen fuer alle 576 Farbfelder
@@ -103,7 +103,7 @@ Prueft unter anderem:
 - `sw.js` enthaelt Build-Version
 - keine Template-Platzhalter im Dist
 - je Palette `index.html`, Manifest und Icons vorhanden
-- Manifest-Icons verwenden das zentrale ESKYNA-Farbe-App-Icon, getrennt nach `any` und `maskable`, plus Legacy-Icon-Pfade fuer Android-Cache-Kompatibilitaet
+- Manifest-Icons verwenden das zentrale ESKYNA-Farbe-App-Icon, getrennt nach `any` und `maskable`, plus Apple-Touch-Icon-Groessen und Legacy-Icon-Pfade fuer Android-Cache-Kompatibilitaet
 - Personalisierungsplatz im generierten Paletten-HTML vorhanden
 - Splashscreen-Version und Live-Scanner im generierten HTML vorhanden
 

@@ -366,14 +366,39 @@ def step_install_button_hidden(context):
     assert re.search(r'id="installButton"[^>]*class="[^"]*hidden', template), "Installationsbutton ist nicht hidden."
 
 
-@then("der Runtime-Code zeigt den Installationsbutton nur nach dem Browser-Installationsereignis")
-def step_install_button_after_event(context):
+@then("der Runtime-Code zeigt die Android-Installation nur nach dem Browser-Installationsereignis")
+def step_android_install_button_after_event(context):
     source = get_project(context).read_text("palette-app.js")
     assert_contains(source, "hideInstallButton();", "palette-app.js")
     assert_contains(source, "window.addEventListener('beforeinstallprompt'", "palette-app.js")
     assert_contains(source, "deferredInstallPrompt = event;", "palette-app.js")
     assert_contains(source, "showInstallButton();", "palette-app.js")
-    assert_contains(source, "isStandaloneMode()", "palette-app.js")
+    assert_contains(source, "if (isIosDevice())", "palette-app.js")
+    assert_contains(source, "if (isStandaloneMode()) return;", "palette-app.js")
+
+
+@then("iPhone und iPad erhalten eine manuelle Safari-Installationsanleitung")
+def step_ios_install_guide(context):
+    project = get_project(context)
+    source = project.read_text("palette-app.js")
+    template = project.read_text("templates/palette.html")
+    styles = project.read_text("styles.css")
+    i18n = project.read_text("i18n.js")
+    for needle in [
+        "isIosDevice",
+        "isIosSafari",
+        "openIosInstallSheet",
+        "copyInstallLinkToClipboard",
+        "iosInstallSheet",
+        "ui.iosInstallIntroSafari",
+        "ui.iosInstallIntroOther",
+    ]:
+        assert_contains(source, needle, "palette-app.js")
+    assert_contains(template, 'id="iosInstallSheet"', "templates/palette.html")
+    assert_contains(template, "apple-mobile-web-app-status-bar-style", "templates/palette.html")
+    assert_contains(template, "apple-touch-icon-180.png", "templates/palette.html")
+    assert_contains(styles, ".install-sheet", "styles.css")
+    assert_contains(i18n, "iosInstallSafariRequired", "i18n.js")
 
 
 @then("der Runtime-Code entfernt den Installationsbutton nach Installation oder Updatezustand")

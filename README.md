@@ -93,6 +93,13 @@ Das installierbare PWA-Icon liegt als Masterdatei unter `assets/app-icon.png`. E
 
 Die Manifeste trennen bewusst `purpose: any` und `purpose: maskable`, damit Android/Chrome die Installierbarkeit stabil erkennt und das Icon sauber maskieren kann. Zusaetzlich erzeugt der Build weiterhin Legacy-Dateien wie `icons/light_warm_clear-512.png`. Diese Dateien sind wichtig fuer Android-Geraete, die vor einem Update noch ein aelteres Manifest im Cache haben. Nach einem Icon-Wechsel immer `npm run build` und `npm run validate:dist` ausfuehren und beim Deployment den kompletten Dist-Ordner hochladen, weil PWA-Icons und Manifeste stark gecacht werden koennen.
 
+
+## Installation auf Android, iPhone und iPad
+
+Android/Chrome nutzt den nativen PWA-Installationsprompt. Der Button `App installieren` wird dort erst sichtbar, wenn der Browser das `beforeinstallprompt`-Ereignis ausloest. So wird kein Installationsbutton gezeigt, wenn Android die App noch nicht als installierbar bewertet.
+
+Auf iPhone und iPad gibt es keinen nativen Browser-Prompt wie unter Android. Deshalb zeigt die App auf iOS/iPadOS einen eigenen Installationshinweis: Link in Safari oeffnen, Teilen-Symbol antippen, `Zum Home-Bildschirm hinzufuegen` waehlen und mit `Hinzufuegen` bestaetigen. Die App enthaelt dafuer Apple-spezifische Metadaten, mehrere Apple-Touch-Icon-Groessen und eine Kundinnen-taugliche Anleitung inklusive `Link kopieren` fuer Kundinnen, die den Link zuerst in Chrome, Instagram oder der Google-App oeffnen.
+
 ## Farbe pruefen: Premium-Scan-Flow
 
 Der zentrale Kundinnen-Flow startet ueber **Farbe pruefen**. Auf Geraeten mit Kamera oeffnet die App einen Live-Scanner mit Zielkreis. Der Scanner kann jederzeit ueber den Schliessen-Button, `Zur Farbkarte zurueck`, Escape oder einen Tipp auf den dunklen Hintergrund verlassen werden. Nach einer Messung kann auch das Ergebnis ueber `Zur Farbkarte zurueck` oder das kleine Schliessen-Symbol ausgeblendet werden, sodass die normale Palettenansicht wieder frei ist. Wenn die Kamera nicht verfuegbar ist, faellt die App auf die Bildauswahl zurueck. Die Messung nutzt mehrere Punkte innerhalb des Kreises, bewertet die Lichtqualitaet und vergleicht wahrnehmungsnah in Lab/CIEDE2000 statt mit naiver Hex-Distanz.
@@ -148,12 +155,12 @@ Die fachlichen Anforderungen aus der Entwicklung sind als Gherkin-Szenarien unte
 - 24 Farbkarten mit je 24 Farben
 - Portrait-Raster 4 x 6 und Landscape-Raster 6 x 4
 - einzeiligen Landscape-Header und lesbare Aktionsleiste
-- ESKYNA Branding, zentrales App-Icon mit Android-maskable Icons und Legacy-Icon-Pfaden, Splashscreens inklusive Versionszeile, Hintergrundbild und klickbares Kleeblatt
+- ESKYNA Branding, zentrales App-Icon mit Android-maskable Icons, Apple-Touch-Icons und Legacy-Icon-Pfaden, Splashscreens inklusive Versionszeile, Hintergrundbild und klickbares Kleeblatt
 - Deutsch, Englisch und Russisch inklusive Palettennamen
 - Farbnamen, Farberklaerungen, detaillierte Glossarseiten und keine doppelten Farbnamen innerhalb einer Karte
 - Premium-Scan-Flow mit Live-Kamera, Lichtqualitaet, mehreren Messpunkten, Prozentpassung und drei naechsten Farbpass-Toenen
 - kundinnentaugliche Farbpruefungs-Ergebnisse ohne technische Abstandswerte
-- PWA-Installations- und Update-Logik
+- PWA-Installations- und Update-Logik inklusive iOS/iPadOS-Safari-Anleitung
 - personalisierte Kundinnen-Links ohne personenbezogene Daten in Manifesten
 - CI, Dependabot und Agenten-Dokumentation
 

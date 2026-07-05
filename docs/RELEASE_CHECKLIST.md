@@ -13,7 +13,9 @@ Vor dem Deployment:
 - [ ] Sprache Russisch mit `?lang=ru` getestet
 - [ ] `Farbe pruefen` funktioniert auf einem Mobilgeraet
 - [ ] Vollbild-Farbansicht zeigt Farbnamen, Stilwissen und Kombinationshilfe
-- [ ] Installationsbutton erscheint nur, wenn Installation angeboten wird
+- [ ] Android: Installationsbutton erscheint nur, wenn Chrome Installation anbietet
+- [ ] iPhone/iPad: Installationshinweis erscheint, Anleitung ueber Safari ist verstaendlich
+- [ ] iPhone/iPad: Apple-Touch-Icon wird im Teilen-/Homescreen-Flow angezeigt
 - [ ] Update-Button erscheint bei neuer Version oder wartendem Service Worker
 - [ ] `dist/version.json` ist erreichbar
 - [ ] kompletter Inhalt von `dist/` wird deployt

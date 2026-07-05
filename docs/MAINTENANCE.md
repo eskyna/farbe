@@ -134,11 +134,13 @@ Wartungsregeln:
 | `icons/*.png` | Referenz-Icons und vom Generator erzeugte Icon-Ziele; Manifeste verwenden das zentrale App-Icon |
 | `images/*.png` | Referenzbild je Farbkarte |
 
-Nach Asset-Aenderungen immer neu bauen. PWA-Caches koennen alte Bilder halten, besonders App-Icons und Manifestdateien; deshalb Dist komplett deployen. Der Build haelt Legacy-Icon-Pfade fuer gecachte Android-Manifeste bereit. Bei Icon-Tests die installierte PWA ggf. entfernen und Chrome-Sitedaten fuer `/farbe/` leeren.
+Nach Asset-Aenderungen immer neu bauen. PWA-Caches koennen alte Bilder halten, besonders App-Icons und Manifestdateien; deshalb Dist komplett deployen. Der Build haelt Legacy-Icon-Pfade fuer gecachte Android-Manifeste bereit und erzeugt Apple-Touch-Icons in mehreren Groessen fuer iPhone/iPad. Bei Icon-Tests die installierte PWA ggf. entfernen und Chrome-Sitedaten fuer `/farbe/` leeren.
 
 ## PWA-Installationsbutton
 
-`App installieren` wird nur angezeigt, wenn der Browser das `beforeinstallprompt`-Event ausloest und die App nicht standalone laeuft. Das ist je nach Browser unterschiedlich. Der Button darf nicht dauerhaft sichtbar sein.
+Unter Android/Chrome wird `App installieren` nur angezeigt, wenn der Browser das `beforeinstallprompt`-Event ausloest und die App nicht standalone laeuft. Das ist je nach Browser unterschiedlich.
+
+Auf iPhone/iPad wird kein nativer Installationsprompt ausgeloest. Dort darf die App den Button anzeigen, aber der Klick oeffnet nur die manuelle Safari-Anleitung: in Safari oeffnen, Teilen-Symbol, `Zum Home-Bildschirm hinzufuegen`, `Hinzufuegen`. Der iOS-Hinweis muss erhalten bleiben, weil viele Kundinnen Links aus Chrome, Instagram oder der Google-App oeffnen.
 
 ## Update-Button
 

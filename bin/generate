@@ -1823,12 +1823,20 @@ def create_icons(logo_png: bytes, farbe_dir: Path, palettes: list[dict[str, Any]
   maskable_192 = make_icon_png(app_icon_png, 192, add_background=True, margin_ratio=0.18)
   maskable_512 = make_icon_png(app_icon_png, 512, add_background=True, margin_ratio=0.18)
   apple_icon = make_icon_png(app_icon_png, 180, add_background=False)
+  apple_icon_120 = make_icon_png(app_icon_png, 120, add_background=False)
+  apple_icon_152 = make_icon_png(app_icon_png, 152, add_background=False)
+  apple_icon_167 = make_icon_png(app_icon_png, 167, add_background=False)
+  apple_icon_180 = make_icon_png(app_icon_png, 180, add_background=False)
 
   write_binary(icons / "icon-192.png", icon_192)
   write_binary(icons / "icon-512.png", icon_512)
   write_binary(icons / "icon-maskable-192.png", maskable_192)
   write_binary(icons / "icon-maskable-512.png", maskable_512)
   write_binary(icons / "apple-touch-icon.png", apple_icon)
+  write_binary(icons / "apple-touch-icon-120.png", apple_icon_120)
+  write_binary(icons / "apple-touch-icon-152.png", apple_icon_152)
+  write_binary(icons / "apple-touch-icon-167.png", apple_icon_167)
+  write_binary(icons / "apple-touch-icon-180.png", apple_icon_180)
 
   # Backwards compatibility for Android/Chrome installations that still have
   # an older cached palette manifest. Earlier builds referenced per-palette icon
@@ -1852,6 +1860,10 @@ def verify_generated_icons(farbe_dir: Path, palettes: list[dict[str, Any]]) -> N
     farbe_dir / "icons" / "icon-maskable-192.png",
     farbe_dir / "icons" / "icon-maskable-512.png",
     farbe_dir / "icons" / "apple-touch-icon.png",
+    farbe_dir / "icons" / "apple-touch-icon-120.png",
+    farbe_dir / "icons" / "apple-touch-icon-152.png",
+    farbe_dir / "icons" / "apple-touch-icon-167.png",
+    farbe_dir / "icons" / "apple-touch-icon-180.png",
     farbe_dir / "assets" / "sign_gold.png",
     farbe_dir / "assets" / "app-icon.png",
     farbe_dir / "assets" / "splash-portrait.jpg",

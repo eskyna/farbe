@@ -10,6 +10,18 @@ const result = document.getElementById('result');
 const installButton = document.getElementById('installButton');
 const updateButton = document.getElementById('updateButton');
 const installHint = document.getElementById('installHint');
+const iosInstallSheet = document.getElementById('iosInstallSheet');
+const iosInstallClose = document.getElementById('iosInstallClose');
+const iosInstallKicker = document.getElementById('iosInstallKicker');
+const iosInstallTitle = document.getElementById('iosInstallTitle');
+const iosInstallIntro = document.getElementById('iosInstallIntro');
+const iosInstallStepOpenSafari = document.getElementById('iosInstallStepOpenSafari');
+const iosInstallStepShare = document.getElementById('iosInstallStepShare');
+const iosInstallStepAdd = document.getElementById('iosInstallStepAdd');
+const iosInstallStepConfirm = document.getElementById('iosInstallStepConfirm');
+const iosInstallSafariNote = document.getElementById('iosInstallSafariNote');
+const iosInstallCopy = document.getElementById('iosInstallCopy');
+const iosInstallDone = document.getElementById('iosInstallDone');
 const splashScreen = document.getElementById('splashScreen');
 const colorFullscreen = document.getElementById('colorFullscreen');
 const cameraScanner = document.getElementById('cameraScanner');
@@ -1168,6 +1180,16 @@ function applyStaticTranslations() {
   if (scannerFileFallback) scannerFileFallback.textContent = I18N.t('scan.fileFallback');
   if (installButton) installButton.textContent = I18N.t('ui.installApp');
   if (updateButton) updateButton.textContent = I18N.t('ui.updateApp');
+  if (iosInstallClose) iosInstallClose.setAttribute('aria-label', I18N.t('ui.iosInstallClose'));
+  if (iosInstallKicker) iosInstallKicker.textContent = I18N.t('ui.iosInstallKicker');
+  if (iosInstallTitle) iosInstallTitle.textContent = I18N.t('ui.iosInstallTitle');
+  if (iosInstallStepOpenSafari) iosInstallStepOpenSafari.textContent = I18N.t('ui.iosInstallStepOpenSafari');
+  if (iosInstallStepShare) iosInstallStepShare.textContent = I18N.t('ui.iosInstallStepShare');
+  if (iosInstallStepAdd) iosInstallStepAdd.textContent = I18N.t('ui.iosInstallStepAdd');
+  if (iosInstallStepConfirm) iosInstallStepConfirm.textContent = I18N.t('ui.iosInstallStepConfirm');
+  if (iosInstallCopy) iosInstallCopy.textContent = I18N.t('ui.iosInstallCopy');
+  if (iosInstallDone) iosInstallDone.textContent = I18N.t('ui.iosInstallDone');
+  updateIosInstallSheetCopy();
   if (colorFullscreen) colorFullscreen.setAttribute('aria-label', I18N.t('ui.fullscreenAria'));
 }
 
@@ -1340,6 +1362,21 @@ function createFallbackI18n() {
         'ui.fitMeter': 'Farbpassung: {label}',
         'ui.installApp': 'App installieren',
         'ui.updateApp': 'App aktualisieren',
+        'ui.iosInstallApp': 'App installieren',
+        'ui.iosInstallKicker': 'iPhone & iPad',
+        'ui.iosInstallTitle': 'App installieren',
+        'ui.iosInstallIntroSafari': 'Tippe in Safari auf Teilen und fuege diese Farbkarte zum Home-Bildschirm hinzu.',
+        'ui.iosInstallIntroOther': 'Auf iPhone und iPad funktioniert die Installation ueber Safari. Kopiere den Link und oeffne ihn in Safari.',
+        'ui.iosInstallStepOpenSafari': 'Diese Seite in Safari oeffnen.',
+        'ui.iosInstallStepShare': 'Auf das Teilen-Symbol tippen.',
+        'ui.iosInstallStepAdd': 'Zum Home-Bildschirm hinzufuegen waehlen.',
+        'ui.iosInstallStepConfirm': 'Mit Hinzufuegen bestaetigen.',
+        'ui.iosInstallSafariRequired': 'Bitte in Safari oeffnen, dann Teilen und Zum Home-Bildschirm hinzufuegen waehlen.',
+        'ui.iosInstallCopy': 'Link kopieren',
+        'ui.iosInstallDone': 'Verstanden',
+        'ui.iosInstallClose': 'Installationshinweis schliessen',
+        'ui.iosInstallCopied': 'Link kopiert',
+        'ui.iosInstallCopyFailed': 'Link bitte aus der Adresszeile kopieren',
         'ui.updating': 'Aktualisiere ...',
         'ui.pageTitle': 'ESKYNA Farbe - {palette}',
         'ui.pageTitleFor': 'ESKYNA Farbe für {name} - {palette}',
@@ -2769,6 +2806,7 @@ function initializeInstallPrompt() {
   if (!installButton) return;
 
   hideInstallButton();
+  initializeIosInstallSheet();
 
   if (updateButton) {
     updateButton.addEventListener('click', handleUpdateClick);
@@ -2777,6 +2815,12 @@ function initializeInstallPrompt() {
   if (isStandaloneMode()) return;
 
   installButton.addEventListener('click', handleInstallClick);
+
+  if (isIosDevice()) {
+    installButton.textContent = I18N.t('ui.iosInstallApp');
+    showInstallButton();
+    return;
+  }
 
   window.addEventListener('beforeinstallprompt', (event) => {
     event.preventDefault();
@@ -2792,6 +2836,11 @@ function initializeInstallPrompt() {
 }
 
 async function handleInstallClick() {
+  if (isIosDevice()) {
+    openIosInstallSheet();
+    return;
+  }
+
   if (!deferredInstallPrompt) return;
 
   installButton.disabled = true;
@@ -2806,6 +2855,66 @@ async function handleInstallClick() {
 
   installButton.disabled = false;
   showInstallButton();
+}
+
+function initializeIosInstallSheet() {
+  if (!iosInstallSheet) return;
+
+  if (iosInstallClose) iosInstallClose.addEventListener('click', closeIosInstallSheet);
+  if (iosInstallDone) iosInstallDone.addEventListener('click', closeIosInstallSheet);
+  if (iosInstallCopy) iosInstallCopy.addEventListener('click', copyInstallLinkToClipboard);
+
+  iosInstallSheet.addEventListener('click', (event) => {
+    if (event.target === iosInstallSheet) closeIosInstallSheet();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !iosInstallSheet.classList.contains('hidden')) {
+      closeIosInstallSheet();
+    }
+  });
+}
+
+function openIosInstallSheet() {
+  if (!iosInstallSheet) return;
+  updateIosInstallSheetCopy();
+  iosInstallSheet.classList.remove('hidden');
+  iosInstallSheet.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('install-sheet-open');
+  if (iosInstallClose && typeof iosInstallClose.focus === 'function') iosInstallClose.focus({ preventScroll: true });
+}
+
+function closeIosInstallSheet() {
+  if (!iosInstallSheet) return;
+  iosInstallSheet.classList.add('hidden');
+  iosInstallSheet.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('install-sheet-open');
+}
+
+function updateIosInstallSheetCopy() {
+  if (!iosInstallSheet) return;
+  const safari = isIosSafari();
+  if (iosInstallIntro) {
+    iosInstallIntro.textContent = I18N.t(safari ? 'ui.iosInstallIntroSafari' : 'ui.iosInstallIntroOther');
+  }
+  if (iosInstallSafariNote) {
+    iosInstallSafariNote.textContent = I18N.t('ui.iosInstallSafariRequired');
+    iosInstallSafariNote.classList.toggle('hidden', safari);
+  }
+}
+
+async function copyInstallLinkToClipboard() {
+  if (!iosInstallCopy) return;
+  const originalText = I18N.t('ui.iosInstallCopy');
+  try {
+    await navigator.clipboard.writeText(window.location.href);
+    iosInstallCopy.textContent = I18N.t('ui.iosInstallCopied');
+  } catch (error) {
+    iosInstallCopy.textContent = I18N.t('ui.iosInstallCopyFailed');
+  }
+  window.setTimeout(() => {
+    iosInstallCopy.textContent = originalText;
+  }, 1800);
 }
 
 async function handleUpdateClick() {
@@ -2857,12 +2966,17 @@ function isStandaloneMode() {
   return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 }
 
+function isIosDevice() {
+  const userAgent = window.navigator.userAgent || '';
+  const platform = window.navigator.platform || '';
+  const maxTouchPoints = window.navigator.maxTouchPoints || 0;
+  return /iPad|iPhone|iPod/.test(userAgent) || (platform === 'MacIntel' && maxTouchPoints > 1);
+}
+
 function isIosSafari() {
-  const userAgent = window.navigator.userAgent;
-  const isIos = /iPad|iPhone|iPod/.test(userAgent);
-  const isWebKit = /WebKit/.test(userAgent);
-  const isCriOS = /CriOS/.test(userAgent);
-  return isIos && isWebKit && !isCriOS;
+  const userAgent = window.navigator.userAgent || '';
+  const isSafari = /Safari/.test(userAgent) && !/(CriOS|FxiOS|EdgiOS|OPiOS|DuckDuckGo|YaBrowser)/.test(userAgent);
+  return isIosDevice() && isSafari;
 }
 
 function formatPaletteName(name) {

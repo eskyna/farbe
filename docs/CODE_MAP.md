@@ -31,7 +31,7 @@ Interaktive Logik einer einzelnen Farbkarte:
 - wahrnehmungsnah mit Lab/CIEDE2000 die naechsten Farbpass-Toene finden
 - kundinnentaugliche Farbpassung mit Prozent, Helligkeit, Waerme, Klarheit und Unsicherheitsnotiz anzeigen
 - Kundinnenname aus personalisierten Links lesen, speichern und anzeigen
-- Installationsprompt anzeigen, wenn verfuegbar
+- Android-Installationsprompt anzeigen, wenn verfuegbar, und auf iPhone/iPad eine manuelle Safari-Anleitung anzeigen
 - Update-Button anzeigen, wenn neue Version erkannt wird
 
 ### `i18n.js`
